@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.bluecatcode.mockito:mockito-1.10.19-extended:1.0.4">
+    <CLASSES>
+      <root url="jar://C:/gradle/caches/modules-2/files-2.1/com.bluecatcode.mockito/mockito-1.10.19-extended/1.0.4/9c61f675f14afe4b07fe2f94bd743e40495844e7/mockito-1.10.19-extended-1.0.4.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.bluecatcode.mockito/mockito-1.10.19-extended/1.0.4/9c61f675f14afe4b07fe2f94bd743e40495844e7/mockito-1.10.19-extended-1.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/gradle/caches/modules-2/files-2.1/com.bluecatcode.mockito/mockito-1.10.19-extended/1.0.4/b34639652e894164d72470050b4a2bd5eca173a8/mockito-1.10.19-extended-1.0.4-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.bluecatcode.mockito/mockito-1.10.19-extended/1.0.4/b34639652e894164d72470050b4a2bd5eca173a8/mockito-1.10.19-extended-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
