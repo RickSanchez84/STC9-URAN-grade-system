@@ -1,0 +1,4 @@
+2018-05-26 12:01:37 DEBUG index_jsp:org.apache.jsp.index_jsp._jspService(index_jsp.java:103) - Start open page
+2018-05-26 12:01:38 DEBUG index_jsp:org.apache.jsp.index_jsp._jspService(index_jsp.java:206) - End open page
+2018-05-26 12:01:38 DEBUG index_jsp:org.apache.jsp.index_jsp._jspService(index_jsp.java:103) - Start open page
+2018-05-26 12:01:38 DEBUG index_jsp:org.apache.jsp.index_jsp._jspService(index_jsp.java:206) - End open page
