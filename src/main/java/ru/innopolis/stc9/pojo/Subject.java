@@ -1,9 +1,14 @@
 package ru.innopolis.stc9.pojo;
 
-public class Subjects {
+public class Subject {
 
   private long id;
   private String name;
+
+  public Subject(long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
 
   public long getId() {

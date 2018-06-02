@@ -55,21 +55,22 @@ public class LessonDaoImpl implements LessonDao {
                     "SELECT * FROM lessons WHERE shedule_item= ?")) {
                 preparedStatement.setLong(1, id);
                 resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Lesson lesson = new Lesson(
+                            resultSet.getLong("id")
+                            , resultSet.getLong("scheduleItem")
+                            , resultSet.getDate("date")
+                            , resultSet.getString("theme")
+                            , resultSet.getString( "homework"));
+                    result = lesson;
+                }
             }
         }
         finally {if(resultSet!=null)
             resultSet.close();
         }
 
-        while (resultSet.next()) {
-            Lesson lesson = new Lesson(
-                      resultSet.getLong("id")
-                    , resultSet.getLong("scheduleItem")
-                    , resultSet.getDate("date")
-                    , resultSet.getString("theme")
-                    , resultSet.getString( "homework"));
-            result = lesson;
-        }
         return result;
     }
 

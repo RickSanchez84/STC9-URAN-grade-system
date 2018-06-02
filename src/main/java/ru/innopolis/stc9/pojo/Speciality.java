@@ -1,11 +1,16 @@
 package ru.innopolis.stc9.pojo;
 
-public class Specialty {
+public class Speciality {
 
   private long id;
   private String name;
   private long semesterCount;
 
+  public Speciality(long id, String name, long semesterCount) {
+    this.id = id;
+    this.name = name;
+    this.semesterCount = semesterCount;
+  }
 
   public long getId() {
     return id;

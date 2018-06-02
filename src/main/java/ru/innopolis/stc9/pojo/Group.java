@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.pojo;
 
-public class Groups {
+public class Group {
 
   private long id;
   private long curSemesterEducation;

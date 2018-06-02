@@ -1,7 +1,7 @@
 package ru.innopolis.stc9.pojo;
 
 
-public class Programs {
+public class Program {
 
   private long id;
   private long specialty;

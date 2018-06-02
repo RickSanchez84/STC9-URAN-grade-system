@@ -1,7 +1,7 @@
 package ru.innopolis.stc9.pojo;
 
 
-public class Roles {
+public class Role {
 
   private long id;
   private String nameRole;
