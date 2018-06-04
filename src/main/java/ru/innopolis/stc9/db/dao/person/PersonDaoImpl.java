@@ -23,17 +23,19 @@ public class PersonDaoImpl implements PersonDao {
         ResultSet resultSet;
         int iid = (int)id;
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM persons WHERE id= ?");
-            preparedStatement.setInt(1, iid);
-            resultSet = preparedStatement.executeQuery();
-        }
-        if (resultSet.next()) {
-            person = new Person(
-                    resultSet.getLong("id")
-                    , resultSet.getString("name")
-                    , resultSet.getDate("birthday")
-                    , resultSet.getString("address"));
-        }
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM persons WHERE id= ?")) {
+
+                preparedStatement.setInt(1, iid);
+
+                try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        person = new Person(
+                                resultSet.getLong("id")
+                                , resultSet.getString("name")
+                                , resultSet.getDate("birthday")
+                                , resultSet.getString("address"));
+                } } } }
         logger.info("Class PersonDaoImpl method getById finished, id = " + id);
         return person;
     }
@@ -43,19 +45,22 @@ public class PersonDaoImpl implements PersonDao {
         Person result = null;
         ResultSet resultSet;
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT * FROM persons WHERE name= ?");
-            preparedStatement.setString(1, name);
-            resultSet = preparedStatement.executeQuery();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM persons WHERE name= ?")) {
+                preparedStatement.setString(1, name);
+                try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Person person = new Person(
+                                resultSet.getLong("id")
+                                , resultSet.getString("name")
+                                , resultSet.getDate("birthday")
+                                , resultSet.getString("address"));
+                        result = person;
+                }
+            }
         }
 
-        while (resultSet.next()) {
-            Person person = new Person(
-                    resultSet.getLong("id")
-                    , resultSet.getString("name")
-                    , resultSet.getDate("birthday")
-                    , resultSet.getString("address"));
-            result = person;
+
         }
         return result;
     }
@@ -66,17 +71,20 @@ public class PersonDaoImpl implements PersonDao {
 
         ResultSet resultSet;
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT * FROM persons");
-            resultSet = preparedStatement.executeQuery();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM persons")) {
+                try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Person person = new Person(
+                                resultSet.getLong("id")
+                                , resultSet.getString("name")
+                                , resultSet.getDate("birthday")
+                                , resultSet.getString("address"));
+                        result.add(person);
+                }
+            }
         }
-        while (resultSet.next()) {
-            Person person = new Person(
-                    resultSet.getLong("id")
-                    , resultSet.getString("name")
-                    , resultSet.getDate("birthday")
-                    , resultSet.getString("address"));
-            result.add(person);
+
         }
         return result;
     }
@@ -87,11 +95,12 @@ public class PersonDaoImpl implements PersonDao {
 
         String sql = "INSERT INTO persons (name,birthday,address) VALUES (?,?,?)";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, person.getName());
-            statement.setDate(2, person.getBirthday());
-            statement.setString(3, person.getAddress());
-            statement.executeUpdate();
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, person.getName());
+                statement.setDate(2, person.getBirthday());
+                statement.setString(3, person.getAddress());
+                statement.executeUpdate();
+            }
         }
         logger.info("Class PersonDaoImpl method add finished");
     }
@@ -102,12 +111,13 @@ public class PersonDaoImpl implements PersonDao {
 
         String sql = "UPDATE persons SET name = ?, birthday = ?, address  = ? WHERE id = ?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, person.getName());
-            statement.setDate(2, person.getBirthday());
-            statement.setString(3, person.getAddress());
-            statement.setLong(4, person.getId());
-            statement.executeUpdate();
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, person.getName());
+                statement.setDate(2, person.getBirthday());
+                statement.setString(3, person.getAddress());
+                statement.setLong(4, person.getId());
+                statement.executeUpdate();
+            }
         }
         logger.info("Class PersonDaoImpl method update finished, id = " + person.getId());
     }
@@ -117,9 +127,10 @@ public class PersonDaoImpl implements PersonDao {
         logger.info("Class PersonDaoImpl method deleteById started, id = " + id);
         String sql = "DELETE FROM persons WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setLong(1, id);
-            statement.executeUpdate();
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, id);
+                statement.executeUpdate();
+            }
         }
         logger.info("Class PersonDaoImpl method deleteById finished, id = " + id);
     }

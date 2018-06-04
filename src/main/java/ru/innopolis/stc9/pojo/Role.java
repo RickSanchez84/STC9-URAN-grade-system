@@ -4,8 +4,16 @@ package ru.innopolis.stc9.pojo;
 public class Role {
 
   private long id;
-  private String nameRole;
+  private String name;
 
+  public Role(long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+
+  public Role(String name) {
+    this.name = name;
+  }
 
   public long getId() {
     return id;
@@ -16,12 +24,12 @@ public class Role {
   }
 
 
-  public String getNameRole() {
-    return nameRole;
+  public String getName() {
+    return name;
   }
 
-  public void setNameRole(String nameRole) {
-    this.nameRole = nameRole;
+  public void setName(String nameRole) {
+    this.name = name;
   }
 
 }

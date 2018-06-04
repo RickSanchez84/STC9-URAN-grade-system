@@ -1,10 +1,10 @@
-package ru.innopolis.stc9.db.dao.lesson;
+package ru.innopolis.stc9.service;
 
 import ru.innopolis.stc9.pojo.Person;
 
 import java.util.List;
 
-public interface PersonService {
+public interface IPersonService {
     void updateById(Person person);
 
     Person getById(long id);
