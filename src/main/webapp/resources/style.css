@@ -77,13 +77,13 @@ body {
 -----------------------------------------------------------------------------*/
 .header {
     height: 200px;
-    background: #7fb304;
+    background: #EBF3F6;
 }
 
 /* Middle
 -----------------------------------------------------------------------------*/
 .middle {
-    border-top: black 2px solid;
+    border-top: black 1px solid;
     width: 100%;
     padding: 0 0 100px;
     position: relative;
@@ -112,7 +112,7 @@ body {
     width: 250px;
     margin-left: -100%;
     position: relative;
-    background: #7fb304;
+    background: #EBF3F6;
 }
 
 .left-sidebar ul {
@@ -130,9 +130,9 @@ body {
     width: 1000px;
     margin: -100px auto 0;
     height: 100px;
-    background: #7fb304;
+    background: #EBF3F6;
     position: relative;
-    border-top: black 2px solid;
+    border-top: black 1px solid;
 }
 
 .header h1 {
