@@ -56,14 +56,14 @@ public class PerformanceController {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/updatePerformance", method = RequestMethod.GET)
     public String updatePerformance(HttpServletRequest request,
                                  @RequestAttribute Performance performance, Model model) {
         model.addAttribute("performance", performance);
         return "/updatePerformance";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/updatePerformance", method = RequestMethod.POST)
     public String updatePerformance2(HttpServletRequest request,
                                   @RequestAttribute String id,
                                      @RequestAttribute Integer student,

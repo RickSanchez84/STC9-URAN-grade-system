@@ -59,14 +59,14 @@ public class LessonController {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateLesson", method = RequestMethod.GET)
     public String updateLesson(HttpServletRequest request,
                                @RequestAttribute Lesson lesson, Model model) {
         model.addAttribute("lesson", lesson);
         return "/updateLesson";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateLesson", method = RequestMethod.POST)
     public String updateLesson2(HttpServletRequest request,
                                 @RequestAttribute String id,
                                 @RequestAttribute Integer schedule_item,
