@@ -1,16 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Vlasova_R
-  Date: 29.05.2018
-  Time: 16:15
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
-</html>
+<%@ include file="header.jsp" %>
+<div class="container">
+  <main class="content">
+    <h1>Главная страница</h1>
+    <p><a href="/person/personAll">Список персон</a></p>
+  </main><!-- .content -->
+</div>
+<!-- .container-->
+<%@ include file="aside.jsp" %>
+<%@ include file="footer.jsp" %>

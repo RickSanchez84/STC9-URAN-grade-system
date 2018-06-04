@@ -8,39 +8,57 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.db.dao.lesson.PersonService;
+import ru.innopolis.stc9.service.PersonService;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.List;
 
+
 @Controller
 public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
+
     @Autowired
     private PersonService service;
 
-    @RequestMapping(value = "/addPerson", method = RequestMethod.GET)
-    public String addPerson(HttpServletRequest request, Model model) {
-        return "/addPerson";
+    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
+    public String addOrUpdate(HttpServletRequest request, Model model) {
+        if (model.containsAttribute("person")) {
+            model.addAttribute("action", "update");
+            model.addAttribute("id", request.getParameter("id"));
+        } else {
+            model.addAttribute("action", "add");
+        }
+        return "/addOrUpdate";
     }
 
-    @RequestMapping(value = "/addPerson", method = RequestMethod.POST)
-    public String addPerson2(HttpServletRequest request,
-                             @RequestAttribute String name,
-                             @RequestAttribute String birthday,
-                             @RequestAttribute String address, Model model) {
-        Person person = new Person(name, Date.valueOf(birthday),address);
-        service.add(person);
-        model.addAttribute("person", person);
-        return "/getPerson";
+    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
+    public String addOrUpdatePerson(HttpServletRequest request,
+                                    @RequestAttribute String id,
+                                    @RequestAttribute String action,
+                                    @RequestAttribute String name,
+                                    @RequestAttribute String birthday,
+                                    @RequestAttribute String address, Model model) {
+
+        if (action.equals("add")) {
+            Person person = new Person(name, Date.valueOf(birthday), address);
+            service.add(person);
+        } else {
+            if (action.equals("update")) {
+                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), address);
+                service.updateById(person);
+            }
+        }
+        return "redirect:personAll";
     }
 
     @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
     public String deletePerson(HttpServletRequest request,
-                               @RequestAttribute Person person, Model model) {
-        service.deleteById(person.getId());
-        return "/personList";
+                               @RequestAttribute String id, Model model) {
+        service.deleteById(Long.parseLong(id));
+        return ("redirect:personAll");
     }
 
     @RequestMapping(value = "/personAll", method = RequestMethod.GET)
@@ -55,23 +73,12 @@ public class PersonController extends HttpServlet {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
     public String updatePerson(HttpServletRequest request,
-                                @RequestAttribute Person person, Model model) {
-        model.addAttribute("person", person);
-        return "/updatePerson";
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updatePerson2(HttpServletRequest request,
-                                @RequestAttribute String id,
-                                @RequestAttribute String name,
-                                @RequestAttribute String birthday,
-                                @RequestAttribute String address, Model model) {
-        Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday),address);
-        service.updateById(person);
-        model.addAttribute("person", person);
-        return "/getPerson";
+                               @RequestAttribute String id, Model model) {
+        model.addAttribute("person", service.getById(Long.parseLong(id)));
+        model.addAttribute("action", "update");
+        return ("/addOrUpdate");
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.GET)

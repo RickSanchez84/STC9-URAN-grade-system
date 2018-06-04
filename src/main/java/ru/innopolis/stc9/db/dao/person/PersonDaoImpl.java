@@ -18,7 +18,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public Person getById(long id) throws SQLException {
-        logger.info("Class SheduleDaoImpl method getById started, id = " + id);
+        logger.info("Class PersonDaoImpl method getById started, id = " + id);
         Person person = null;
         ResultSet resultSet;
         int iid = (int)id;
@@ -34,7 +34,7 @@ public class PersonDaoImpl implements PersonDao {
                     , resultSet.getDate("birthday")
                     , resultSet.getString("address"));
         }
-        logger.info("Class SheduleDaoImpl method getById finished, id = " + id);
+        logger.info("Class PersonDaoImpl method getById finished, id = " + id);
         return person;
     }
 
@@ -83,9 +83,9 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void add(Person person) throws SQLException {
-        logger.info("Class SheduleDaoImpl method add started");
+        logger.info("Class PersonDaoImpl method add started");
 
-        String sql = "INSERT INTO persons (name,birthday,address) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO persons (name,birthday,address) VALUES (?,?,?)";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, person.getName());
@@ -93,12 +93,12 @@ public class PersonDaoImpl implements PersonDao {
             statement.setString(3, person.getAddress());
             statement.executeUpdate();
         }
-        logger.info("Class SheduleDaoImpl method add finished");
+        logger.info("Class PersonDaoImpl method add finished");
     }
 
     @Override
     public void update(Person person) throws SQLException {
-        logger.info("Class SheduleDaoImpl method update started, id = " + person.getId());
+        logger.info("Class PersonDaoImpl method update started, id = " + person.getId());
 
         String sql = "UPDATE persons SET name = ?, birthday = ?, address  = ? WHERE id = ?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
@@ -109,18 +109,18 @@ public class PersonDaoImpl implements PersonDao {
             statement.setLong(4, person.getId());
             statement.executeUpdate();
         }
-        logger.info("Class SheduleDaoImpl method update finished, id = " + person.getId());
+        logger.info("Class PersonDaoImpl method update finished, id = " + person.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
-        logger.info("Class SheduleDaoImpl method deleteById started, id = " + id);
+        logger.info("Class PersonDaoImpl method deleteById started, id = " + id);
         String sql = "DELETE FROM persons WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
             statement.executeUpdate();
         }
-        logger.info("Class SheduleDaoImpl method deleteById finished, id = " + id);
+        logger.info("Class PersonDaoImpl method deleteById finished, id = " + id);
     }
 }
