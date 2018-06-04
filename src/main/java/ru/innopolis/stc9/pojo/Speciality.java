@@ -12,6 +12,11 @@ public class Speciality {
     this.semesterCount = semesterCount;
   }
 
+  public Speciality(String name, long semesterCount) {
+    this.name = name;
+    this.semesterCount = semesterCount;
+  }
+
   public long getId() {
     return id;
   }

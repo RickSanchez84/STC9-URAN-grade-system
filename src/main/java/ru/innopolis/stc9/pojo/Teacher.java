@@ -12,6 +12,11 @@ public class Teacher {
     this.subjectItem = subjectItem;
   }
 
+  public Teacher(long teacherItem, long subjectItem) {
+    this.teacherItem = teacherItem;
+    this.subjectItem = subjectItem;
+  }
+
   public long getId() {
     return id;
   }

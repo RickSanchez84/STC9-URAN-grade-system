@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.service.PersonService;
+import ru.innopolis.stc9.db.dao.lesson.PersonService;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;

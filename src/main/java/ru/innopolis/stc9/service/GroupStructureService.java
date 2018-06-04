@@ -2,51 +2,49 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.performance.PerformanceDao;
-import ru.innopolis.stc9.pojo.Performance;
+import ru.innopolis.stc9.db.dao.group_structure.GroupStructureDao;
+import ru.innopolis.stc9.pojo.GroupStructure;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class PerformanceService implements IPerformanceService {
-    private static final Logger logger = Logger.getLogger(PerformanceService.class);
-    private static final Logger loggerError = Logger.getLogger(PerformanceService.class);
+public class GroupStructureService implements IGroupStructureService {
+    private static final Logger logger = Logger.getLogger(GroupStructureService.class);
+    private static final Logger loggerError = Logger.getLogger(GroupStructureService.class);
 
     @Autowired
-    private PerformanceDao performanceDao;
+    private GroupStructureDao groupStructureDao;
 
     @Override
-    public void updateById(Performance performance) {
-        logger.info(this.getClass().getName() + " method updateById started, id = " + performance.getId());
+    public void update(GroupStructure groupStructure) {
+        logger.info(this.getClass().getName() + " method update started, id = " + groupStructure.getId());
         try {
-            performanceDao.update(performance);
+            groupStructureDao.update(groupStructure);
         } catch (SQLException e) {
-            loggerError.error("Error at method updateById, id = " + performance.getId(), e);
+            loggerError.error("Error at method update, id = " + groupStructure.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method updateById finished, id = " + performance.getId());
+        logger.info(this.getClass().getName() + " method update finished, id = " + groupStructure.getId());
     }
 
     @Override
-    public Performance getById(long id) {
+    public GroupStructure getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Performance performance = null;
+        GroupStructure groupStructure = null;
         try {
-            performance = performanceDao.getById(id);
+            groupStructure = groupStructureDao.getById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return performance;
+        return groupStructure;
     }
 
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
-            performanceDao.deleteById(id);
+            groupStructureDao.deleteById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method deleteById, id = " + id, e);
         }
@@ -54,10 +52,10 @@ public class PerformanceService implements IPerformanceService {
     }
 
     @Override
-    public void add(Performance performance) {
+    public void add(GroupStructure groupStructure) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            performanceDao.add(performance);
+            groupStructureDao.add(groupStructure);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
@@ -65,15 +63,15 @@ public class PerformanceService implements IPerformanceService {
     }
 
     @Override
-    public List<Performance> getAll() {
+    public List<GroupStructure> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Performance> performanceList = new ArrayList<>();
+        List<GroupStructure> groupStructureList = new ArrayList<>();
         try {
-            performanceList = performanceDao.getAll();
+            groupStructureList = groupStructureDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return performanceList;
+        return groupStructureList;
     }
 }

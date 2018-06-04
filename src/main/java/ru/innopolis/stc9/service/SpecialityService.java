@@ -2,51 +2,50 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.performance.PerformanceDao;
-import ru.innopolis.stc9.pojo.Performance;
+
+import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
+import ru.innopolis.stc9.pojo.Speciality;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class PerformanceService implements IPerformanceService {
-    private static final Logger logger = Logger.getLogger(PerformanceService.class);
-    private static final Logger loggerError = Logger.getLogger(PerformanceService.class);
+public class SpecialityService implements ISpecialityService {
+    private static final Logger logger = Logger.getLogger(SpecialityService.class);
+    private static final Logger loggerError = Logger.getLogger(SpecialityService.class);
 
     @Autowired
-    private PerformanceDao performanceDao;
+    private SpecialityDao specialityDao;
 
     @Override
-    public void updateById(Performance performance) {
-        logger.info(this.getClass().getName() + " method updateById started, id = " + performance.getId());
+    public void update(Speciality speciality) {
+        logger.info(this.getClass().getName() + " method update started, id = " + speciality.getId());
         try {
-            performanceDao.update(performance);
+            specialityDao.update(speciality);
         } catch (SQLException e) {
-            loggerError.error("Error at method updateById, id = " + performance.getId(), e);
+            loggerError.error("Error at method update, id = " + speciality.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method updateById finished, id = " + performance.getId());
+        logger.info(this.getClass().getName() + " method updatefinished, id = " + speciality.getId());
     }
 
     @Override
-    public Performance getById(long id) {
+    public Speciality getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Performance performance = null;
+        Speciality speciality = null;
         try {
-            performance = performanceDao.getById(id);
+            speciality = specialityDao.getById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return performance;
+        return speciality;
     }
 
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
-            performanceDao.deleteById(id);
+            specialityDao.deleteById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method deleteById, id = " + id, e);
         }
@@ -54,10 +53,10 @@ public class PerformanceService implements IPerformanceService {
     }
 
     @Override
-    public void add(Performance performance) {
+    public void add(Speciality speciality) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            performanceDao.add(performance);
+            specialityDao.add(speciality);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
@@ -65,15 +64,15 @@ public class PerformanceService implements IPerformanceService {
     }
 
     @Override
-    public List<Performance> getAll() {
+    public List<Speciality> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Performance> performanceList = new ArrayList<>();
+        List<Speciality> specialityList = new ArrayList<>();
         try {
-            performanceList = performanceDao.getAll();
+            specialityList = specialityDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return performanceList;
+        return specialityList;
     }
 }

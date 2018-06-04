@@ -1,79 +1,75 @@
-package ru.innopolis.stc9.service;
+package ru.innopolis.stc9.db.dao.lesson;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.performance.PerformanceDao;
-import ru.innopolis.stc9.pojo.Performance;
+import ru.innopolis.stc9.db.dao.person.PersonDao;
+import ru.innopolis.stc9.pojo.Person;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
-public class PerformanceService implements IPerformanceService {
-    private static final Logger logger = Logger.getLogger(PerformanceService.class);
-    private static final Logger loggerError = Logger.getLogger(PerformanceService.class);
+public class PersonService {
+    private static final Logger logger = Logger.getLogger(PersonService.class);
+    private static final Logger loggerError = Logger.getLogger(PersonService.class);
 
     @Autowired
-    private PerformanceDao performanceDao;
+    private PersonDao studentDao;
 
-    @Override
-    public void updateById(Performance performance) {
-        logger.info(this.getClass().getName() + " method updateById started, id = " + performance.getId());
+    public void updateById(Person person) {
+        logger.info(this.getClass().getName() + " method updateById started, id = " + person.getId());
         try {
-            performanceDao.update(performance);
+            studentDao.update(person);
         } catch (SQLException e) {
-            loggerError.error("Error at method updateById, id = " + performance.getId(), e);
+            loggerError.error("Error at method updateById, id = " + person.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method updateById finished, id = " + performance.getId());
+        logger.info(this.getClass().getName() + " method updateById finished, id = " + person.getId());
     }
 
-    @Override
-    public Performance getById(long id) {
+    public Person getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Performance performance = null;
+        Person person = null;
         try {
-            performance = performanceDao.getById(id);
+            person = studentDao.getById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return performance;
+        return person;
     }
 
-    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
-            performanceDao.deleteById(id);
+            studentDao.deleteById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method deleteById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
-    @Override
-    public void add(Performance performance) {
+    public void add(Person person) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            performanceDao.add(performance);
+            studentDao.add(person);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
         logger.info(this.getClass().getName() + " method add finished");
     }
 
-    @Override
-    public List<Performance> getAll() {
+    public List<Person> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Performance> performanceList = new ArrayList<>();
+        List<Person> personList = new ArrayList<>();
         try {
-            performanceList = performanceDao.getAll();
+            personList = studentDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return performanceList;
+        return personList;
     }
 }

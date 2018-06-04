@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LessonService {
+public class LessonService implements ILessonService {
     private static final Logger logger = Logger.getLogger(LessonService.class);
     private static final Logger loggerError = Logger.getLogger(LessonService.class);
 
     @Autowired
     private LessonDao lessonDao;
 
+    @Override
     public void updateById(Lesson lesson) {
         logger.info(this.getClass().getName() + " method updateById started, id = " + lesson.getId());
         try {
@@ -28,6 +29,7 @@ public class LessonService {
         logger.info(this.getClass().getName() + " method updateById finished, id = " + lesson.getId());
     }
 
+    @Override
     public Lesson getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
         Lesson lesson = null;
@@ -40,6 +42,7 @@ public class LessonService {
         return lesson;
     }
 
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
@@ -50,6 +53,7 @@ public class LessonService {
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
+    @Override
     public void add(Lesson lesson) {
         logger.info(this.getClass().getName() + " method add started");
         try {
@@ -60,6 +64,7 @@ public class LessonService {
         logger.info(this.getClass().getName() + " method add finished");
     }
 
+    @Override
     public List<Lesson> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
         List<Lesson> lessonList = new ArrayList<>();

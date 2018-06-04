@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ScheduleService {
+public class ScheduleService implements IScheduleService {
     private static final Logger logger = Logger.getLogger(ScheduleService.class);
     private static final Logger loggerError = Logger.getLogger(ScheduleService.class);
 
     @Autowired
     private ScheduleDao scheduleDao;
 
+    @Override
     public void updateById(Schedule schedule) {
         logger.info(this.getClass().getName() + " method updateById started, id = " + schedule.getId());
         try {
@@ -28,6 +29,7 @@ public class ScheduleService {
         logger.info(this.getClass().getName() + " method updateById finished, id = " + schedule.getId());
     }
 
+    @Override
     public Schedule getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
         Schedule schedule = null;
@@ -40,6 +42,7 @@ public class ScheduleService {
         return schedule;
     }
 
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
@@ -50,6 +53,7 @@ public class ScheduleService {
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
+    @Override
     public void add(Schedule schedule) {
         logger.info(this.getClass().getName() + " method add started");
         try {
@@ -60,6 +64,7 @@ public class ScheduleService {
         logger.info(this.getClass().getName() + " method add finished");
     }
 
+    @Override
     public List<Schedule> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
         List<Schedule> scheduleList = new ArrayList<>();
