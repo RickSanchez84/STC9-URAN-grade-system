@@ -1,9 +1,9 @@
-package ru.innopolis.stc9.db.dao.teachers;
+package ru.innopolis.stc9.db.dao.groups;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.Teacher;
+import ru.innopolis.stc9.pojo.Group;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,52 +13,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class TeachersDaoImpl implements TeachersDao {
-    private static final Logger logger = Logger.getLogger(TeachersDaoImpl.class);
+public class GroupsDaoImpl implements GroupsDao {
+    private static final Logger logger = Logger.getLogger(GroupsDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
-
+    
     @Override
-    public Teacher getById(long id) throws SQLException {
+    public Group getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
-        Teacher teacher = null;
+        Group group = null;
     
         int iid = (int)id;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE id= ?")) {
+                    "SELECT * FROM groups WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        teacher = new Teacher(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
+                        group = new Group(
+                                  resultSet.getLong("id")
+                                , resultSet.getLong("cur_semester_education")
+                                , resultSet.getLong("program"));
                     }
                 }                
             }
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
-        return teacher;
+        return group;
     }
 
     @Override
-    public Teacher getByName(String name) throws SQLException {
-        Teacher result = null;        
+    public Group getByProgram(String program) throws SQLException {
+        Group result = null;        
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE name= ?")) {
-                preparedStatement.setString(1, name);
+                    "SELECT * FROM groups WHERE program= ?")) {
+                preparedStatement.setString(1, program);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
                    
                     while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
-                                  resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result = teacher;
+                        Group group = new Group(
+                                resultSet.getLong("id")
+                                , resultSet.getLong("cur_semester_education")
+                                , resultSet.getLong("program"));
+                        result = group;
                     }
                 } 
             }
@@ -67,20 +67,20 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public List<Teacher> getAll() throws SQLException {
-        ArrayList<Teacher> result = new ArrayList<>();
+    public List<Group> getAll() throws SQLException {
+        ArrayList<Group> result = new ArrayList<>();
       
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teachers")) {
+                    "SELECT * FROM groups")) {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
+                        Group group = new Group(
                                 resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result.add(teacher);
+                                , resultSet.getLong("cur_semester_education")
+                                , resultSet.getLong("program"));
+                        result.add(group);
                     } 
                 }                   
             }
@@ -90,20 +90,20 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public void add(Teacher teacher) throws SQLException {
+    public void add(Group group) throws SQLException {
         logger.info("Class "+ClassName+" method add started");
 
-        String sql = "INSERT INTO teacher_facilities (teacher_item, subject_item) VALUES (?,?)";
+        String sql = "INSERT INTO groups (cur_semester_education, program) VALUES (?,?)";
 
-        execureStatement(teacher, sql);
-        logger.info("Class SheduleDaoImpl method add finished");
+        execureStatement(group, sql);
+        logger.info("Class "+ClassName+" method add finished");
     }
 
-    private void execureStatement(Teacher teacher, String sql) throws SQLException {
+    private void execureStatement(Group group, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, teacher.getTeacherItem());
-                statement.setLong(2, teacher.getSubjectItem());
+                statement.setLong(1, group.getCurSemesterEducation());
+                statement.setLong(2, group.getProgram());
 
                 statement.executeUpdate();
             }
@@ -111,19 +111,19 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public void update(Teacher teacher) throws SQLException {
-        logger.info("Class "+ClassName+" method update started, id = " + teacher.getId());
+    public void update(Group group) throws SQLException {
+        logger.info("Class "+ClassName+" method update started, id = " + group.getId());
 
-        String sql = "UPDATE teacher_facilities SET teacher_item = ?, subject_item = ? WHERE id = "+teacher.getId()+"";
+        String sql = "UPDATE groups SET cur_semester_education = ?, program = ? WHERE id = "+group.getId()+"";
 
-        execureStatement(teacher, sql);
-        logger.info("Class "+ClassName+" method update finished, id = " + teacher.getId());
+        execureStatement(group, sql);
+        logger.info("Class "+ClassName+" method update finished, id = " + group.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM teacher_facilities WHERE id=?";
+        String sql = "DELETE FROM groups WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);

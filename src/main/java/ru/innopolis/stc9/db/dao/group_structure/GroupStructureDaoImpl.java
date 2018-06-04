@@ -1,9 +1,9 @@
-package ru.innopolis.stc9.db.dao.teachers;
+package ru.innopolis.stc9.db.dao.group_structure;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.Teacher;
+import ru.innopolis.stc9.pojo.GroupStructure;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,52 +13,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class TeachersDaoImpl implements TeachersDao {
-    private static final Logger logger = Logger.getLogger(TeachersDaoImpl.class);
+public class GroupStructureDaoImpl implements GroupStructureDao {
+    private static final Logger logger = Logger.getLogger(GroupStructureDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
-
+    
     @Override
-    public Teacher getById(long id) throws SQLException {
+    public GroupStructure getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
-        Teacher teacher = null;
+        GroupStructure groupStructure = null;
     
         int iid = (int)id;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE id= ?")) {
+                    "SELECT * FROM group_structure WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        teacher = new Teacher(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
+                        groupStructure = new GroupStructure(
+                                  resultSet.getLong("id")
+                                , resultSet.getLong("student_item")
+                                , resultSet.getLong("group_item"));
                     }
                 }                
             }
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
-        return teacher;
+        return groupStructure;
     }
 
     @Override
-    public Teacher getByName(String name) throws SQLException {
-        Teacher result = null;        
+    public GroupStructure getByGroup(Long group) throws SQLException {
+        GroupStructure result = null;        
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE name= ?")) {
-                preparedStatement.setString(1, name);
+                    "SELECT * FROM group_structure WHERE group_item= ?")) {
+                preparedStatement.setLong(1, group);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
                    
                     while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
-                                  resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result = teacher;
+                        GroupStructure groupStructure = new GroupStructure(
+                                resultSet.getLong("id")
+                                , resultSet.getLong("student_item")
+                                , resultSet.getLong("group_item"));
+                        result = groupStructure;
                     }
                 } 
             }
@@ -67,20 +67,20 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public List<Teacher> getAll() throws SQLException {
-        ArrayList<Teacher> result = new ArrayList<>();
+    public List<GroupStructure> getAll() throws SQLException {
+        ArrayList<GroupStructure> result = new ArrayList<>();
       
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teachers")) {
+                    "SELECT * FROM group_structure")) {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
+                        GroupStructure groupStructure = new GroupStructure(
                                 resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result.add(teacher);
+                                , resultSet.getLong("student_item")
+                                , resultSet.getLong("group_item"));
+                        result.add(groupStructure);
                     } 
                 }                   
             }
@@ -90,40 +90,40 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public void add(Teacher teacher) throws SQLException {
+    public void add(GroupStructure groupStructure) throws SQLException {
         logger.info("Class "+ClassName+" method add started");
 
-        String sql = "INSERT INTO teacher_facilities (teacher_item, subject_item) VALUES (?,?)";
+        String sql = "INSERT INTO group_structure (student_item, group_item) VALUES (?,?)";
 
-        execureStatement(teacher, sql);
-        logger.info("Class SheduleDaoImpl method add finished");
+        execureStatement(groupStructure, sql);
+        logger.info("Class "+ClassName+" method add finished");
     }
 
-    private void execureStatement(Teacher teacher, String sql) throws SQLException {
+    private void execureStatement(GroupStructure groupStructure, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, teacher.getTeacherItem());
-                statement.setLong(2, teacher.getSubjectItem());
-
+                statement.setLong(1, groupStructure.getStudentItem());
+                statement.setLong(2, groupStructure.getGroupItem());
+                
                 statement.executeUpdate();
             }
         }
     }
 
     @Override
-    public void update(Teacher teacher) throws SQLException {
-        logger.info("Class "+ClassName+" method update started, id = " + teacher.getId());
+    public void update(GroupStructure groupStructure) throws SQLException {
+        logger.info("Class "+ClassName+" method update started, id = " + groupStructure.getId());
 
-        String sql = "UPDATE teacher_facilities SET teacher_item = ?, subject_item = ? WHERE id = "+teacher.getId()+"";
+        String sql = "UPDATE group_structure SET student_item = ?, group_item = ? WHERE id = "+groupStructure.getId()+"";
 
-        execureStatement(teacher, sql);
-        logger.info("Class "+ClassName+" method update finished, id = " + teacher.getId());
+        execureStatement(groupStructure, sql);
+        logger.info("Class "+ClassName+" method update finished, id = " + groupStructure.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM teacher_facilities WHERE id=?";
+        String sql = "DELETE FROM group_structure WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);

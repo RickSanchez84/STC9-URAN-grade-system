@@ -9,6 +9,20 @@ public class Program {
   private long subject;
   private long hours;
 
+  public Program(long id, long specialty, long semester, long subject, long hours) {
+    this.id = id;
+    this.specialty = specialty;
+    this.semester = semester;
+    this.subject = subject;
+    this.hours = hours;
+  }
+
+  public Program(long specialty, long semester, long subject, long hours) {
+    this.specialty = specialty;
+    this.semester = semester;
+    this.subject = subject;
+    this.hours = hours;
+  }
 
   public long getId() {
     return id;

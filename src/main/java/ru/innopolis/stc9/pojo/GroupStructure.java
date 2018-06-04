@@ -6,6 +6,16 @@ public class GroupStructure {
   private long studentItem;
   private long groupItem;
 
+  public GroupStructure(long id, long studentItem, long groupItem) {
+    this.id = id;
+    this.studentItem = studentItem;
+    this.groupItem = groupItem;
+  }
+
+  public GroupStructure(long studentItem, long groupItem) {
+    this.studentItem = studentItem;
+    this.groupItem = groupItem;
+  }
 
   public long getId() {
     return id;
