@@ -3,5 +3,6 @@
 <aside class="left-sidebar">
     <strong>Меню:</strong><BR>
     <p><a href="/person/personAll">Список персон</a></p>
+    <p><a href="/subject/subjectAll">Список предметов</a></p>
 </aside>
 <!-- .left-sidebar -->
