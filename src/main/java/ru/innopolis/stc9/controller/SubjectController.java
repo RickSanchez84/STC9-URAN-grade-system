@@ -22,7 +22,7 @@ public class SubjectController extends HttpServlet{
     private ISubjectService service;
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.GET)
-    public String addOrUpdateSubject(HttpServletRequest request, Model model) {
+    public String addOrUpdate(HttpServletRequest request, Model model) {
         if (model.containsAttribute("subject")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
@@ -33,7 +33,7 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.POST)
-    public String addOrUpdateSubject(HttpServletRequest request,
+    public String addOrUpdate(HttpServletRequest request,
                                     @RequestAttribute String id,
                                      @RequestAttribute String action,
                                     @RequestAttribute String name, Model model) {
@@ -51,7 +51,7 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/deleteSubject", method = RequestMethod.GET)
-    public String deleteSubject(HttpServletRequest request,
+    public String delete(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         service.deleteById(Long.parseLong(id));
         return ("redirect:subjectAll");
@@ -70,15 +70,15 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/updateSubject", method = RequestMethod.GET)
-    public String updateSubject(HttpServletRequest request,
+    public String update(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         model.addAttribute("subject", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
-        return ("/addOrUpdate");
+        return ("/updateSubject");
     }
 
     @RequestMapping(value = "/subject", method = RequestMethod.GET)
-    public String getSubject(HttpServletRequest request,
+    public String get(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Subject subject = service.getById(Long.parseLong(id));
         model.addAttribute("subject", subject);

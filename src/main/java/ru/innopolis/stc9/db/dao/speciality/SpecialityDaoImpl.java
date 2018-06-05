@@ -33,11 +33,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
                                 resultSet.getLong("id")
                                 , resultSet.getString("name")
                                 , resultSet.getLong("semester_count"));
-                    }
-                }
-            }
-        }
-
+                    }}}}
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
         return speciality;
     }
@@ -48,7 +44,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM specialitys WHERE name= ?")) {
+                    "SELECT * FROM specialty WHERE name= ?")) {
                 preparedStatement.setString(1, name);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -58,10 +54,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
                                 , resultSet.getString("name")
                                 , resultSet.getLong("semester_count"));
                         result = speciality;
-                    }
-                }
-            }
-        }
+                    } } } }
         return result;
     }
 
@@ -71,7 +64,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM specialitys")) {
+                    "SELECT * FROM specialty")) {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
@@ -80,12 +73,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
                                 , resultSet.getString("name")
                                 , resultSet.getLong("semester_count"));
                         result.add(speciality);
-                    }
-                }
-          }
-
-        }
-
+                    } } } }
         return result;
     }
 
@@ -95,20 +83,14 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
         String sql = "INSERT INTO specialty (name, semester_count) VALUES (?, ?)";
 
-        execureStatement(speciality, sql);
-        logger.info("Class "+ClassName+" method add finished");
-    }
-
-    private void execureStatement(Speciality speciality, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, speciality.getName());
                 statement.setLong(2, speciality.getSemesterCount());
-
                 statement.executeUpdate();
-            }
-        }
-    }
+        logger.info("Class "+ClassName+" method add finished");
+    }}}
+
 
     @Override
     public void update(Speciality speciality) throws SQLException {
@@ -116,7 +98,13 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
         String sql = "UPDATE specialty SET name = ?, semester_count = ? WHERE id = ?";
 
-        execureStatement(speciality, sql);
+                try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+                    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                        statement.setString(1, speciality.getName());
+                        statement.setLong(2, speciality.getSemesterCount());
+                        statement.setLong(3, speciality.getId());
+                        statement.executeUpdate();
+                    }}
         logger.info("Class "+ClassName+" method update finished, id = " + speciality.getId());
     }
 

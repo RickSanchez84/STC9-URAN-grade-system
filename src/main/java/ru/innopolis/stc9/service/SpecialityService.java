@@ -3,13 +3,14 @@ package ru.innopolis.stc9.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
 import ru.innopolis.stc9.pojo.Speciality;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class SpecialityService implements ISpecialityService {
     private static final Logger logger = Logger.getLogger(SpecialityService.class);
     private static final Logger loggerError = Logger.getLogger(SpecialityService.class);
@@ -18,14 +19,14 @@ public class SpecialityService implements ISpecialityService {
     private SpecialityDao specialityDao;
 
     @Override
-    public void update(Speciality speciality) {
+    public void updateById(Speciality speciality) {
         logger.info(this.getClass().getName() + " method update started, id = " + speciality.getId());
         try {
             specialityDao.update(speciality);
         } catch (SQLException e) {
             loggerError.error("Error at method update, id = " + speciality.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method updatefinished, id = " + speciality.getId());
+        logger.info(this.getClass().getName() + " method update finished, id = " + speciality.getId());
     }
 
     @Override

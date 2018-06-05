@@ -5,7 +5,7 @@ import ru.innopolis.stc9.pojo.Speciality;
 import java.util.List;
 
 public interface ISpecialityService {
-    void update(Speciality speciality);
+    void updateById(Speciality speciality);
 
     Speciality getById(long id);
 
