@@ -5,6 +5,7 @@
   <main class="content">
     <h1>Главная страница</h1>
     <p><a href="/person/personAll">Список персон</a></p>
+    <p><a href="/subject/subjectAll">Список предметов</a></p>
   </main><!-- .content -->
 </div>
 <!-- .container-->

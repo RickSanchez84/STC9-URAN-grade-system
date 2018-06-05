@@ -9,7 +9,7 @@
         <c:if test="${action=='add'}">
             <h1>Добавление нового предмета</h1>
         </c:if>
-        <form action="/person/addOrUpdate" method="post">
+        <form action="/subject/addOrUpdateSubject" method="post">
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${subject.id}">
             </c:if>

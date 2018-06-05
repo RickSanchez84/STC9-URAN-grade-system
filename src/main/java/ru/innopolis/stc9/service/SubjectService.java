@@ -2,6 +2,7 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
 import ru.innopolis.stc9.pojo.Subject;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SubjectService implements ISubjectService {
     private static final Logger logger = Logger.getLogger(SubjectService.class);
     private static final Logger loggerError = Logger.getLogger(SubjectService.class);

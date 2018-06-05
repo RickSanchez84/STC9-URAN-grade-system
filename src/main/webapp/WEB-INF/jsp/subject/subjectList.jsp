@@ -4,7 +4,7 @@
 <div class="container">
     <main class="content">
         <h1>Список предметов</h1>
-        <p><b><a href="/person/addOrUpdate">Добавить новый предмет</a></b></p>
+        <p><b><a href="/subject/addOrUpdateSubject">Добавить новый предмет</a></b></p>
         <table border="1">
             <tr>
                 <th>№</th>
@@ -14,10 +14,10 @@
             </tr>
             <c:forEach var="subject" items="${subjectList}">
                 <tr>
-                    <td>${person.id}</td>
-                    <td><a href="/person/person?id=${subject.id}">${subject.name}</a></td>
-                    <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
-                    <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+                    <td>${subject.id}</td>
+                    <td><a href="/subject/subject?id=${subject.id}">${subject.name}</a></td>
+                    <td><a href="/subject/updateSubject?id=${subject.id}">редактировать</a></td>
+                    <td><a href="/subject/deleteSubject?id=${subject.id}">удалить</a></td>
                 </tr>
             </c:forEach>
         </table>

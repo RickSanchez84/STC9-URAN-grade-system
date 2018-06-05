@@ -15,10 +15,10 @@ import java.util.List;
 @Component
 public class SpecialityDaoImpl implements SpecialityDao {
     private static final Logger logger = Logger.getLogger(SpecialityDaoImpl.class);
-
+    public  final String ClassName= this.getClass().getName();
     @Override
     public Speciality getById(long id) throws SQLException {
-        logger.info("Class SheduleDaoImpl method getById started, id = " + id);
+        logger.info("Class "+ClassName+" method getById started, id = " + id);
         Speciality speciality = null;
 
         int iid = (int)id;
@@ -38,7 +38,7 @@ public class SpecialityDaoImpl implements SpecialityDao {
             }
         }
 
-        logger.info("Class SheduleDaoImpl method getById finished, id = " + id);
+        logger.info("Class "+ClassName+" method getById finished, id = " + id);
         return speciality;
     }
 
@@ -91,12 +91,12 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
     @Override
     public void add(Speciality speciality) throws SQLException {
-        logger.info("Class SheduleDaoImpl method add started");
+        logger.info("Class "+ClassName+" method add started");
 
         String sql = "INSERT INTO specialty (name, semester_count) VALUES (?, ?)";
 
         execureStatement(speciality, sql);
-        logger.info("Class SheduleDaoImpl method add finished");
+        logger.info("Class "+ClassName+" method add finished");
     }
 
     private void execureStatement(Speciality speciality, String sql) throws SQLException {
@@ -112,17 +112,17 @@ public class SpecialityDaoImpl implements SpecialityDao {
 
     @Override
     public void update(Speciality speciality) throws SQLException {
-        logger.info("Class SheduleDaoImpl method update started, id = " + speciality.getId());
+        logger.info("Class "+ClassName+" method update started, id = " + speciality.getId());
 
         String sql = "UPDATE specialty SET name = ?, semester_count = ? WHERE id = ?";
 
         execureStatement(speciality, sql);
-        logger.info("Class SheduleDaoImpl method update finished, id = " + speciality.getId());
+        logger.info("Class "+ClassName+" method update finished, id = " + speciality.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
-        logger.info("Class SheduleDaoImpl method deleteById started, id = " + id);
+        logger.info("Class "+ClassName+" method deleteById started, id = " + id);
         String sql = "DELETE FROM specialty WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -130,6 +130,6 @@ public class SpecialityDaoImpl implements SpecialityDao {
                 statement.executeUpdate();
             }
         }
-        logger.info("Class SheduleDaoImpl method deleteById finished, id = " + id);
+        logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
     }
 }
