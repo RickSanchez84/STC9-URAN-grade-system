@@ -35,7 +35,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
-    public String addOrUpdatePerson(HttpServletRequest request,
+    public String addOrUpdate(HttpServletRequest request,
                                     @RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String name,
@@ -55,7 +55,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
-    public String deletePerson(HttpServletRequest request,
+    public String delete(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         service.deleteById(Long.parseLong(id));
         return ("redirect:personAll");
@@ -74,7 +74,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
-    public String updatePerson(HttpServletRequest request,
+    public String update(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         model.addAttribute("person", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
@@ -82,7 +82,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.GET)
-    public String getPerson(HttpServletRequest request,
+    public String get(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
         model.addAttribute("person", person);

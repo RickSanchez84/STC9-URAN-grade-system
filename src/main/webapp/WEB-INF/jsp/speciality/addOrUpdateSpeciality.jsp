@@ -3,24 +3,30 @@
 <%@ include file="../../../header.jsp" %>
 <div class="container">
     <main class="content">
+
         <c:if test="${action=='update'}">
             <h1>Редактирование</h1>
         </c:if>
+
         <c:if test="${action=='add'}">
             <h1>Добавление новой специальности</h1>
         </c:if>
+
         <form action="/speciality/addOrUpdateSpeciality" method="post">
+
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${speciality.id}">
             </c:if>
+
             <c:if test="${action=='add'}">
                 <input type="hidden" name="id" value="0">
             </c:if>
+
             <input type="hidden" name="action" value="${action}">
-            <label>Название: </label><input type="text" value="<c:if test="${action=='update'}">${speciality.name}</c:if>"
-                                       name="name"><BR>
-            <label>Семестр: </label><input type="text" value="<c:if test="${action=='update'}">${speciality.semesterCount}</c:if>"
-                                         name="address"><BR>
+
+            <label>Название: </label><input type="text" value="<c:if test="${action=='update'}">${speciality.name}</c:if>" name="name"><BR>
+            <label>Семестр: </label><input type="text" value="<c:if test="${action=='update'}">${speciality.semesterCount.toString()}</c:if>" name="semesterCount"><BR>
+
             <input type="submit" value="OK">
         </form>
     </main><!-- .content -->

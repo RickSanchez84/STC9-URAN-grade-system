@@ -22,10 +22,12 @@ public class SpecialityController extends HttpServlet {
 
     @RequestMapping(value = "/addOrUpdateSpeciality", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
+
         if (model.containsAttribute("speciality")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
-        } else {
+        }
+        else {
             model.addAttribute("action", "add");
         }
         return "/addOrUpdateSpeciality";
@@ -36,14 +38,14 @@ public class SpecialityController extends HttpServlet {
                                     @RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String name,
-                                    @RequestAttribute String semester_count, Model model) {
+                                    @RequestAttribute String semesterCount, Model model) {
 
         if (action.equals("add")) {
-            Speciality speciality = new Speciality(name, Long.parseLong(semester_count));
+            Speciality speciality = new Speciality(name, Long.getLong(semesterCount));
             service.add(speciality);
         } else {
             if (action.equals("update")) {
-                Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semester_count));
+                Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semesterCount));
                 service.updateById(speciality);
             }
         }
@@ -70,7 +72,7 @@ public class SpecialityController extends HttpServlet {
     }
 
     @RequestMapping(value = "/updateSpeciality", method = RequestMethod.GET)
-    public String updateSpeciality(HttpServletRequest request,
+    public String update(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         model.addAttribute("speciality", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
@@ -78,7 +80,7 @@ public class SpecialityController extends HttpServlet {
     }
 
     @RequestMapping(value = "/speciality", method = RequestMethod.GET)
-    public String getSpeciality(HttpServletRequest request,
+    public String get(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Speciality speciality = service.getById(Long.parseLong(id));
         model.addAttribute("speciality", speciality);

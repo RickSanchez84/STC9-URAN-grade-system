@@ -16,6 +16,7 @@ import java.util.List;
 public class SpecialityDaoImpl implements SpecialityDao {
     private static final Logger logger = Logger.getLogger(SpecialityDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
+
     @Override
     public Speciality getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);

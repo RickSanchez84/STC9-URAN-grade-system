@@ -8,11 +8,14 @@
     <context:component-scan base-package="ru.innopolis.stc9"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
         <property name="prefix">
             <value>/WEB-INF/jsp/subject</value>
         </property>
+
         <property name="suffix">
             <value>.jsp</value>
         </property>
+
     </bean>
 </beans>
