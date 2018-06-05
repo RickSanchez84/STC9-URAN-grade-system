@@ -1,10 +1,19 @@
 package ru.innopolis.stc9.pojo;
 
-public class Subjects {
+
+public class Role {
 
   private long id;
   private String name;
 
+  public Role(long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+
+  public Role(String name) {
+    this.name = name;
+  }
 
   public long getId() {
     return id;
@@ -19,7 +28,7 @@ public class Subjects {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(String nameRole) {
     this.name = name;
   }
 

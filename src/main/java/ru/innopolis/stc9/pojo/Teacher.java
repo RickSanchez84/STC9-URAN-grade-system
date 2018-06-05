@@ -1,11 +1,21 @@
 package ru.innopolis.stc9.pojo;
 
-public class TeacherFacilities {
+public class Teacher {
 
   private long id;
   private long teacherItem;
   private long subjectItem;
 
+  public Teacher(long id, long teacherItem, long subjectItem) {
+    this.id = id;
+    this.teacherItem = teacherItem;
+    this.subjectItem = subjectItem;
+  }
+
+  public Teacher(long teacherItem, long subjectItem) {
+    this.teacherItem = teacherItem;
+    this.subjectItem = subjectItem;
+  }
 
   public long getId() {
     return id;
@@ -15,7 +25,6 @@ public class TeacherFacilities {
     this.id = id;
   }
 
-
   public long getTeacherItem() {
     return teacherItem;
   }
@@ -23,7 +32,6 @@ public class TeacherFacilities {
   public void setTeacherItem(long teacherItem) {
     this.teacherItem = teacherItem;
   }
-
 
   public long getSubjectItem() {
     return subjectItem;

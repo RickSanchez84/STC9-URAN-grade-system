@@ -1,5 +1,4 @@
 package ru.innopolis.stc9.controller;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,85 +6,84 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.service.IPersonService;
-
+import ru.innopolis.stc9.pojo.Speciality;
+import ru.innopolis.stc9.service.ISpecialityService;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.List;
 
-
 @Controller
-public class PersonController extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(PersonController.class);
+public class SpecialityController extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(SpecialityController.class);
 
     @Autowired
-    private IPersonService service;
+    private ISpecialityService service;
 
-    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
+    @RequestMapping(value = "/addOrUpdateSpeciality", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
-        if (model.containsAttribute("person")) {
+
+        if (model.containsAttribute("speciality")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
-        } else {
+        }
+        else {
             model.addAttribute("action", "add");
         }
-        return "/addOrUpdate";
+        return "/addOrUpdateSpeciality";
     }
 
-    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
+    @RequestMapping(value = "/addOrUpdateSpeciality", method = RequestMethod.POST)
     public String addOrUpdate(HttpServletRequest request,
                                     @RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String name,
-                                    @RequestAttribute String birthday,
-                                    @RequestAttribute String address, Model model) {
+                                    @RequestAttribute String semesterCount, Model model) {
 
         if (action.equals("add")) {
-            Person person = new Person(name, Date.valueOf(birthday), address);
-            service.add(person);
+            Speciality speciality = new Speciality(name, Long.getLong(semesterCount));
+            service.add(speciality);
         } else {
             if (action.equals("update")) {
-                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), address);
-                service.updateById(person);
+                Speciality speciality = new Speciality(Long.parseLong(id), name, Long.parseLong(semesterCount));
+                service.updateById(speciality);
             }
         }
-        return "redirect:personAll";
+        return "redirect:specialityAll";
     }
 
-    @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteSpeciality", method = RequestMethod.GET)
     public String delete(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         service.deleteById(Long.parseLong(id));
-        return ("redirect:personAll");
+        return ("redirect:specialityAll");
     }
 
-    @RequestMapping(value = "/personAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/specialityAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
-        List<Person> personList = service.getAll();
-        if (personList != null) {
-            model.addAttribute("personList", personList);
-            return "/personList";
+        List<Speciality> specialityList = service.getAll();
+        if (specialityList != null) {
+            model.addAttribute("specialityList", specialityList);
+            return "/specialityList";
         }
         else {
             return "index";
         }
     }
 
-    @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateSpeciality", method = RequestMethod.GET)
     public String update(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        model.addAttribute("person", service.getById(Long.parseLong(id)));
+        model.addAttribute("speciality", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
-        return ("/addOrUpdate");
+        return ("/addOrUpdateSpeciality");
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.GET)
+    @RequestMapping(value = "/speciality", method = RequestMethod.GET)
     public String get(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
-        Person person = service.getById(Long.parseLong(id));
-        model.addAttribute("person", person);
-        return "/getPerson";
+        Speciality speciality = service.getById(Long.parseLong(id));
+        model.addAttribute("speciality", speciality);
+        return "/getSpeciality";
     }
 }

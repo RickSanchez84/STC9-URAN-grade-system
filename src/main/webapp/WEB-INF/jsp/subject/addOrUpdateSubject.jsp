@@ -3,18 +3,19 @@
 <%@ include file="../../../header.jsp" %>
 <div class="container">
     <main class="content">
+
         <c:if test="${action=='update'}">
             <h1>Редактирование</h1>
         </c:if>
 
         <c:if test="${action=='add'}">
-            <h1>Добавление нового студента</h1>
+            <h1>Добавление нового предмета</h1>
         </c:if>
 
-        <form action="/person/addOrUpdate" method="post">
+        <form action="/subject/addOrUpdateSubject" method="post">
 
             <c:if test="${action=='update'}">
-                <input type="hidden" name="id" value="${person.id}">
+                <input type="hidden" name="id" value="${subject.id}">
             </c:if>
 
             <c:if test="${action=='add'}">
@@ -22,12 +23,9 @@
             </c:if>
 
             <input type="hidden" name="action" value="${action}">
+            <label>Название: </label><input type="text" value="<c:if test="${action=='update'}">${subject.name}</c:if>" name="name"><BR>
 
-            <label>Имя: </label><input type="text" value="<c:if test="${action=='update'}">${person.name}</c:if>" name="name"><BR>
-            <label>День рождения: </label><input type="text" value="<c:if test="${action=='update'}">${person.birthday}</c:if>" name="birthday"><BR>
-            <label>Адрес: </label><input type="text" value="<c:if test="${action=='update'}">${person.address}</c:if>" name="address"><BR>
             <input type="submit" value="OK">
-
         </form>
     </main><!-- .content -->
 </div>

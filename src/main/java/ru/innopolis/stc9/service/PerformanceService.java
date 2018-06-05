@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PerformanceService {
+public class PerformanceService implements IPerformanceService {
     private static final Logger logger = Logger.getLogger(PerformanceService.class);
     private static final Logger loggerError = Logger.getLogger(PerformanceService.class);
 
     @Autowired
     private PerformanceDao performanceDao;
 
+    @Override
     public void updateById(Performance performance) {
         logger.info(this.getClass().getName() + " method updateById started, id = " + performance.getId());
         try {
@@ -28,6 +29,7 @@ public class PerformanceService {
         logger.info(this.getClass().getName() + " method updateById finished, id = " + performance.getId());
     }
 
+    @Override
     public Performance getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
         Performance performance = null;
@@ -40,6 +42,7 @@ public class PerformanceService {
         return performance;
     }
 
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
@@ -50,6 +53,7 @@ public class PerformanceService {
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
+    @Override
     public void add(Performance performance) {
         logger.info(this.getClass().getName() + " method add started");
         try {
@@ -60,6 +64,7 @@ public class PerformanceService {
         logger.info(this.getClass().getName() + " method add finished");
     }
 
+    @Override
     public List<Performance> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
         List<Performance> performanceList = new ArrayList<>();

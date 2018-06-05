@@ -2,52 +2,49 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.person.PersonDao;
-import ru.innopolis.stc9.pojo.Person;
+import ru.innopolis.stc9.db.dao.groups.GroupsDao;
+import ru.innopolis.stc9.pojo.Group;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Service
-public class PersonService implements IPersonService {
-    private static final Logger logger = Logger.getLogger(IPersonService.class);
-    private static final Logger loggerError = Logger.getLogger(IPersonService.class);
+public class GroupService implements IGroupService {
+    private static final Logger logger = Logger.getLogger(GroupService.class);
+    private static final Logger loggerError = Logger.getLogger(GroupService.class);
 
     @Autowired
-    private PersonDao personDao;
+    private GroupsDao groupDao;
 
     @Override
-    public void updateById(Person person) {
-        logger.info(this.getClass().getName() + " method updateById started, id = " + person.getId());
+    public void update(Group group) {
+        logger.info(this.getClass().getName() + " method update started, id = " + group.getId());
         try {
-            personDao.update(person);
+            groupDao.update(group);
         } catch (SQLException e) {
-            loggerError.error("Error at method updateById, id = " + person.getId(), e);
+            loggerError.error("Error at method update, id = " + group.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method updateById finished, id = " + person.getId());
+        logger.info(this.getClass().getName() + " method update finished, id = " + group.getId());
     }
 
     @Override
-    public Person getById(long id) {
+    public Group getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Person person = null;
+        Group group = null;
         try {
-            person = personDao.getById(id);
+            group = groupDao.getById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return person;
+        return group;
     }
 
     @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
-            personDao.deleteById(id);
+            groupDao.deleteById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method deleteById, id = " + id, e);
         }
@@ -55,10 +52,10 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public void add(Person person) {
+    public void add(Group group) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            personDao.add(person);
+            groupDao.add(group);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
@@ -66,15 +63,15 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public List<Person> getAll() {
+    public List<Group> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Person> personList = new ArrayList<>();
+        List<Group> groupList = new ArrayList<>();
         try {
-            personList = personDao.getAll();
+            groupList = groupDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return personList;
+        return groupList;
     }
 }
