@@ -7,6 +7,7 @@
     <p><a href="/person/personAll">Список персон</a></p>
     <p><a href="/subject/subjectAll">Список предметов</a></p>
     <p><a href="/speciality/specialityAll">Список специальностей</a></p>
+    <p><a href="/role/roleAll">Список типов пользователей</a></p>
   </main><!-- .content -->
 </div>
 <!-- .container-->

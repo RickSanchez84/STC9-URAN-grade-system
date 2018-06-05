@@ -92,11 +92,6 @@ public class RoleDaoImpl implements RoleDao {
 
         String sql = "INSERT INTO specialty (name) VALUES (?)";
 
-        execureStatement(role, sql);
-        logger.info("Class "+ClassName+" method add finished");
-    }
-
-    private void execureStatement(Role role, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, role.getName());
@@ -104,7 +99,9 @@ public class RoleDaoImpl implements RoleDao {
                 statement.executeUpdate();
             }
         }
+        logger.info("Class "+ClassName+" method add finished");
     }
+
 
     @Override
     public void update(Role role) throws SQLException {
@@ -112,7 +109,13 @@ public class RoleDaoImpl implements RoleDao {
 
         String sql = "UPDATE roles SET name = ? WHERE id = ?";
 
-        execureStatement(role, sql);
+        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, role.getName());
+                statement.setLong(2, role.getId());
+                statement.executeUpdate();
+            }
+        }
         logger.info("Class "+ClassName+" method update finished, id = " + role.getId());
     }
 
