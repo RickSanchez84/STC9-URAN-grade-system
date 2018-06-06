@@ -6,19 +6,22 @@ public class Person {
     private long id;
     private String name;
     private Date birthday;
-    private String address;
+    private String email;
+    private int role;
 
-    public Person(long id, String name, Date birthday, String address) {
+    public Person(long id, String name, Date birthday, String email, int role) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
-        this.address = address;
+        this.email = email;
+        this.role = role;
     }
 
-    public Person(String name, Date birthday, String address) {
+    public Person(String name, Date birthday, String email, int role) {
         this.name = name;
         this.birthday = birthday;
-        this.address = address;
+        this.email = email;
+        this.role = role;
     }
 
     public long getId() {
@@ -45,11 +48,19 @@ public class Person {
         this.birthday = birthday;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }
