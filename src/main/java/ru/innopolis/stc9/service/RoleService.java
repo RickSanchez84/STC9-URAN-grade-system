@@ -2,6 +2,7 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.roles.RoleDao;
 import ru.innopolis.stc9.pojo.Role;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class RoleService implements IRoleService {
 
     private static final Logger logger = Logger.getLogger(RoleService.class);
@@ -66,13 +68,17 @@ public class RoleService implements IRoleService {
     @Override
     public List<Role> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
+
         List<Role> roleList = new ArrayList<>();
+
         try {
             roleList = roleDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
+
         logger.info(this.getClass().getName() + " method getAll finished");
+
         return roleList;
     }
 }

@@ -9,7 +9,7 @@
         </c:if>
 
         <c:if test="${action=='add'}">
-            <h1>Добавление новой роли пользователя</h1>
+            <h1>Добавление нового типа пользователя</h1>
         </c:if>
 
         <form action="/role/addOrUpdateRole" method="post">

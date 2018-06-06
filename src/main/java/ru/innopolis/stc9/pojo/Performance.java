@@ -1,7 +1,5 @@
 package ru.innopolis.stc9.pojo;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class Performance {
 
   private long id;

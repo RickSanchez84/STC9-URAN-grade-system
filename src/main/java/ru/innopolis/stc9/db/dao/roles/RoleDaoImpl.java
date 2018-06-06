@@ -90,7 +90,7 @@ public class RoleDaoImpl implements RoleDao {
     public void add(Role role) throws SQLException {
         logger.info("Class SheduleDaoImpl method add started");
 
-        String sql = "INSERT INTO specialty (name) VALUES (?)";
+        String sql = "INSERT INTO roles (name) VALUES (?)";
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {

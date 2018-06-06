@@ -1,5 +1,4 @@
 package ru.innopolis.stc9.controller;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Role;
 import ru.innopolis.stc9.service.IRoleService;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -59,7 +57,9 @@ public class RoleController extends HttpServlet{
 
     @RequestMapping(value = "/roleAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
+
         List<Role> roleList = service.getAll();
+
         if (roleList != null) {
             model.addAttribute("roleList", roleList);
             return "/roleList";
