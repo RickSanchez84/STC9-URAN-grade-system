@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.service.IPersonService;
+import ru.innopolis.stc9.service.PersonService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
 
     @Autowired
-    private IPersonService service;
+    private PersonService service;
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
@@ -35,19 +35,20 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
-    public String addOrUpdate(HttpServletRequest request,
+    public String addOrUpdatePerson(HttpServletRequest request,
                                     @RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String name,
                                     @RequestAttribute String birthday,
-                                    @RequestAttribute String address, Model model) {
+                                    @RequestAttribute String email,
+                                    @RequestAttribute String role, Model model) {
 
         if (action.equals("add")) {
-            Person person = new Person(name, Date.valueOf(birthday), address);
+            Person person = new Person(name, Date.valueOf(birthday), email, Integer.parseInt(role));
             service.add(person);
         } else {
             if (action.equals("update")) {
-                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), address);
+                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), email, Integer.parseInt(role));
                 service.updateById(person);
             }
         }
@@ -55,7 +56,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/deletePerson", method = RequestMethod.GET)
-    public String delete(HttpServletRequest request,
+    public String deletePerson(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         service.deleteById(Long.parseLong(id));
         return ("redirect:personAll");
@@ -67,14 +68,13 @@ public class PersonController extends HttpServlet {
         if (personList != null) {
             model.addAttribute("personList", personList);
             return "/personList";
-        }
-        else {
+        } else {
             return "index";
         }
     }
 
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
-    public String update(HttpServletRequest request,
+    public String updatePerson(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
         model.addAttribute("person", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
@@ -82,7 +82,7 @@ public class PersonController extends HttpServlet {
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.GET)
-    public String get(HttpServletRequest request,
+    public String getPerson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
         model.addAttribute("person", person);

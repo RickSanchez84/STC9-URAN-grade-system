@@ -1,9 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
-<div class="container">
-    <main class="content">
-
+<%@ include file="../../../aside.jsp" %>
         <c:if test="${action=='update'}">
             <h1>Редактирование</h1>
         </c:if>
@@ -29,8 +27,4 @@
 
             <input type="submit" value="OK">
         </form>
-    </main><!-- .content -->
-</div>
-<!-- .container-->
-<%@ include file="../../../aside.jsp" %>
 <%@ include file="../../../footer.jsp" %>
