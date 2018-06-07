@@ -9,6 +9,8 @@ public interface IPersonService {
 
     Person getById(long id);
 
+    Person getByName(String name);
+
     void deleteById(long id);
 
     void add(Person person);

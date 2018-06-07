@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,6 +58,11 @@
                     <input type="password" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Войти</button>
+                <%--отобразить ссылку на регистрацию--%>
+                <%--<% if (request.getSession().getAttribute("errorpers")==null){%>--%>
+
+                <a href="${pageContext.request.contextPath}/user/register">Зарегистрироваться</a>
+                <%--<% }%>--%>
             </form>
             <% } %>
         </div>

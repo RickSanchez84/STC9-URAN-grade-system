@@ -16,31 +16,56 @@ import java.util.List;
 public class UsersDaoImpl implements UsersDao {
     private static final Logger logger = Logger.getLogger(UsersDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
-    
+
+    @Override
+    public User getByPersonId(long personId) throws SQLException {
+        logger.info("Class " + ClassName + " method getByPersonId started, person_id = " + personId);
+        String sqlQuery = "SELECT * FROM user WHERE person_id= ?";
+        User result = getUserByLong(personId, sqlQuery);
+        logger.info("Class " + ClassName + " method getByPersonId finished, person_id = " + personId + ". Success? " + result != null);
+        return result;
+    }
+
     @Override
     public User getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
+        String sqlQuery = "SELECT * FROM user WHERE id= ?";
+        User result = getUserByLong(id, sqlQuery);
+        logger.info("Class " + ClassName + " method getById finished, id = " + id + ". Success? " + result != null);
+        return result;
+    }
+
+    /**
+     * Некий универсальный метод, который достает пользователя по sql-запросу, осуществляющему поиск по некому параметру типа long
+     *
+     * @param longs
+     * @param sqlQuery
+     * @return
+     * @throws SQLException
+     */
+    private User getUserByLong(long longs, String sqlQuery) throws SQLException {
+
         User user = null;
-    
-        int iid = (int)id;
+
+        int someLong = (int) longs;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE id= ?")) {
-                preparedStatement.setInt(1, iid);
-                try (ResultSet  resultSet = preparedStatement.executeQuery()) {
+                    sqlQuery)) {
+                preparedStatement.setInt(1, someLong);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         user = new User(
-                                  resultSet.getLong("id")
+                                resultSet.getLong("id")
                                 , resultSet.getString("login")
                                 , resultSet.getString("password")
                                 , resultSet.getLong("person_id"));
                     }
-                }                
+                }
             }
         }
 
-        logger.info("Class "+ClassName+" method getById finished, id = " + id);
+
         return user;
     }
 

@@ -29,6 +29,25 @@ public class PersonService implements IPersonService {
         logger.info(this.getClass().getName() + " method updateById finished, id = " + person.getId());
     }
 
+    /**
+     * Ищем пользователя по имени (поиск без учета регистра)
+     *
+     * @param name имя пользователя.
+     * @return
+     */
+    @Override
+    public Person getByName(String name) {
+        logger.info(this.getClass().getName() + " method getByName started, name = " + name);
+        Person result = null;
+        try {
+            result = personDao.getByName(name);
+        } catch (SQLException e) {
+            loggerError.error("Error at method getByName, name = " + name, e);
+        }
+        logger.info(this.getClass().getName() + " method getByName finished, id = " + result.getId());
+        return result;
+    }
+
     @Override
     public Person getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);

@@ -2,9 +2,12 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.users.UsersDao;
+import ru.innopolis.stc9.pojo.Person;
 import ru.innopolis.stc9.pojo.User;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,11 @@ public class UserService implements IUserService {
     @Autowired
     private UsersDao userDao;
 
+
     @Override
     public void update(User user) {
         logger.info(this.getClass().getName() + " method updateById started, id = " + user.getId());
+        user = hashPass(user);
         try {
             userDao.update(user);
         } catch (SQLException e) {
@@ -41,6 +46,19 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserByPerson(Person person) {
+        logger.info(this.getClass().getName() + " method getUserByPerson started, id = " + person.getId());
+        User user = null;
+        try {
+            user = userDao.getById(person.getId());
+        } catch (SQLException e) {
+            loggerError.error("Error at method getUserByPerson, id = " + person.getId(), e);
+        }
+        logger.info(this.getClass().getName() + " method getUserByPerson stoped, id = " + person.getId() + ". Success? " + user == null);
+        return user;
+    }
+
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {
@@ -54,12 +72,24 @@ public class UserService implements IUserService {
     @Override
     public void add(User user) {
         logger.info(this.getClass().getName() + " method add started");
+        user = hashPass(user);
         try {
             userDao.add(user);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
         logger.info(this.getClass().getName() + " method add finished");
+    }
+
+    /**
+     * Хэшируем пароль
+     *
+     * @param user
+     * @return
+     */
+    private User hashPass(User user) {
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        return user;
     }
 
     @Override
@@ -73,5 +103,11 @@ public class UserService implements IUserService {
         }
         logger.info(this.getClass().getName() + " method getAll finished");
         return userList;
+    }
+
+
+    @Override
+    public boolean checkLogin(User user, String password) {
+        return BCrypt.checkpw(password, user.getPassword());
     }
 }

@@ -9,6 +9,8 @@ public interface UsersDao {
 
     User getByName(String name) throws SQLException;
 
+    User getByPersonId(long personId) throws SQLException;
+
     List<User> getAll() throws SQLException;
 
     void add(User user) throws SQLException;

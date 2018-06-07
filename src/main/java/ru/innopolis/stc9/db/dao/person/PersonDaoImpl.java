@@ -46,11 +46,12 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public Person getByName(String name) throws SQLException {
+        logger.info("start work");
         Person result = null;
         ResultSet resultSet;
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM persons WHERE name= ?")) {
+                    "SELECT * FROM persons WHERE name ILIKE(?)")) {
                 preparedStatement.setString(1, name);
                 try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
@@ -65,6 +66,7 @@ public class PersonDaoImpl implements PersonDao {
                 }
             }
         }
+        logger.info("finish work. Good result? " + result == null);
         return result;
     }
 
