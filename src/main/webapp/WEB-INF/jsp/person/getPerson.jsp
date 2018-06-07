@@ -5,4 +5,5 @@
         <h1>${person.name}</h1>
         <p><b>День рождения:</b> ${person.birthday}</p>
         <p>Адрес:</b> ${person.email}</p>
+        <p>Права:</b> ${role}</p>
 <%@ include file="../../../footer.jsp" %>

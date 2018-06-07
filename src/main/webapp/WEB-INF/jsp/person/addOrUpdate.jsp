@@ -20,26 +20,29 @@
             <ul>
                 <li>
                     <label for="name">Имя:</label>
-                    <input type="text" placeholder="Иван Иванов" required
+                    <input id="name" type="text" placeholder="Иван Иванов" required
                            value="<c:if test="${action=='update'}">${person.name}</c:if>" name="name"/>
                 </li>
 
                 <li>
                     <label for="birthday">День рождения:</label>
-                    <input type="text" placeholder="1970-01-01" required
+                    <input id="birthday" type="text" placeholder="1970-01-01" required
                            value="<c:if test="${action=='update'}">${person.birthday}</c:if>" name="birthday"/>
                 </li>
 
                 <li>
                     <label for="email">Email:</label>
-                    <input type="email" placeholder="ivan@example.ru" required
+                    <input id="email" type="email" placeholder="ivan@example.ru" required
                            value="<c:if test="${action=='update'}">${person.email}</c:if>" name="email"/>
                     <span class="form_hint">Proper format "name@something.com"</span>
                 </li>
                 <li>
                     <label for="role">Роль:</label>
-                    <input type="role" required value="<c:if test="${action=='update'}">${person.role}</c:if>"
-                           name="role"/>
+                    <select id="role" name="role">
+                        <c:forEach var="rol" items="${roleList}">
+                                  <option value="${rol.id}" <c:if test="${person.role eq rol.id}">selected</c:if>>${rol.name}</option>
+                        </c:forEach>
+                    </select>
                 </li>
                 <li>
                     <button class="submit" type="submit">OK</button>

@@ -75,7 +75,7 @@ public class PersonDaoImpl implements PersonDao {
         ResultSet resultSet;
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM persons")) {
+                    "SELECT * FROM persons ORDER by id")) {
                 try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         Person person = new Person(
