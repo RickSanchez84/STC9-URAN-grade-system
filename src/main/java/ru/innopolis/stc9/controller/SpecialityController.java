@@ -41,7 +41,7 @@ public class SpecialityController extends HttpServlet {
                                     @RequestAttribute String semesterCount, Model model) {
 
         if (action.equals("add")) {
-            Speciality speciality = new Speciality(name, Long.getLong(semesterCount));
+              Speciality speciality = new Speciality(name, Integer.parseInt(semesterCount));
             service.add(speciality);
         } else {
             if (action.equals("update")) {

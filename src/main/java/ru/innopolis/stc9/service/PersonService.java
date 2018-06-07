@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class PersonService implements IPersonService {
     private static final Logger logger = Logger.getLogger(IPersonService.class);

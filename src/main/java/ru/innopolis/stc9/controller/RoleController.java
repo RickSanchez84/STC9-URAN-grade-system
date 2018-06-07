@@ -1,48 +1,65 @@
 package ru.innopolis.stc9.controller;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Role;
-import ru.innopolis.stc9.service.RoleService;
-
+import ru.innopolis.stc9.service.IRoleService;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class RoleController {
-
+@Controller
+public class RoleController extends HttpServlet{
     private static final Logger logger = Logger.getLogger(RoleController.class);
-    @Autowired
-    private RoleService service;
 
-    @RequestMapping(value = "/addRole", method = RequestMethod.GET)
-    public String addRole(HttpServletRequest request, Model model) {
-        return "/addRole";
+    @Autowired
+    private IRoleService service;
+
+    @RequestMapping(value = "/addOrUpdateRole", method = RequestMethod.GET)
+    public String addOrUpdate(HttpServletRequest request, Model model) {
+        if (model.containsAttribute("role")) {
+            model.addAttribute("action", "update");
+            model.addAttribute("id", request.getParameter("id"));
+        } else {
+            model.addAttribute("action", "add");
+        }
+        return "/addOrUpdateRole";
     }
 
-    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
-    public String addRole2(HttpServletRequest request,
-                              @RequestAttribute String name, Model model ) {
+    @RequestMapping(value = "/addOrUpdateRole", method = RequestMethod.POST)
+    public String addOrUpdate(HttpServletRequest request,
+                              @RequestAttribute String id,
+                              @RequestAttribute String action,
+                              @RequestAttribute String name, Model model) {
 
-        Role role = new Role(name);
-        service.add(role);
-        model.addAttribute("role", role);
-        return "/getRole";
+        if (action.equals("add")) {
+            Role role = new Role(name);
+            service.add(role);
+        } else {
+            if (action.equals("update")) {
+                Role role = new Role(Integer.parseInt(id), name);
+                service.update(role);
+            }
+        }
+        return "redirect:roleAll";
     }
 
     @RequestMapping(value = "/deleteRole", method = RequestMethod.GET)
-    public String deleteRole(HttpServletRequest request,
-                                @RequestAttribute Role role, Model model) {
-        service.deleteById(role.getId());
-        return "/roleList";
+    public String delete(HttpServletRequest request,
+                         @RequestAttribute String id, Model model) {
+        service.deleteById(Integer.parseInt(id));
+        return ("redirect:roleAll");
     }
 
     @RequestMapping(value = "/roleAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
+
         List<Role> roleList = service.getAll();
+
         if (roleList != null) {
             model.addAttribute("roleList", roleList);
             return "/roleList";
@@ -52,26 +69,17 @@ public class RoleController {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateRole(HttpServletRequest request,
-                                @RequestAttribute Role role, Model model) {
-        model.addAttribute("role", role);
-        return "/updateRole";
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateRole2(HttpServletRequest request,
-                                 @RequestAttribute String id,
-                                 @RequestAttribute String name, Model model) {
-        Role role = new Role(Long.parseLong(id), name);
-        service.update(role);
-        model.addAttribute("role", role);
-        return "/getRole";
+    @RequestMapping(value = "/updateRole", method = RequestMethod.GET)
+    public String update(HttpServletRequest request,
+                         @RequestAttribute String id, Model model) {
+        model.addAttribute("role", service.getById(Long.parseLong(id)));
+        model.addAttribute("action", "update");
+        return ("/updateRole");
     }
 
     @RequestMapping(value = "/role", method = RequestMethod.GET)
-    public String getRole(HttpServletRequest request,
-                             @RequestAttribute String id, Model model) {
+    public String get(HttpServletRequest request,
+                      @RequestAttribute String id, Model model) {
         Role role = service.getById(Long.parseLong(id));
         model.addAttribute("role", role);
         return "/getRole";

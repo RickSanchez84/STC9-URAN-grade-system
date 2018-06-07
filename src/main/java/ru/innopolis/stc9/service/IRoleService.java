@@ -1,7 +1,5 @@
 package ru.innopolis.stc9.service;
-
 import ru.innopolis.stc9.pojo.Role;
-
 import java.util.List;
 
 public interface IRoleService {
