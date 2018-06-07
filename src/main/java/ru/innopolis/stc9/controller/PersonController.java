@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.service.PersonService;
+import ru.innopolis.stc9.pojo.Role;
+import ru.innopolis.stc9.service.IPersonService;
+import ru.innopolis.stc9.service.IRoleService;
+
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +24,10 @@ public class PersonController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(PersonController.class);
 
     @Autowired
-    private PersonService service;
+    private IPersonService service;
+
+    @Autowired
+    private IRoleService roleService;
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
@@ -31,6 +37,8 @@ public class PersonController extends HttpServlet {
         } else {
             model.addAttribute("action", "add");
         }
+        List<Role> roleList = roleService.getAll();
+        model.addAttribute("roleList",roleList);
         return "/addOrUpdate";
     }
 
@@ -76,6 +84,8 @@ public class PersonController extends HttpServlet {
     @RequestMapping(value = "/updatePerson", method = RequestMethod.GET)
     public String updatePerson(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
+        List<Role> roleList = roleService.getAll();
+        model.addAttribute("roleList",roleList);
         model.addAttribute("person", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
@@ -85,7 +95,9 @@ public class PersonController extends HttpServlet {
     public String getPerson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
+        String roleName = roleService.getById(person.getRole()).getName();
         model.addAttribute("person", person);
+        model.addAttribute("role", roleName);
         return "/getPerson";
     }
 }
