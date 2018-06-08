@@ -30,6 +30,7 @@ public class PersonController extends HttpServlet {
     private IRoleService roleService;
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
+
     public String addOrUpdate(HttpServletRequest request, Model model) {
         if (model.containsAttribute("person")) {
             model.addAttribute("action", "update");

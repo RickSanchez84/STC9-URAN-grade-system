@@ -2,13 +2,14 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
 import ru.innopolis.stc9.pojo.Program;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class ProgramService implements IProgramService {
     private static final Logger logger = Logger.getLogger(ProgramService.class);
     private static final Logger loggerError = Logger.getLogger(ProgramService.class);
