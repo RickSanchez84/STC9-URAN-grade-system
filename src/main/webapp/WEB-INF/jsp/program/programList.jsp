@@ -2,28 +2,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<h1>Список студентов</h1>
-<p><b><a href="/person/addOrUpdate">Добавить нового студента</a></b></p>
+<h1>Список учебных программ</h1>
+<p><b><a href="/program/addOrUpdate">Добавить новую учебную программу</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>№</th>
-            <th>Имя студента</th>
-            <th></th>
-            <th></th>
+            <th>Специальность</th>
+            <th>кол-во семестров</th>
+            <th>Предмет</th>
+            <th>коп-во часов</th>
         </tr>
         </thead>
+
         <tbody>
-        <c:forEach var="person" items="${personList}">
+        <c:forEach var="program" items="${programList}">
             <tr>
-                <td>${person.id}</td>
-                <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
-                <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
-                <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>
+                <td><a href="/program/program?id=${program.id}">${program.specialty.name.toString()}</a></td>
+                <td><a href="/program/program?id=${program.id}">${program.semester}</a></td>
+                <td><a href="/program/program?id=${program.id}">${program.subject.name.toString()}</a></td>
+                <td><a href="/program/program?id=${program.id}">${program.hours}</a></td>
+
+                <td><a href="/program/updateProgram?id=${program.id}">редактировать</a></td>
+                <td><a href="/program/deleteProgram?id=${program.id}">удалить</a></td>
             </tr>
         </c:forEach>
         </tbody>
+
     </table>
 </div>
 <%@ include file="../../../footer.jsp" %>

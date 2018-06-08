@@ -65,8 +65,10 @@ public class ProgramService implements IProgramService {
 
     @Override
     public List<Program> getAll() {
+
         logger.info(this.getClass().getName() + " method getAll started");
         List<Program> programList = new ArrayList<>();
+
         try {
             programList = programDao.getAll();
         } catch (SQLException e) {

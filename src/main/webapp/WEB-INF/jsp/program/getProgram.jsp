@@ -2,8 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-        <h1>${program.name}</h1>
-        <p><b>специальность:</b> ${program.birthday}</p>
-        <p>Адрес:</b> ${program.email}</p>
-        <p>Права:</b> ${role}</p>
+        <h1>${program.specialty.name} - ${program.subject.name}</h1>
+        <p><b>Специальность:</b> ${program.specialty.name}</p>
+        <p>Семестры:</b> ${program.semester}</p>
+        <p>Предмет:</b> ${program.subject.name}</p>
+        <p>Учебные часы:</b> ${program.hours}</p>
 <%@ include file="../../../footer.jsp" %>

@@ -21,33 +21,38 @@ import java.util.List;
 @Controller
 public class ProgramController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(ProgramController.class);
-    
+
     @Autowired
-    private IProgramService service;
+    private IProgramService progService;
+
     @Autowired
     private ISpecialityService specService;
+
     @Autowired
     private ISubjectService subjService;
 
-    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
+    @RequestMapping(value = "/addOrUpdateProgram", method = RequestMethod.GET)
 
     public String addOrUpdate(HttpServletRequest request, Model model) {
+
         if (model.containsAttribute("program")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
             model.addAttribute("action", "add");
         }
+
         List<Speciality> specList = specService.getAll();
         model.addAttribute("roleList",specList);
+
         List<Subject> subjList = subjService.getAll();
         model.addAttribute("roleList",specList);
-        
-        return "/addOrUpdate";
+
+        return "/addOrUpdateProgram";
     }
 
-    @RequestMapping(value = "/addOrUpdate", method = RequestMethod.POST)
-    public String addOrUpdateProgram(HttpServletRequest request,
+    @RequestMapping(value = "/addOrUpdateProgram", method = RequestMethod.POST)
+    public String addOrUpdate(HttpServletRequest request,
                                     @RequestAttribute String id,
                                     @RequestAttribute String action,
                                     @RequestAttribute String specialty,
@@ -56,19 +61,19 @@ public class ProgramController extends HttpServlet {
                                     @RequestAttribute String hours, Model model) {
 
         if (action.equals("add")) {
-            Program program = new Program(Integer.parseInt(specialty)
+            Program program = new Program(specService.getById(Integer.parseInt(specialty))
                                         , Integer.parseInt(semester)
-                                        , Integer.parseInt(subject)
+                                        , subjService.getById(Integer.parseInt(subject))
                                         , Integer.parseInt(hours));
-            service.add(program);
+            progService.add(program);
         } else {
             if (action.equals("update")) {
                 Program program = new Program( Integer.parseInt(id)
-                                             , Integer.parseInt(specialty)
+                                             , specService.getById(Integer.parseInt(specialty))
                                              , Integer.parseInt(semester)
-                                             , Integer.parseInt(subject)
+                                             , subjService.getById(Integer.parseInt(subject))
                                              , Integer.parseInt(hours));
-                service.update(program);
+                progService.update(program);
             }
         }
         return "redirect:programAll";
@@ -77,13 +82,15 @@ public class ProgramController extends HttpServlet {
     @RequestMapping(value = "/deleteProgram", method = RequestMethod.GET)
     public String deleteProgram(HttpServletRequest request,
                                @RequestAttribute String id, Model model) {
-        service.deleteById(Long.parseLong(id));
+        progService.deleteById(Long.parseLong(id));
         return ("redirect:programAll");
     }
 
     @RequestMapping(value = "/programAll", method = RequestMethod.GET)
     public String getAll(HttpServletRequest request, Model model) {
-        List<Program> programList = service.getAll();
+
+        List<Program> programList = progService.getAll();
+
         if (programList != null) {
             model.addAttribute("programList", programList);
             return "/programList";
@@ -110,7 +117,7 @@ public class ProgramController extends HttpServlet {
         model.addAttribute("specList", semList);
         model.addAttribute("subjList", hourList);
 
-        model.addAttribute("program", service.getById(Long.parseLong(id)));
+        model.addAttribute("program", progService.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
     }
@@ -118,15 +125,15 @@ public class ProgramController extends HttpServlet {
     @RequestMapping(value = "/program", method = RequestMethod.GET)
     public String getProgram(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
-        Program program = service.getById(Long.parseLong(id));
+        Program program = progService.getById(Long.parseLong(id));
 
-        String specName = specService.getById(program.getSpecialty()).getName();
-        String subjName = subjService.getById(program.getSubject()).getName();
+        String specName = program.getSpecialty().getName();
+        String subjName = program.getSubject().getName();
         String semCount = String.valueOf(program.getSemester());
         String hourCount = String.valueOf(program.getHours());
 
         model.addAttribute("program", program);
-        model.addAttribute("spec", specName);
+        model.addAttribute("specialty", specName);
         model.addAttribute("semester", semCount);
         model.addAttribute("subject", subjName);
         model.addAttribute("hours", hourCount);

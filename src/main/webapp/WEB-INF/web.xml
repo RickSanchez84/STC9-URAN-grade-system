@@ -48,6 +48,16 @@
         <url-pattern>/role/*</url-pattern>
     </servlet-mapping>
 
+    <display-name>program</display-name>
+    <servlet>
+        <servlet-name>program</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>program</servlet-name>
+        <url-pattern>/program/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>

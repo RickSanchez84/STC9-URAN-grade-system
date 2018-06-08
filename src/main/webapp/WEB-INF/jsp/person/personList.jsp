@@ -3,7 +3,7 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 <h1>Список студентов</h1>
-<p><b><a href="/person/addOrUpdate">Добавить нового студента</a></b></p>
+<p><b><a href="/person/addOrUpdate">Добавить нового персонажа</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
