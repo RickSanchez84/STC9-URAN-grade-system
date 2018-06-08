@@ -7,41 +7,63 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.service.GroupService;
+import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.service.IGroupService;
+import ru.innopolis.stc9.service.IProgramService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class GroupController {
     private static final Logger logger = Logger.getLogger(GroupController.class);
+    IProgramService programService;
     @Autowired
-    private GroupService service;
+    private IGroupService service;
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.GET)
     public String addGroup(HttpServletRequest request, Model model) {
+
+        List<Program> listProgram = programService.getAll();
+        model.addAttribute("listProgram", listProgram);
+
         return "/addGroup";
     }
 
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-    public String addGroup2(HttpServletRequest request,
-                              @RequestAttribute long cur_semester_education,
-                              @RequestAttribute long program,Model model ) {
+    public String addGroupPost(HttpServletRequest request,
+                               @RequestAttribute String cur_semester_education,
+                               @RequestAttribute String program,
+                               Model model) {
+        int cur_semestr = Integer.parseInt(cur_semester_education);
+        int prog = Integer.parseInt(program);
 
-        Group group = new Group(cur_semester_education,program);
+        Group group = new Group(cur_semestr, prog);
         service.add(group);
         model.addAttribute("group", group);
-        return "/getGroup";
+        return "redirect:groupAll";
     }
 
     @RequestMapping(value = "/deleteGroup", method = RequestMethod.GET)
-    public String deleteGroup(HttpServletRequest request,
-                                @RequestAttribute Group group, Model model) {
+    public String deleteGroupGet(HttpServletRequest request,
+                                 @RequestAttribute Group group, Model model) {
         service.deleteById(group.getId());
-        return "/groupList";
+        return "/redirect:personAll";
     }
 
+    @RequestMapping(value = "/deleteGroup", method = RequestMethod.POST)
+    public String deleteGroupPost(HttpServletRequest request,
+                                  @RequestAttribute String id,
+                                  Model model) {
+//        service.deleteById(group.getId());
+        service.deleteById(Long.parseLong(id));
+        logger.info("Group deleted");
+        return "/deleteGroup";
+    }
+
+
     @RequestMapping(value = "/groupAll", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request, Model model) {
+    public String getAll(HttpServletRequest request,
+                         Model model) {
         List<Group> groupList = service.getAll();
         if (groupList != null) {
             model.addAttribute("groupList", groupList);
@@ -53,27 +75,31 @@ public class GroupController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateGroup(HttpServletRequest request,
-                                @RequestAttribute Group group, Model model) {
+    public String updateGroupGet(HttpServletRequest request,
+                                 @RequestAttribute Group group,
+                                 Model model) {
         model.addAttribute("group", group);
         return "/updateGroup";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateGroup2(HttpServletRequest request,
-                                 @RequestAttribute long id,
-                               @RequestAttribute long cur_semester_education,
-                               @RequestAttribute long program,Model model) {
-        Group group = new Group(id,cur_semester_education,program);
+    public String updateGroupPost(HttpServletRequest request,
+                                  @RequestAttribute String id,
+                                  @RequestAttribute String cur_semester_education,
+                                  @RequestAttribute String program,
+                                  Model model) {
+        int cur_semestr = Integer.parseInt(cur_semester_education);
+        int prog = Integer.parseInt(program);
+        Group group = new Group(cur_semestr, prog);
         service.update(group);
         model.addAttribute("group", group);
-        return "/getGroup";
+        return "/addGroup";
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
     public String getGroup(HttpServletRequest request,
                              @RequestAttribute String id, Model model) {
-        Group group = service.getById(Long.parseLong(id));
+        Group group = service.getById(Integer.parseInt(id));
         model.addAttribute("group", group);
         return "/getGroup";
     }
