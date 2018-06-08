@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
-    private static final int PASSWORD_LENGTH = 1;
+    private static final int PASSWORD_LENGTH = 0;
     @Autowired
     private IUserService service;
     @Autowired
@@ -63,7 +63,7 @@ public class UserController {
                            @RequestAttribute String password,
                            @RequestAttribute String password2,
                            Model model) {
-        String result = "redirect:index";
+        String result = "redirect:register";
         Person person = personService.getByName(name);
         if (person != null) {
             User user = service.getUserByPerson(person);

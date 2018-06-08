@@ -50,7 +50,7 @@ public class UserService implements IUserService {
         logger.info(this.getClass().getName() + " method getUserByPerson started, id = " + person.getId());
         User user = null;
         try {
-            user = userDao.getById(person.getId());
+            user = userDao.getByPersonId(person.getId());
         } catch (SQLException e) {
             loggerError.error("Error at method getUserByPerson, id = " + person.getId(), e);
         }

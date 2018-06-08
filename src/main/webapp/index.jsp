@@ -3,4 +3,5 @@
 <%@ include file="header.jsp" %>
 <%@ include file="aside.jsp" %>
 <h1>Добро пожаловать в Систему учета успеваемости</h1>
+<%--<script>window.location = "/institute";</script>--%>
 <%@ include file="footer.jsp" %>

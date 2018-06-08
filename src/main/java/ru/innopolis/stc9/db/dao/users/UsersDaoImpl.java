@@ -20,7 +20,7 @@ public class UsersDaoImpl implements UsersDao {
     @Override
     public User getByPersonId(long personId) throws SQLException {
         logger.info("Class " + ClassName + " method getByPersonId started, person_id = " + personId);
-        String sqlQuery = "SELECT * FROM user WHERE person_id= ?";
+        String sqlQuery = "select * from users where person_id = ?";
         User result = getUserByLong(personId, sqlQuery);
         logger.info("Class " + ClassName + " method getByPersonId finished, person_id = " + personId + ". Success? " + result != null);
         return result;
@@ -64,8 +64,6 @@ public class UsersDaoImpl implements UsersDao {
                 }
             }
         }
-
-
         return user;
     }
 
@@ -121,7 +119,7 @@ public class UsersDaoImpl implements UsersDao {
     public void add(User user) throws SQLException {
         logger.info("Class "+ClassName+" method add started");
 
-        String sql = "INSERT INTO user (user_item, subject_item) VALUES (?,?)";
+        String sql = "insert into users (login, password, person_id) VALUES (?,?,?)";
 
         execureStatement(user, sql);
         logger.info("Class "+ClassName+" method add finished");
