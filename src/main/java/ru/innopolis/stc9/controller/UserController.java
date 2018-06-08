@@ -83,12 +83,12 @@ public class UserController {
                     } else {
                         /*ќшибки при заполнении формы. Ќадо вывести какое-то сообщение и не перенапрввл€тьс€ на другую страницу*/
                         request.getSession().setAttribute("msgRegister", "lack of protection for the account");
-                        result = "register";
+                        result = "/register";
                     }
                 } else {
                     /*Ќадо заполнить все пол€*/
                     request.getSession().setAttribute("msgRegister", "bad data in the form");
-                    result = "register";
+                    result = "/register";
                 }
             } else {
                 /*этот человек уже регистрировалс€ в системе. “.е. надо отработать восстановление парол€*/
@@ -98,7 +98,7 @@ public class UserController {
         } else {
             /*не прошел модерацию в системе*/
             request.getSession().setAttribute("msgRegister", "not passed moderation in the system");
-            result = "register";
+            result = "/register";
         }
         return result;
     }
