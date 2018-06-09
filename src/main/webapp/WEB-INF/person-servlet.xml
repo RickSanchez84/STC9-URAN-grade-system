@@ -11,6 +11,7 @@
         <property name="prefix">
             <value>/WEB-INF/jsp/person</value>
         </property>
+
         <property name="suffix">
             <value>.jsp</value>
         </property>

@@ -1,5 +1,4 @@
 package ru.innopolis.stc9.controller;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +10,8 @@ import ru.innopolis.stc9.pojo.*;
 import ru.innopolis.stc9.service.IProgramService;
 import ru.innopolis.stc9.service.ISpecialityService;
 import ru.innopolis.stc9.service.ISubjectService;
-import ru.innopolis.stc9.service.ProgramService;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -32,7 +28,6 @@ public class ProgramController extends HttpServlet {
     private ISubjectService subjService;
 
     @RequestMapping(value = "/addOrUpdateProgram", method = RequestMethod.GET)
-
     public String addOrUpdate(HttpServletRequest request, Model model) {
 
         if (model.containsAttribute("program")) {
@@ -43,11 +38,10 @@ public class ProgramController extends HttpServlet {
         }
 
         List<Speciality> specList = specService.getAll();
-        model.addAttribute("roleList",specList);
+        model.addAttribute("specList", specList);
 
         List<Subject> subjList = subjService.getAll();
-        model.addAttribute("roleList",specList);
-
+        model.addAttribute("subjList", subjList);
         return "/addOrUpdateProgram";
     }
 
@@ -104,12 +98,12 @@ public class ProgramController extends HttpServlet {
                                @RequestAttribute String id, Model model) {
         List<Speciality> specList = specService.getAll();
         List<Subject> subjList = subjService.getAll();
-        List<Integer> semList =null;
-        List<Integer> hourList =null;
+        List<String> semList =null;
+        List<String> hourList =null;
 
-        for (int i=0; i<100; i++) {
-            semList.add(i);
-            hourList.add(i);
+        for (int i = 0; i < 100; i++) {
+            semList.add(String.valueOf(i));
+            hourList.add(String.valueOf(i));
         }
 
         model.addAttribute("specList", specList);
@@ -119,7 +113,7 @@ public class ProgramController extends HttpServlet {
 
         model.addAttribute("program", progService.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
-        return ("/addOrUpdate");
+        return ("/addOrUpdateProgram");
     }
 
     @RequestMapping(value = "/program", method = RequestMethod.GET)
