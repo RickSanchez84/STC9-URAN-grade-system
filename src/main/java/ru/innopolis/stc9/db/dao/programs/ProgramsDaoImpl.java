@@ -133,7 +133,7 @@ public class ProgramsDaoImpl implements ProgramsDao {
                 statement.setLong(1, program.getSpecialty().getId());
                 statement.setLong(2, program.getSemester());
                 statement.setLong(3, program.getSubject().getId());
-                statement.setLong(3, program.getHours());
+                statement.setLong(4, program.getHours());
                 statement.executeUpdate();
             }
         }

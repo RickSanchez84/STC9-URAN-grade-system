@@ -74,7 +74,7 @@ public class RoleController extends HttpServlet{
                          @RequestAttribute String id, Model model) {
         model.addAttribute("role", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
-        return ("/updateRole");
+        return ("/addOrUpdateRole");
     }
 
     @RequestMapping(value = "/role", method = RequestMethod.GET)

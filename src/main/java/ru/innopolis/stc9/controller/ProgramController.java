@@ -60,8 +60,10 @@ public class ProgramController extends HttpServlet {
                                         , subjService.getById(Integer.parseInt(subject))
                                         , Integer.parseInt(hours));
             progService.add(program);
-        } else {
+        }
+        else {
             if (action.equals("update")) {
+
                 Program program = new Program( Integer.parseInt(id)
                                              , specService.getById(Integer.parseInt(specialty))
                                              , Integer.parseInt(semester)
@@ -98,18 +100,9 @@ public class ProgramController extends HttpServlet {
                                @RequestAttribute String id, Model model) {
         List<Speciality> specList = specService.getAll();
         List<Subject> subjList = subjService.getAll();
-        List<String> semList =null;
-        List<String> hourList =null;
-
-        for (int i = 0; i < 100; i++) {
-            semList.add(String.valueOf(i));
-            hourList.add(String.valueOf(i));
-        }
 
         model.addAttribute("specList", specList);
         model.addAttribute("subjList", subjList);
-        model.addAttribute("specList", semList);
-        model.addAttribute("subjList", hourList);
 
         model.addAttribute("program", progService.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");

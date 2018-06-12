@@ -74,7 +74,7 @@ public class SubjectController extends HttpServlet{
                                @RequestAttribute String id, Model model) {
         model.addAttribute("subject", service.getById(Long.parseLong(id)));
         model.addAttribute("action", "update");
-        return ("/updateSubject");
+        return ("/addOrUpdateSubject");
     }
 
     @RequestMapping(value = "/subject", method = RequestMethod.GET)

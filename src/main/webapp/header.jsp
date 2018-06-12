@@ -11,9 +11,12 @@
     <link rel="icon" href="../../favicon.ico">
 
     <title>Система учета успеваемости</title>
-
     <!-- Bootstrap core CSS -->
     <link href="/resources/styles/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/styles/jquery.bootstrap-touchspin.css" rel="stylesheet">
+    <script src="/resources/styles/jquery.min.js"></script>
+    <script src="/resources/styles/bootstrap.min.js"></script>
+    <script src="/resources/styles/jquery.bootstrap-touchspin.js"></script>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="/resources/styles/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -30,8 +33,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+
     <link href="/resources/styles/style_forms.css" rel="stylesheet">
-</head>
+
+    </head>
 
 <body>
 
@@ -62,6 +69,7 @@
         </div>
     </div>
 </nav>
+
 
 <div class="container-fluid">
     <div class="row">
