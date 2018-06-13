@@ -48,7 +48,16 @@
         <url-pattern>/role/*</url-pattern>
     </servlet-mapping>
 
+    <display-name>teacherLesson</display-name>
+    <servlet>
+        <servlet-name>teacherLesson</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>teacherLesson</servlet-name>
+        <url-pattern>/teacherLesson/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>

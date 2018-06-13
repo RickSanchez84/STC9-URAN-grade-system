@@ -16,4 +16,6 @@ public interface PersonDao {
     void update(Person person) throws SQLException;
 
     void deleteById(long id) throws SQLException;
+
+    List<Person> getPersonByRole(int role) throws SQLException;
 }
