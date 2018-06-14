@@ -1,9 +1,9 @@
-package ru.innopolis.stc9.db.dao.teacherLesson;
+package ru.innopolis.stc9.db.dao.teacherSubject;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.TeacherLesson;
+import ru.innopolis.stc9.pojo.TeacherSubject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,24 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class TeacherLessonDaoImpl implements TeacherLessonDao {
-    private static final Logger logger = Logger.getLogger(TeacherLessonDaoImpl.class);
+public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
+    private static final Logger logger = Logger.getLogger(TeacherSubjectDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
 
     @Override
-    public TeacherLesson getById(long id) throws SQLException {
+    public TeacherSubject getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
-        TeacherLesson teacherLesson = null;
+        TeacherSubject teacherSubject = null;
 
         int iid = (int)id;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_lesson WHERE id= ?")) {
+                    "SELECT * FROM teacher_subject WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        teacherLesson = new TeacherLesson(
+                        teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getLong("teacher_item")
                                 , resultSet.getLong("subject_item"));
@@ -39,25 +39,25 @@ public class TeacherLessonDaoImpl implements TeacherLessonDao {
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
-        return teacherLesson;
+        return teacherSubject;
     }
 
     @Override
-    public TeacherLesson getByName(String name) throws SQLException {
-        TeacherLesson result = null;
+    public TeacherSubject getByName(String name) throws SQLException {
+        TeacherSubject result = null;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_lesson WHERE name= ?")) {
+                    "SELECT * FROM teacher_subject WHERE name= ?")) {
                 preparedStatement.setString(1, name);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
 
                     while (resultSet.next()) {
-                        TeacherLesson teacherLesson = new TeacherLesson(
+                        TeacherSubject teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getLong("teacher_item")
                                 , resultSet.getLong("subject_item"));
-                        result = teacherLesson;
+                        result = teacherSubject;
                     }
                 }
             }
@@ -66,25 +66,25 @@ public class TeacherLessonDaoImpl implements TeacherLessonDao {
     }
 
     @Override
-    public List<TeacherLesson> getAll() throws SQLException {
-        ArrayList<TeacherLesson> result = new ArrayList<>();
+    public List<TeacherSubject> getAll() throws SQLException {
+        ArrayList<TeacherSubject> result = new ArrayList<>();
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT teacher_lesson.id, subjects.name as subjName, persons.name as persName\n" +
-                            "FROM teacher_lesson\n" +
+                    "SELECT teacher_subject.id, persons.name as persName, subjects.name as subjName \n" +
+                            "FROM teacher_subject\n" +
                             "  LEFT JOIN persons\n" +
-                            "    on teacher_lesson.teacher_item = persons.id\n" +
+                            "    on teacher_subject.teacher_item = persons.id\n" +
                             "  LEFT JOIN subjects\n" +
-                            "    on teacher_lesson.subject_item = subjects.id ORDER BY subjects.name")) {
+                            "    on teacher_subject.subject_item = subjects.id ORDER BY subjects.name")) {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        TeacherLesson teacherLesson = new TeacherLesson(
+                        TeacherSubject teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getString("persName")
                                 , resultSet.getString("subjName"));
-                        result.add(teacherLesson);
+                        result.add(teacherSubject);
                     }
                 }
             }
@@ -93,20 +93,20 @@ public class TeacherLessonDaoImpl implements TeacherLessonDao {
     }
 
     @Override
-    public void add(TeacherLesson teacherLesson) throws SQLException {
+    public void add(TeacherSubject teacherSubject) throws SQLException {
         logger.info("Class "+ClassName+" method add started");
 
-        String sql = "INSERT INTO teacher_lesson (teacher_item, subject_item) VALUES (?,?)";
+        String sql = "INSERT INTO teacher_subject (teacher_item, subject_item) VALUES (?,?)";
 
-        executeStatement(teacherLesson, sql);
-        logger.info("Class SheduleDaoImpl method add finished");
+        executeStatement(teacherSubject, sql);
+        logger.info("Class " + ClassName + " method add finished");
     }
 
-    private void executeStatement(TeacherLesson teacherLesson, String sql) throws SQLException {
+    private void executeStatement(TeacherSubject teacherSubject, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, teacherLesson.getTeacherItem());
-                statement.setLong(2, teacherLesson.getSubjectItem());
+                statement.setLong(1, teacherSubject.getTeacherItem());
+                statement.setLong(2, teacherSubject.getSubjectItem());
 
                 statement.executeUpdate();
             }
@@ -114,19 +114,19 @@ public class TeacherLessonDaoImpl implements TeacherLessonDao {
     }
 
     @Override
-    public void update(TeacherLesson teacherLesson) throws SQLException {
-        logger.info("Class "+ClassName+" method update started, id = " + teacherLesson.getId());
+    public void update(TeacherSubject teacherSubject) throws SQLException {
+        logger.info("Class "+ClassName+" method update started, id = " + teacherSubject.getId());
 
-        String sql = "UPDATE teacher_lesson SET teacher_item = ?, subject_item = ? WHERE id = "+ teacherLesson.getId()+"";
+        String sql = "UPDATE teacher_subject SET teacher_item = ?, subject_item = ? WHERE id = "+ teacherSubject.getId()+"";
 
-        executeStatement(teacherLesson, sql);
-        logger.info("Class "+ClassName+" method update finished, id = " + teacherLesson.getId());
+        executeStatement(teacherSubject, sql);
+        logger.info("Class "+ClassName+" method update finished, id = " + teacherSubject.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM teacher_lesson WHERE id=?";
+        String sql = "DELETE FROM teacher_subject WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);

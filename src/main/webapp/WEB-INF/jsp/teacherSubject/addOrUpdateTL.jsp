@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<form class="editForm" action="/teacherLesson/addOrUpdateTL" method="post" name="editForm">
+<form class="editForm" action="/teacherSubject/addOrUpdateTL" method="post" name="editForm">
     <c:if test="${action=='update'}">
-        <input type="hidden" name="id" value="${teacherLesson.id}">
+        <input type="hidden" name="id" value="${teacherSubject.id}">
     </c:if>
     <c:if test="${action=='add'}">
         <input type="hidden" name="id" value="0">
@@ -24,7 +24,7 @@
                 <c:forEach var="teacher" items="${teacherList}">
                     <c:set var="teacher_item" value="${teacher.id}"></c:set>
                     <option value="${teacher_item}"
-                            <c:if test="${teacherLesson.teacherItem eq teacher_item}">selected</c:if>>${teacher.name}</option>
+                            <c:if test="${teacherSubject.teacherItem eq teacher_item}">selected</c:if>>${teacher.name}</option>
                 </c:forEach>
             </select>
         </li>
@@ -35,7 +35,7 @@
                 <c:forEach var="subject" items="${subjectList}">
                     <c:set var="subject_item" value="${subject.id}"></c:set>
                     <option value="${subject_item}"
-                            <c:if test="${teacherLesson.subjectItem eq subject_item}">selected</c:if>>${subject.name}</option>
+                            <c:if test="${teacherSubject.subjectItem eq subject_item}">selected</c:if>>${subject.name}</option>
                 </c:forEach>
             </select>
         </li>

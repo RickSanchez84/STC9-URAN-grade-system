@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.pojo;
 
-public class TeacherLesson {
+public class TeacherSubject {
 
   private long id;
   private long teacherItem;
@@ -8,18 +8,18 @@ public class TeacherLesson {
   private String teacherName;
   private String subjectName;
 
-  public TeacherLesson(long id, long teacherItem, long subjectItem) {
+  public TeacherSubject(long id, long teacherItem, long subjectItem) {
     this.id = id;
     this.subjectItem = subjectItem;
     this.teacherItem = teacherItem;
   }
 
-  public TeacherLesson(long teacherItem, long subjectItem) {
+  public TeacherSubject(long teacherItem, long subjectItem) {
     this.teacherItem = teacherItem;
     this.subjectItem = subjectItem;
   }
 
-  public TeacherLesson(long id, String subjectName, String teacherName) {
+  public TeacherSubject(long id, String subjectName, String teacherName) {
     this.id = id;
     this.teacherName = teacherName;
     this.subjectName = subjectName;
