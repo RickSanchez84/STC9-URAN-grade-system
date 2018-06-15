@@ -4,12 +4,12 @@ package ru.innopolis.stc9.pojo;
 public class Program {
 
   private long id;
-  private long specialty;
+  private Speciality specialty;
   private long semester;
-  private long subject;
+  private Subject subject;
   private long hours;
 
-  public Program(long id, long specialty, long semester, long subject, long hours) {
+  public Program(long id, Speciality specialty, long semester, Subject subject, long hours) {
     this.id = id;
     this.specialty = specialty;
     this.semester = semester;
@@ -17,7 +17,7 @@ public class Program {
     this.hours = hours;
   }
 
-  public Program(long specialty, long semester, long subject, long hours) {
+  public Program(Speciality specialty, long semester, Subject subject, long hours) {
     this.specialty = specialty;
     this.semester = semester;
     this.subject = subject;
@@ -32,15 +32,13 @@ public class Program {
     this.id = id;
   }
 
-
-  public long getSpecialty() {
+  public Speciality getSpecialty() {
     return specialty;
   }
 
-  public void setSpecialty(long specialty) {
+  public void setSpecialty(Speciality specialty) {
     this.specialty = specialty;
   }
-
 
   public long getSemester() {
     return semester;
@@ -50,15 +48,13 @@ public class Program {
     this.semester = semester;
   }
 
-
-  public long getSubject() {
+  public Subject getSubject() {
     return subject;
   }
 
-  public void setSubject(long subject) {
+  public void setSubject(Subject subject) {
     this.subject = subject;
   }
-
 
   public long getHours() {
     return hours;
@@ -67,5 +63,4 @@ public class Program {
   public void setHours(long hours) {
     this.hours = hours;
   }
-
 }

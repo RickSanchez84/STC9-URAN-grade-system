@@ -38,6 +38,7 @@
     </servlet-mapping>
 
     <display-name>role</display-name>
+
     <servlet>
         <servlet-name>role</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -48,7 +49,20 @@
         <url-pattern>/role/*</url-pattern>
     </servlet-mapping>
 
-    <display-name>teacherSubject</display-name>
+ <display-name>program</display-name>
+
+    <servlet>
+        <servlet-name>program</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>program</servlet-name>
+        <url-pattern>/program/*</url-pattern>
+    </servlet-mapping>
+        
+   <display-name>teacherSubject</display-name>
+
     <servlet>
         <servlet-name>teacherSubject</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -57,8 +71,8 @@
     <servlet-mapping>
         <servlet-name>teacherSubject</servlet-name>
         <url-pattern>/teacherSubject/*</url-pattern>
-    </servlet-mapping>
-
+    </servlet-mapping>  
+  
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
@@ -71,6 +85,7 @@
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
         </init-param>
+
         <init-param>
             <param-name>forceEncoding</param-name>
             <param-value>true</param-value>
