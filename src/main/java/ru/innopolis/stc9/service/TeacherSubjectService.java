@@ -2,42 +2,44 @@ package ru.innopolis.stc9.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.innopolis.stc9.db.dao.teachers.TeachersDao;
-import ru.innopolis.stc9.pojo.Teacher;
+import org.springframework.stereotype.Service;
+import ru.innopolis.stc9.db.dao.teacherSubject.TeacherSubjectDao;
+import ru.innopolis.stc9.pojo.TeacherSubject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherService implements ITeacherService {
-    private static final Logger logger = Logger.getLogger(TeacherService.class);
-    private static final Logger loggerError = Logger.getLogger(TeacherService.class);
+@Service
+public class TeacherSubjectService implements ITeacherSubjectService {
+    private static final Logger logger = Logger.getLogger(TeacherSubjectService.class);
+    private static final Logger loggerError = Logger.getLogger(TeacherSubjectService.class);
 
     @Autowired
-    private TeachersDao teacherDao;
+    private TeacherSubjectDao teacherDao;
 
     @Override
-    public void update(Teacher teacher) {
-        logger.info(this.getClass().getName() + " method update started, id = " + teacher.getId());
+    public void update(TeacherSubject teacherSubject) {
+        logger.info(this.getClass().getName() + " method update started, id = " + teacherSubject.getId());
         try {
-            teacherDao.update(teacher);
+            teacherDao.update(teacherSubject);
         } catch (SQLException e) {
-            loggerError.error("Error at method update, id = " + teacher.getId(), e);
+            loggerError.error("Error at method update, id = " + teacherSubject.getId(), e);
         }
-        logger.info(this.getClass().getName() + " method update finished, id = " + teacher.getId());
+        logger.info(this.getClass().getName() + " method update finished, id = " + teacherSubject.getId());
     }
 
     @Override
-    public Teacher getById(long id) {
+    public TeacherSubject getById(long id) {
         logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Teacher teacher = null;
+        TeacherSubject teacherSubject = null;
         try {
-            teacher = teacherDao.getById(id);
+            teacherSubject = teacherDao.getById(id);
         } catch (SQLException e) {
             loggerError.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return teacher;
+        return teacherSubject;
     }
 
     @Override
@@ -52,10 +54,10 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
-    public void add(Teacher teacher) {
+    public void add(TeacherSubject teacherSubject) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            teacherDao.add(teacher);
+            teacherDao.add(teacherSubject);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
@@ -63,15 +65,15 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
-    public List<Teacher> getAll() {
+    public List<TeacherSubject> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Teacher> teacherList = new ArrayList<>();
+        List<TeacherSubject> teacherSubjectList = new ArrayList<>();
         try {
-            teacherList = teacherDao.getAll();
+            teacherSubjectList = teacherDao.getAll();
         } catch (SQLException e) {
             loggerError.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return teacherList;
+        return teacherSubjectList;
     }
 }

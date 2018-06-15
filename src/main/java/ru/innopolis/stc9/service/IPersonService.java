@@ -14,4 +14,6 @@ public interface IPersonService {
     void add(Person person);
 
     List<Person> getAll();
+
+    List<Person> getTeachers();
 }
