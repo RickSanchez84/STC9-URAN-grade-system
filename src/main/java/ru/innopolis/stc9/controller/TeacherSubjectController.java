@@ -44,7 +44,7 @@ public class TeacherSubjectController {
             model.addAttribute("teacherSubjectList", teacherSubjectList);
             return "/teacherSubjectList";
         } else {
-            return "index";
+            return "Нет связанных преподавателей и предметов";
         }
     }
 

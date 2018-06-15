@@ -77,7 +77,7 @@ public class PersonController extends HttpServlet {
             model.addAttribute("personList", personList);
             return "/personList";
         } else {
-            return "index";
+            return "Персоны отсутствуют";
         }
     }
 

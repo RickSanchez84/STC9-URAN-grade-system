@@ -49,12 +49,12 @@
             </div></div>
             <%} else {%>
 
-            <form class="navbar-form navbar-right">
+            <form class="navbar-form navbar-right" action="/j_spring_security_check">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="text" name='j_username' placeholder="login" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" name='j_password' placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Войти</button>
             </form>

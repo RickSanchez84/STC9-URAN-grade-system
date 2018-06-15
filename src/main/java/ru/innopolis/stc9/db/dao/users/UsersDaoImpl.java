@@ -26,7 +26,7 @@ public class UsersDaoImpl implements UsersDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE id= ?")) {
+                    "SELECT * FROM users WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
@@ -50,7 +50,7 @@ public class UsersDaoImpl implements UsersDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE name= ?")) {
+                    "SELECT * FROM users WHERE name= ?")) {
                 preparedStatement.setString(1, name);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
                    
@@ -126,7 +126,7 @@ public class UsersDaoImpl implements UsersDao {
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM user WHERE id=?";
+        String sql = "DELETE FROM users WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);

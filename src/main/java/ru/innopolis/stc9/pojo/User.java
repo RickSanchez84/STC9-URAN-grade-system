@@ -28,7 +28,6 @@ public class User {
     this.id = id;
   }
 
-
   public String getLogin() {
     return login;
   }
@@ -36,7 +35,6 @@ public class User {
   public void setLogin(String login) {
     this.login = login;
   }
-
 
   public String getPassword() {
     return password;
@@ -46,7 +44,6 @@ public class User {
     this.password = password;
   }
 
-
   public long getPersonId() {
     return personId;
   }
@@ -54,5 +51,4 @@ public class User {
   public void setPersonId(long personId) {
     this.personId = personId;
   }
-
 }
