@@ -14,4 +14,6 @@ public interface IUserService {
     void add(User user);
 
     List<User> getAll();
+
+    void addUsers(String login, String pass, String role);
 }

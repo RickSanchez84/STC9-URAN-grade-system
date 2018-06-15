@@ -126,7 +126,7 @@ public class UsersDaoImpl implements UsersDao {
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM user WHERE id=?";
+        String sql = "DELETE FROM users WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);
@@ -134,5 +134,28 @@ public class UsersDaoImpl implements UsersDao {
             }
         }
         logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
+    }
+
+    @Override
+    public void addUsers(String login, String password, String role) {
+        logger.info("add users start ");
+
+        Connection connection = new ConnectionManagerImpl().getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO users(login,password,role) VALUES (?,?,?)");
+
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, role);
+            preparedStatement.executeUpdate();
+            connection.close();
+
+        } catch (SQLException e) {
+            logger.error("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        logger.info("add users finish");
     }
 }
