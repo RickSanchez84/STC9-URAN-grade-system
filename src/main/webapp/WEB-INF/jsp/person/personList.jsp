@@ -2,8 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<h1>Список студентов</h1>
-<p><b><a href="/person/addOrUpdate">Добавить нового персонажа</a></b></p>
+
+<h1>Список персон</h1>
+<p><b><a href="/person/addOrUpdate">Добавить новую персону</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

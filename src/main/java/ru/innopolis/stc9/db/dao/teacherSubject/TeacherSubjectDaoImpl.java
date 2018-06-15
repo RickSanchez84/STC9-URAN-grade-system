@@ -1,10 +1,9 @@
-package ru.innopolis.stc9.db.dao.teachers;
+package ru.innopolis.stc9.db.dao.teacherSubject;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
-import ru.innopolis.stc9.pojo.Teacher;
-
+import ru.innopolis.stc9.pojo.TeacherSubject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,97 +12,101 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class TeachersDaoImpl implements TeachersDao {
-    private static final Logger logger = Logger.getLogger(TeachersDaoImpl.class);
+public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
+    private static final Logger logger = Logger.getLogger(TeacherSubjectDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
 
     @Override
-    public Teacher getById(long id) throws SQLException {
+    public TeacherSubject getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
-        Teacher teacher = null;
-    
+        TeacherSubject teacherSubject = null;
+
         int iid = (int)id;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE id= ?")) {
+                    "SELECT * FROM teacher_subject WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        teacher = new Teacher(
+                        teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getLong("teacher_item")
                                 , resultSet.getLong("subject_item"));
                     }
-                }                
+                }
             }
         }
 
         logger.info("Class "+ClassName+" method getById finished, id = " + id);
-        return teacher;
+        return teacherSubject;
     }
 
     @Override
-    public Teacher getByName(String name) throws SQLException {
-        Teacher result = null;        
+    public TeacherSubject getByName(String name) throws SQLException {
+        TeacherSubject result = null;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_facilities WHERE name= ?")) {
+                    "SELECT * FROM teacher_subject WHERE name= ?")) {
                 preparedStatement.setString(1, name);
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
-                   
-                    while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
-                                  resultSet.getLong("id")
-                                , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
-                        result = teacher;
-                    }
-                } 
-            }
-        }
-        return result;
-    }
 
-    @Override
-    public List<Teacher> getAll() throws SQLException {
-        ArrayList<Teacher> result = new ArrayList<>();
-      
-        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teachers")) {
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        Teacher teacher = new Teacher(
+                        TeacherSubject teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getLong("teacher_item")
                                 , resultSet.getLong("subject_item"));
-                        result.add(teacher);
-                    } 
-                }                   
+                        result = teacherSubject;
+                    }
+                }
             }
         }
-
         return result;
     }
 
     @Override
-    public void add(Teacher teacher) throws SQLException {
-        logger.info("Class "+ClassName+" method add started");
+    public List<TeacherSubject> getAll() throws SQLException {
+        ArrayList<TeacherSubject> result = new ArrayList<>();
 
-        String sql = "INSERT INTO teacher_facilities (teacher_item, subject_item) VALUES (?,?)";
+        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT teacher_subject.id, persons.name as persName, subjects.name as subjName \n" +
+                            "FROM teacher_subject\n" +
+                            "  LEFT JOIN persons\n" +
+                            "    on teacher_subject.teacher_item = persons.id\n" +
+                            "  LEFT JOIN subjects\n" +
+                            "    on teacher_subject.subject_item = subjects.id ORDER BY subjects.name")) {
 
-        execureStatement(teacher, sql);
-        logger.info("Class SheduleDaoImpl method add finished");
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        TeacherSubject teacherSubject = new TeacherSubject(
+                                resultSet.getLong("id")
+                                , resultSet.getString("persName")
+                                , resultSet.getString("subjName"));
+                        result.add(teacherSubject);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
-    private void execureStatement(Teacher teacher, String sql) throws SQLException {
+    @Override
+    public void add(TeacherSubject teacherSubject) throws SQLException {
+        logger.info("Class "+ClassName+" method add started");
+
+        String sql = "INSERT INTO teacher_subject (teacher_item, subject_item) VALUES (?,?)";
+
+        executeStatement(teacherSubject, sql);
+        logger.info("Class " + ClassName + " method add finished");
+    }
+
+    private void executeStatement(TeacherSubject teacherSubject, String sql) throws SQLException {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, teacher.getTeacherItem());
-                statement.setLong(2, teacher.getSubjectItem());
+                statement.setLong(1, teacherSubject.getTeacherItem());
+                statement.setLong(2, teacherSubject.getSubjectItem());
 
                 statement.executeUpdate();
             }
@@ -111,19 +114,19 @@ public class TeachersDaoImpl implements TeachersDao {
     }
 
     @Override
-    public void update(Teacher teacher) throws SQLException {
-        logger.info("Class "+ClassName+" method update started, id = " + teacher.getId());
+    public void update(TeacherSubject teacherSubject) throws SQLException {
+        logger.info("Class "+ClassName+" method update started, id = " + teacherSubject.getId());
 
-        String sql = "UPDATE teacher_facilities SET teacher_item = ?, subject_item = ? WHERE id = "+teacher.getId()+"";
+        String sql = "UPDATE teacher_subject SET teacher_item = ?, subject_item = ? WHERE id = "+ teacherSubject.getId()+"";
 
-        execureStatement(teacher, sql);
-        logger.info("Class "+ClassName+" method update finished, id = " + teacher.getId());
+        executeStatement(teacherSubject, sql);
+        logger.info("Class "+ClassName+" method update finished, id = " + teacherSubject.getId());
     }
 
     @Override
     public void deleteById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method deleteById started, id = " + id);
-        String sql = "DELETE FROM teacher_facilities WHERE id=?";
+        String sql = "DELETE FROM teacher_subject WHERE id=?";
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, id);

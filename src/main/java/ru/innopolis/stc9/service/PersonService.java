@@ -76,4 +76,18 @@ public class PersonService implements IPersonService {
         logger.info(this.getClass().getName() + " method getAll finished");
         return personList;
     }
+
+    @Override
+    public List<Person> getTeachers() {
+        logger.info(this.getClass().getName() + " method getTeachers started");
+        List<Person> teacherList = new ArrayList<>();
+        try {
+            //добавить enum или константы
+            teacherList = personDao.getPersonByRole(3);
+        } catch (SQLException e) {
+            loggerError.error("Error at method getTeachers", e);
+        }
+        logger.info(this.getClass().getName() + " method getTeachers finished");
+        return teacherList;
+    }
 }

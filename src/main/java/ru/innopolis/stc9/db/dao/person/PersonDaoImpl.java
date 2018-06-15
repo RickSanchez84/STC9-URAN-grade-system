@@ -140,4 +140,28 @@ public class PersonDaoImpl implements PersonDao {
         }
         logger.info("Class PersonDaoImpl method deleteById finished, id = " + id);
     }
+
+    @Override
+    public List<Person> getPersonByRole(int role) throws SQLException {
+        ArrayList<Person> result = new ArrayList<>();
+        ResultSet resultSet;
+        try (Connection connection = new ConnectionManagerImpl().getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM persons WHERE role=role ORDER by id")) {
+                try (ResultSet resultSet1 = resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Person person = new Person(
+                                resultSet.getLong("id")
+                                , resultSet.getString("name")
+                                , resultSet.getDate("birthday")
+                                , resultSet.getString("email")
+                                , resultSet.getInt("role"));
+                        result.add(person);
+                    }
+                }
+            }
+
+        }
+        return result;
+    }
 }

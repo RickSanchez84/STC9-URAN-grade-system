@@ -7,6 +7,7 @@
         <li><a href="/speciality/specialityAll">Список специальностей</a></li>
         <li><a href="/role/roleAll">Список типов пользователей</a></li>
         <li><a href="/program/programAll">Список учебных программ</a></li>
+        <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
     </ul>
 </div>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
