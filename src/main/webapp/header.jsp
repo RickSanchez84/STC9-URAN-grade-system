@@ -47,26 +47,26 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">URAN</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div class="navbar-form navbar-right">
-            <%if (request.getSession().getAttribute("login") != null) {%>
-            <div class="logout">
-                <%=(String) request.getSession().getAttribute("login")%>&nbsp;
-                <a href="${pageContext.request.contextPath}/login?action=logout">Выйти</a>
-            </div></div>
-            <%} else {%>
+        <%--<div id="navbar" class="navbar-collapse collapse">--%>
+        <%--<div class="navbar-form navbar-right">--%>
+        <%--<%if (request.getSession().getAttribute("login") != null) {%>--%>
+        <%--<div class="logout">--%>
+        <%--<%=(String) request.getSession().getAttribute("login")%>&nbsp;--%>
+        <%--<a href="${pageContext.request.contextPath}/login?action=logout">Выйти</a>--%>
+        <%--</div></div>--%>
+        <%--<%} else {%>--%>
 
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Войти</button>
-            </form>
-            <% } %>
-        </div>
+        <%--<form class="navbar-form navbar-right">--%>
+        <%--<div class="form-group">--%>
+        <%--<input type="text" placeholder="Email" class="form-control">--%>
+        <%--</div>--%>
+        <%--<div class="form-group">--%>
+        <%--<input type="password" placeholder="Password" class="form-control">--%>
+        <%--</div>--%>
+        <%--<button type="submit" class="btn btn-success">Войти</button>--%>
+        <%--</form>--%>
+        <%--<% } %>--%>
+        <%--</div>--%>
     </div>
 </nav>
 
