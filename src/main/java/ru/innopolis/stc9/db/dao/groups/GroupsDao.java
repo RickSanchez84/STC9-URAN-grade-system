@@ -16,4 +16,28 @@ public interface GroupsDao {
     void update(Group group) throws SQLException;
 
     void deleteById(long id) throws SQLException;
+
+    /**
+     * Select all groups from db planned to start education
+     *
+     * @return
+     * @throws SQLException
+     */
+    List<Group> getListOfNewGroups() throws SQLException;
+
+    /**
+     * Select archive groups from db
+     *
+     * @return
+     * @throws SQLException
+     */
+    List<Group> getListOfOldGroups() throws SQLException;
+
+    /**
+     * Select groups in education.
+     *
+     * @return
+     * @throws SQLException
+     */
+    List<Group> getListOfCurrentGroups() throws SQLException;
 }

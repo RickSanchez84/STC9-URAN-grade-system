@@ -15,25 +15,22 @@ import java.util.List;
 @Component
 public class GroupsDaoImpl implements GroupsDao {
     private static final Logger logger = Logger.getLogger(GroupsDaoImpl.class);
+    private static final String BEFORE = "First  line of method.";
+    private static final String AFTER = "Before exit.";
     public  final String ClassName= this.getClass().getName();
     
     @Override
     public Group getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         Group group = null;
-    
         int iid = (int)id;
-
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM groups WHERE id= ?")) {
                 preparedStatement.setInt(1, iid);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        group = new Group(
-                                  resultSet.getLong("id")
-                                , resultSet.getLong("cur_semester_education")
-                                , resultSet.getLong("program"));
+                        group = parseGroup(resultSet);
                     }
                 }                
             }
@@ -54,10 +51,7 @@ public class GroupsDaoImpl implements GroupsDao {
                 try ( ResultSet resultSet = preparedStatement.executeQuery()) {
                    
                     while (resultSet.next()) {
-                        Group group = new Group(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("cur_semester_education")
-                                , resultSet.getLong("program"));
+                        Group group = parseGroup(resultSet);
                         result = group;
                     }
                 } 
@@ -68,25 +62,42 @@ public class GroupsDaoImpl implements GroupsDao {
 
     @Override
     public List<Group> getAll() throws SQLException {
-        ArrayList<Group> result = new ArrayList<>();
-      
+        logger.debug(BEFORE);
+        String sql = "SELECT * FROM groups";
+        List<Group> result = selectQuery(sql);
+        logger.info(AFTER + "is empty collection? " + (result.isEmpty()));
+        return result;
+    }
+
+    private List<Group> selectQuery(String sql) throws SQLException {
+        List<Group> result = new ArrayList<>();
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM groups")) {
+                    sql)) {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        Group group = new Group(
-                                resultSet.getLong("id")
-                                , resultSet.getLong("cur_semester_education")
-                                , resultSet.getLong("program"));
+                        Group group = parseGroup(resultSet);
                         result.add(group);
-                    } 
-                }                   
+                    }
+                }
             }
         }
-
         return result;
+    }
+
+    /**
+     * parse from table in db
+     *
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    private Group parseGroup(ResultSet resultSet) throws SQLException {
+        return new Group(
+                resultSet.getLong("id")
+                , resultSet.getLong("cur_semester_education")
+                , resultSet.getLong("program"));
     }
 
     @Override
@@ -131,5 +142,50 @@ public class GroupsDaoImpl implements GroupsDao {
             }
         }
         logger.info("Class "+ClassName+" method deleteById finished, id = " + id);
+    }
+
+    /**
+     * Select all groups from db planned to start education
+     *
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public List<Group> getListOfNewGroups() throws SQLException {
+        logger.debug(BEFORE);
+        String sql = "select groups.id, groups.cur_semester_education, groups.program  from groups inner join programs p on groups.program = p.id where cur_semester_education = 0;";
+        List<Group> result = selectQuery(sql);
+        logger.info(AFTER + "is empty collection? " + (result.isEmpty()));
+        return result;
+    }
+
+    /**
+     * Select archive groups from db
+     *
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public List<Group> getListOfOldGroups() throws SQLException {
+        logger.debug(BEFORE);
+        String sql = "select groups.id, groups.cur_semester_education, groups.program  from groups inner join programs p on groups.program = p.id inner join programs on groups.program = programs.id where cur_semester_education > programs.semester;";
+        List<Group> result = selectQuery(sql);
+        logger.info(AFTER + "is empty collection? " + (result.isEmpty()));
+        return result;
+    }
+
+    /**
+     * Select groups in education.
+     *
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public List<Group> getListOfCurrentGroups() throws SQLException {
+        logger.debug(BEFORE);
+        String sql = "select groups.id, groups.cur_semester_education, groups.program  from groups inner join programs p on groups.program = p.id inner join programs on groups.program = programs.id where cur_semester_education <= programs.semester and cur_semester_education>0;";
+        List<Group> result = selectQuery(sql);
+        logger.info(AFTER + "is empty collection? " + (result.isEmpty()));
+        return result;
     }
 }

@@ -3,43 +3,83 @@ package ru.innopolis.stc9.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.innopolis.stc9.db.dao.groups.GroupsDao;
 import ru.innopolis.stc9.db.dao.schedule.ScheduleDao;
-import ru.innopolis.stc9.pojo.Schedule;
+import ru.innopolis.stc9.pojo.Group;
+import ru.innopolis.stc9.pojo.ScheduleItem;
+import ru.innopolis.stc9.pojo.Status;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class ScheduleService implements IScheduleService {
     private static final Logger logger = Logger.getLogger(ScheduleService.class);
-    private static final Logger loggerError = Logger.getLogger(ScheduleService.class);
+    private static final String BEFORE = "First  line of method.";
+    private static final String AFTER = "Before exit.";
 
     @Autowired
     private ScheduleDao scheduleDao;
+    @Autowired
+    private GroupsDao groupsDao;
 
+    /**
+     * Select list of groups depended on required status.
+     *
+     * @param status
+     * @return
+     */
     @Override
-    public void updateById(Schedule schedule) {
-        logger.info(this.getClass().getName() + " method updateById started, id = " + schedule.getId());
+    public List<Group> getGroupsByStatus(Status status) {
+        logger.debug(BEFORE);
+        List<Group> result = new ArrayList<>();
         try {
-            scheduleDao.update(schedule);
+            switch (status) {
+                case IN_PLAN:
+                    result = groupsDao.getListOfNewGroups();
+                    break;
+                case IN_PROGRESS:
+                    result = groupsDao.getListOfCurrentGroups();
+                    break;
+                case ARCHIVE:
+                    result = groupsDao.getListOfOldGroups();
+                    break;
+                default:
+                    logger.warn("No such status of required group: " + status);
+            }
         } catch (SQLException e) {
-            loggerError.error("Error at method updateById, id = " + schedule.getId(), e);
+            logger.error(status + ": " + e.getMessage());
         }
-        logger.info(this.getClass().getName() + " method updateById finished, id = " + schedule.getId());
+        logger.debug(AFTER);
+        return result;
     }
 
     @Override
-    public Schedule getById(long id) {
-        logger.info(this.getClass().getName() + " method getById started, id = " + id);
-        Schedule schedule = null;
+    public void updateById(ScheduleItem scheduleItem) {
+        logger.info(this.getClass().getName() + " method updateById started, id = " + scheduleItem.getId());
         try {
-            schedule = scheduleDao.getById(id);
+            scheduleDao.update(scheduleItem);
         } catch (SQLException e) {
-            loggerError.error("Error at method getById, id = " + id, e);
+            logger.error("Error at method updateById, id = " + scheduleItem.getId(), e);
+        }
+        logger.info(this.getClass().getName() + " method updateById finished, id = " + scheduleItem.getId());
+    }
+
+    @Override
+    public ScheduleItem getById(long id) {
+        logger.info(this.getClass().getName() + " method getById started, id = " + id);
+        ScheduleItem scheduleItem = null;
+        try {
+            scheduleItem = scheduleDao.getById(id);
+        } catch (SQLException e) {
+            logger.error("Error at method getById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method getById finished, id = " + id);
-        return schedule;
+        return scheduleItem;
     }
 
     @Override
@@ -48,32 +88,58 @@ public class ScheduleService implements IScheduleService {
         try {
             scheduleDao.deleteById(id);
         } catch (SQLException e) {
-            loggerError.error("Error at method deleteById, id = " + id, e);
+            logger.error("Error at method deleteById, id = " + id, e);
         }
         logger.info(this.getClass().getName() + " method deleteById finished, id = " + id);
     }
 
     @Override
-    public void add(Schedule schedule) {
+    public void add(ScheduleItem scheduleItem) {
         logger.info(this.getClass().getName() + " method add started");
         try {
-            scheduleDao.add(schedule);
+            scheduleDao.add(scheduleItem);
         } catch (SQLException e) {
-            loggerError.error("Error at method add", e);
+            logger.error("Error at method add", e);
         }
         logger.info(this.getClass().getName() + " method add finished");
     }
 
     @Override
-    public List<Schedule> getAll() {
+    public List<ScheduleItem> getAll() {
         logger.info(this.getClass().getName() + " method getAll started");
-        List<Schedule> scheduleList = new ArrayList<>();
+        List<ScheduleItem> scheduleItemList = new ArrayList<>();
         try {
-            scheduleList = scheduleDao.getAll();
+            scheduleItemList = scheduleDao.getAll();
         } catch (SQLException e) {
-            loggerError.error("Error at method getAll", e);
+            logger.error("Error at method getAll", e);
         }
         logger.info(this.getClass().getName() + " method getAll finished");
-        return scheduleList;
+        return scheduleItemList;
+    }
+
+    /**
+     * Collects links for possible actions (depending on the status of the groups)
+     *
+     * @param status
+     * @return
+     */
+    @Override
+    public Map<String, String> collectLinksOnPage(Status status) {
+        Map<String, String> links = new LinkedHashMap<>();
+        if (status.equals(Status.IN_PLAN)) {
+            links.put("/see", "посмотреть расписание");
+            links.put("/edit", "редактировать расписание");
+            links.put("/create", "создать расписание");
+        } else {
+            if (status.equals(Status.IN_PROGRESS)) {
+                links.put("/see", "посмотреть расписание");
+                links.put("/edit", "редактировать расписание");
+            } else {
+                if (status.equals(Status.ARCHIVE)) {
+                    links.put("/see", "посмотреть расписание");
+                }
+            }
+        }
+        return links;
     }
 }
