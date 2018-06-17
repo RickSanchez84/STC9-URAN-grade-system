@@ -8,6 +8,7 @@
     <table class="table table-striped">
         <tbody>
         <tr>
+            <%--@elvariable id="links" type="java.util.List"--%>
             <c:forEach var="link" items="${links}">
                 <td><a href="${pageContext.request.contextPath}${link.key}">${link.value}</a></td>
             </c:forEach>
@@ -32,7 +33,7 @@
         <tr>
             <th>№ пары \ Группа</th>
             <c:forEach var="gr" items="${groups}">
-                <th><c:out value="${gr.id}"/></th>
+                <th><c:out value="id группы ${gr.id}"/></th>
             </c:forEach>
         </tr>
 
@@ -44,15 +45,19 @@
 
             <c:forEach var="subject" items="${desktop.lessonNumber}" varStatus="num">
                 <tr>
-                    <td><c:out value="урок № ${num.count}"/></td>
+                    <td rowspan="2"><c:out value="урок № ${num.count}"/></td>
                     <c:forEach var="gr2" items="${groups}">
                         <td><c:out value="${subject} у группы №${gr2.id}"/></td>
+                    </c:forEach>
+                </tr>
+                <tr>
+                    <c:forEach var="gr2" items="${groups}">
+                        <td><c:out value="ауд. №"/></td>
                     </c:forEach>
                 </tr>
             </c:forEach>
         </c:forEach>
     </table>
 </div>
-<%--</jsp:useBean>--%>
 <a href="${pageContext.request.contextPath}seeScheduleGroupsInProgress">Назад</a>
 <%@ include file="../../../footer.jsp" %>

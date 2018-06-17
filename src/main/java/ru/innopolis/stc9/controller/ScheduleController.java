@@ -37,11 +37,7 @@ public class ScheduleController {
         model.addAttribute("status", status);
         model.addAttribute("links", scheduleService.collectLinksOnPage(status));
         List<Group> groups = scheduleService.getGroupsByStatus(status);
-        // TODO: 17.06.2018 по списку групп выдрать расписание
         model.addAttribute("groups", groups);
-
-//        Schedule desktop = new Schedule();
-//        desktop.initStatState();
         model.addAttribute("desktop", scheduleService.getMainSchedule(groups));
 
         return "/seeStatus";
