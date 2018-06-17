@@ -1,6 +1,7 @@
 package ru.innopolis.stc9.service;
 
 import ru.innopolis.stc9.pojo.Group;
+import ru.innopolis.stc9.pojo.Schedule;
 import ru.innopolis.stc9.pojo.ScheduleItem;
 import ru.innopolis.stc9.pojo.Status;
 
@@ -34,4 +35,11 @@ public interface IScheduleService {
      * @return
      */
     List<Group> getGroupsByStatus(Status status);
+
+    /**
+     * Get general schedule for institute.
+     *
+     * @return
+     */
+    Schedule getMainSchedule(List<Group> groups);
 }

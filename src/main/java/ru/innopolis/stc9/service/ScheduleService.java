@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.groups.GroupsDao;
 import ru.innopolis.stc9.db.dao.schedule.ScheduleDao;
 import ru.innopolis.stc9.pojo.Group;
+import ru.innopolis.stc9.pojo.Schedule;
 import ru.innopolis.stc9.pojo.ScheduleItem;
 import ru.innopolis.stc9.pojo.Status;
 
@@ -141,5 +142,17 @@ public class ScheduleService implements IScheduleService {
             }
         }
         return links;
+    }
+
+    /**
+     * Get general schedule for institute.
+     *
+     * @return
+     */
+    @Override
+    public Schedule getMainSchedule(List<Group> groups) {
+        Schedule desktop = new Schedule();
+        desktop.initStatState();
+        return desktop;
     }
 }
