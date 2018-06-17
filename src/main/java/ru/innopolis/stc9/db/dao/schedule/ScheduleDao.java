@@ -9,7 +9,14 @@ public interface ScheduleDao {
 
     Schedule getByLessonId(long id) throws SQLException;
 
-    Schedule getByGroupId(long id) throws SQLException;
+    /**
+     * Get schedule for group
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    List<Schedule> getByGroupId(long id) throws SQLException;
 
     List<Schedule> getAll() throws SQLException;
 

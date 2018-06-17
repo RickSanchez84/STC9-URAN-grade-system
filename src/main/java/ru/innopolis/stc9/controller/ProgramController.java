@@ -1,4 +1,5 @@
 package ru.innopolis.stc9.controller;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,10 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.*;
+import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.pojo.Speciality;
+import ru.innopolis.stc9.pojo.Subject;
 import ru.innopolis.stc9.service.IProgramService;
 import ru.innopolis.stc9.service.ISpecialityService;
 import ru.innopolis.stc9.service.ISubjectService;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,7 +40,6 @@ public class ProgramController extends HttpServlet {
         } else {
             model.addAttribute("action", "add");
         }
-
         List<Speciality> specList = specService.getAll();
         model.addAttribute("specList", specList);
 
@@ -47,39 +50,41 @@ public class ProgramController extends HttpServlet {
 
     @RequestMapping(value = "/addOrUpdateProgram", method = RequestMethod.POST)
     public String addOrUpdate(HttpServletRequest request,
-                                    @RequestAttribute String id,
-                                    @RequestAttribute String action,
-                                    @RequestAttribute String specialty,
-                                    @RequestAttribute String semester,
-                                    @RequestAttribute String subject,
-                                    @RequestAttribute String hours, Model model) {
+                              @RequestAttribute String id,
+                              @RequestAttribute String action,
+                              @RequestAttribute String specialty,
+                              @RequestAttribute String semester,
+                              @RequestAttribute String subject,
+                              @RequestAttribute String hours, Model model) {
 
         if (action.equals("add")) {
             Program program = new Program(specService.getById(Integer.parseInt(specialty))
-                                        , Integer.parseInt(semester)
-                                        , subjService.getById(Integer.parseInt(subject))
-                                        , Integer.parseInt(hours));
-            progService.add(program);
-        }
-        else {
+                    , Integer.parseInt(semester)
+                    , subjService.getById(Integer.parseInt(subject))
+                    , Integer.parseInt(hours));
+            long programId = progService.add(program);
+        } else {
             if (action.equals("update")) {
 
-                Program program = new Program( Integer.parseInt(id)
-                                             , specService.getById(Integer.parseInt(specialty))
-                                             , Integer.parseInt(semester)
-                                             , subjService.getById(Integer.parseInt(subject))
-                                             , Integer.parseInt(hours));
+                Program program = new Program(Integer.parseInt(id)
+                        , specService.getById(Integer.parseInt(specialty))
+                        , Integer.parseInt(semester)
+                        , subjService.getById(Integer.parseInt(subject))
+                        , Integer.parseInt(hours));
                 progService.update(program);
             }
         }
-        return "redirect:programAll";
+        model.addAttribute("id", specialty);
+        return "redirect:/speciality/speciality";
     }
 
     @RequestMapping(value = "/deleteProgram", method = RequestMethod.GET)
-    public String deleteProgram(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
-        progService.deleteById(Long.parseLong(id));
-        return ("redirect:programAll");
+    public String deleteProgram(@RequestAttribute long id,
+                                @RequestAttribute long programId,
+                                Model model) {
+        progService.deleteById(programId);
+        model.addAttribute("id", String.valueOf(id));
+        return "redirect:/speciality";
     }
 
     @RequestMapping(value = "/programAll", method = RequestMethod.GET)
@@ -97,7 +102,7 @@ public class ProgramController extends HttpServlet {
 
     @RequestMapping(value = "/updateProgram", method = RequestMethod.GET)
     public String updateProgram(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
+                                @RequestAttribute String id, Model model) {
         List<Speciality> specList = specService.getAll();
         List<Subject> subjList = subjService.getAll();
 
@@ -111,7 +116,7 @@ public class ProgramController extends HttpServlet {
 
     @RequestMapping(value = "/program", method = RequestMethod.GET)
     public String getProgram(HttpServletRequest request,
-                            @RequestAttribute String id, Model model) {
+                             @RequestAttribute String id, Model model) {
         Program program = progService.getById(Long.parseLong(id));
 
         String specName = program.getSpecialty().getName();
@@ -127,6 +132,6 @@ public class ProgramController extends HttpServlet {
 
         return "/getProgram";
     }
-    
-   
+
+
 }

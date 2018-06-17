@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
 import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.pojo.Speciality;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,14 +54,16 @@ public class ProgramService implements IProgramService {
     }
 
     @Override
-    public void add(Program program) {
+    public long add(Program program) {
         logger.info(this.getClass().getName() + " method add started");
+        long result = 0;
         try {
-            programDao.add(program);
+            result = programDao.add(program);
         } catch (SQLException e) {
             loggerError.error("Error at method add", e);
         }
         logger.info(this.getClass().getName() + " method add finished");
+        return result;
     }
 
     @Override
@@ -76,5 +79,25 @@ public class ProgramService implements IProgramService {
         }
         logger.info(this.getClass().getName() + " method getAll finished");
         return programList;
+    }
+
+    /**
+     * Get list of planned subjects for the specialty.
+     *
+     * @param speciality
+     * @return
+     */
+    @Override
+    public List<Program> getBySpecialty(Speciality speciality) {
+        logger.info(this.getClass().getName() + " method getAll started");
+        List<Program> programForSpecialty = new ArrayList<>();
+
+        try {
+            programForSpecialty = programDao.getAllForSpecialty(speciality.getId());
+        } catch (SQLException e) {
+            loggerError.error("Error at method getAll", e);
+        }
+        logger.info(this.getClass().getName() + " method getAll finished");
+        return programForSpecialty;
     }
 }

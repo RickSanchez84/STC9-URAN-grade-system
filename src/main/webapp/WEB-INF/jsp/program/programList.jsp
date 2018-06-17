@@ -18,7 +18,7 @@
         <tbody>
         <c:forEach var="program" items="${programList}">
             <tr>
-                <td><a href="/program/program?id=${program.id}">${program.specialty.name.toString()}</a></td>
+                <td><a href="/program/program?specialtyId=${program.id}">${program.specialty.name.toString()}</a></td>
                 <td><a href="/program/program?id=${program.id}">${program.semester}</a></td>
                 <td><a href="/program/program?id=${program.id}">${program.subject.name.toString()}</a></td>
                 <td><a href="/program/program?id=${program.id}">${program.hours}</a></td>

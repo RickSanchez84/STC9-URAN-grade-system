@@ -17,21 +17,37 @@
             <input type="hidden" name="action" value="${action}">
 
                     <c:if test="${action=='update'}">
-                        <h2>Редактирование</h2>
+                        <h2>Редактирование дисциплины в учебной программе</h2>
                     </c:if>
 
                     <c:if test="${action=='add'}">
-                        <h2>Добавление новой программы</h2>
+                        <h2>Добавление новой дисциплины в учебную программу</h2>
                     </c:if>
 
             <ul style= "width: 15cm">
                 <li>
                     <label for="specialty">Специальность:</label>
-                    <select id="specialty" name="specialty">
-                        <c:forEach var="spec" items="${specList}">
-                            <option value="${spec.id}" <c:if test="${program.specialty.id eq spec.id}">selected</c:if>>${spec.name}</option>
-                        </c:forEach>
-                    </select>
+                    <c:if test="${action=='update'}">
+                        <input type="hidden" name="specialty" value="${program.specialty.id}">
+                        <c:out value="${program.specialty.name}"/>
+                        <%--<select id="specialty" name="specialty" disabled>--%>
+                    </c:if>
+                    <c:if test="${action=='add'}">
+                        <select id="specialty" name="specialty">
+
+                            <c:forEach var="spec" items="${specList}">
+                                <option value="${spec.id}"
+                                        <c:if test="${program.specialty.id eq spec.id}">selected</c:if>>${spec.name}</option>
+                            </c:forEach>
+                        </select>
+                    </c:if>
+
+
+                    <%--<select id="specialty" name="specialty">--%>
+                    <%--<c:forEach var="spec" items="${specList}">--%>
+                    <%--<option value="${spec.id}" <c:if test="${program.specialty.id eq spec.id}">selected</c:if>>${spec.name}</option>--%>
+                    <%--</c:forEach>--%>
+                    <%--</select>--%>
                 </li>
 
                 <li>

@@ -7,9 +7,9 @@
     <ul class="nav nav-sidebar">
         <li><a href="/person/personAll">Список персон</a></li>
         <li><a href="/subject/subjectAll">Список предметов</a></li>
-        <li><a href="/speciality/specialityAll">Список специальностей</a></li>
+        <li><a href="/speciality/specialityAll">Планирование учебного процесса</a></li>
         <li><a href="/role/roleAll">Список типов пользователей</a></li>
-        <li><a href="/program/programAll">Список учебных программ</a></li>
+            <%--<li><a href="/program/programAll">Список учебных программ</a></li>--%>
         <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
     </ul>
     <div><a href="/static/j_spring_security_logout">Выйти</a></div>

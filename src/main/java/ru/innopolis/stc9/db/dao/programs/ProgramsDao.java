@@ -11,7 +11,9 @@ public interface ProgramsDao {
 
     List<Program> getAll() throws SQLException;
 
-    void add(Program program) throws SQLException;
+    List<Program> getAllForSpecialty(long specialtyId) throws SQLException;
+
+    long add(Program program) throws SQLException;
 
     void update(Program program) throws SQLException;
 

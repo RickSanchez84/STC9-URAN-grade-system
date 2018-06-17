@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 import ru.innopolis.stc9.pojo.Schedule;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,13 +15,15 @@ import java.util.List;
 @Component
 public class ScheduleDaoImpl implements ScheduleDao {
     private static final Logger logger = Logger.getLogger(ScheduleDaoImpl.class);
+    private static final String BEFORE = "First line of method.";
+    private static final String AFTER = "Before exit.";
 
     @Override
     public Schedule getById(long id) throws SQLException {
         logger.info("Class SheduleDaoImpl method getById started, id = " + id);
         Schedule schedule = null;
-        ResultSet resultSet= null;
-        int iid = (int)id;
+        ResultSet resultSet = null;
+        int iid = (int) id;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -28,19 +31,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
                 preparedStatement.setInt(1, iid);
                 resultSet = preparedStatement.executeQuery();
             }
-        }
-        finally {if(resultSet!=null)
-            resultSet.close();
+        } finally {
+            if (resultSet != null)
+                resultSet.close();
         }
 
         if (resultSet.next()) {
-            schedule = new Schedule(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            schedule = parseSchedule(resultSet);
         }
         logger.info("Class PerformanceDaoImpl method getById finished, id = " + id);
         return schedule;
@@ -57,59 +54,68 @@ public class ScheduleDaoImpl implements ScheduleDao {
                 preparedStatement.setLong(1, id);
                 resultSet = preparedStatement.executeQuery();
             }
-        }
-        finally {if(resultSet!=null)
-            resultSet.close();
+        } finally {
+            if (resultSet != null)
+                resultSet.close();
         }
 
         while (resultSet.next()) {
-            Schedule schedule = new Schedule(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            Schedule schedule = parseSchedule(resultSet);
             result = schedule;
         }
         return result;
     }
 
+    /**
+     * Get schedule for group
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     @Override
-    public Schedule getByGroupId(long id) throws SQLException {
-        Schedule result = null;
-        ResultSet resultSet =null;
-
+    public List<Schedule> getByGroupId(long id) throws SQLException {
+        logger.debug(BEFORE);
+        List<Schedule> result = new ArrayList<>();
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM schedules WHERE group_item= ?")) {
                 preparedStatement.setLong(1, id);
-                resultSet = preparedStatement.executeQuery();
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Schedule schedule = parseSchedule(resultSet);
+                        result.add(schedule);
+                    }
+                }
+                logger.info("SUCCESS? " + (!result.isEmpty()));
             }
         }
-        finally {if(resultSet!=null)
-            resultSet.close();
-        }
-
-        while (resultSet.next()) {
-            Schedule schedule = new Schedule(
-                      resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
-
-            result = schedule;
-        }
+        logger.debug(AFTER);
         return result;
+    }
+
+    /**
+     * Take pojo from DB
+     *
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    private Schedule parseSchedule(ResultSet resultSet) throws SQLException {
+        return new Schedule(
+                resultSet.getLong("id")
+                , resultSet.getLong("day_of_week")
+                , resultSet.getLong("lesson_nummber")
+                , resultSet.getLong("group_item")
+                , resultSet.getLong("subject")
+                , resultSet.getLong("room"));
     }
 
     @Override
     public List<Schedule> getAll() throws SQLException {
         ArrayList<Schedule> result = new ArrayList<>();
 
-        ResultSet resultSet =null;
+        ResultSet resultSet = null;
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
@@ -117,20 +123,13 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
                 resultSet = preparedStatement.executeQuery();
             }
-        }
-        finally {
-            if(resultSet!=null)
+        } finally {
+            if (resultSet != null)
                 resultSet.close();
         }
 
         while (resultSet.next()) {
-            Schedule schedule = new Schedule(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            Schedule schedule = parseSchedule(resultSet);
             result.add(schedule);
         }
         return result;
