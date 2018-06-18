@@ -84,8 +84,9 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public ScheduleItem getByGroupId(long id) throws SQLException {
-        ScheduleItem result = null;
+    public List<ScheduleItem> getByGroupId(long id) throws SQLException {
+        List<ScheduleItem> result = new ArrayList<>();
+
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM schedules WHERE group_item= ?")) {
@@ -93,7 +94,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         ScheduleItem scheduleItem = parseOneScheduleItem(resultSet);
-                        result = scheduleItem;
+                        result.add(scheduleItem);
                     }
                 }
             }

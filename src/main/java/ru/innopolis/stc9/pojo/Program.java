@@ -63,4 +63,39 @@ public class Program {
   public void setHours(long hours) {
     this.hours = hours;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Program program = (Program) o;
+
+    if (id != program.id) return false;
+    if (semester != program.semester) return false;
+    if (hours != program.hours) return false;
+    if (specialty != null ? !specialty.equals(program.specialty) : program.specialty != null) return false;
+    return subject != null ? subject.equals(program.subject) : program.subject == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (int) (id ^ (id >>> 32));
+    result = 31 * result + (specialty != null ? specialty.hashCode() : 0);
+    result = 31 * result + (int) (semester ^ (semester >>> 32));
+    result = 31 * result + (subject != null ? subject.hashCode() : 0);
+    result = 31 * result + (int) (hours ^ (hours >>> 32));
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "Program{" +
+            "id=" + id +
+            ", specialty=" + specialty +
+            ", semester=" + semester +
+            ", subject=" + subject +
+            ", hours=" + hours +
+            '}';
+  }
 }

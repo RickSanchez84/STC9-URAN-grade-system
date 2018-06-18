@@ -155,8 +155,8 @@ public class ScheduleService implements IScheduleService {
         Schedule desktop = new Schedule();
         for (Group g : groups) {
             try {
-                ScheduleItem item = scheduleDao.getByGroupId(g.getId());
-                desktop.add(item);
+                List<ScheduleItem> list = scheduleDao.getByGroupId(g.getId());
+                desktop.add(list);
             } catch (SQLException e) {
                 logger.error(e.getMessage());
             }

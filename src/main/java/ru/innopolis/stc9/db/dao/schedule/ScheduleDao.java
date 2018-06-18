@@ -12,7 +12,7 @@ public interface ScheduleDao {
 
     ScheduleItem getByLessonId(long id) throws SQLException;
 
-    ScheduleItem getByGroupId(long id) throws SQLException;
+    List<ScheduleItem> getByGroupId(long id) throws SQLException;
 
     List<ScheduleItem> getAll() throws SQLException;
 

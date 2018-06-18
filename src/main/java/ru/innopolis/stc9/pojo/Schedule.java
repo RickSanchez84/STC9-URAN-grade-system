@@ -23,19 +23,22 @@ public class Schedule {
     private List<ScheduleItem> list = new ArrayList<>();
 
     {
+        weekDay.add("Воскресенье");
         weekDay.add("Понедельник");
         weekDay.add("Вторник");
         weekDay.add("Среда");
         weekDay.add("Четверг");
         weekDay.add("Пятница");
         weekDay.add("Суббота");
-        weekDay.add("Воскресенье");
 
-        lessonNumber.add("урок 1");
-        lessonNumber.add("урок 2");
-        lessonNumber.add("урок 3");
-        lessonNumber.add("урок 4");
-        lessonNumber.add("урок 5");
+        lessonNumber.add("пара №1");
+        lessonNumber.add("пара №2");
+        lessonNumber.add("пара №3");
+        lessonNumber.add("пара №4");
+        lessonNumber.add("пара №5");
+        lessonNumber.add("пара №6");
+        lessonNumber.add("пара №7");
+        lessonNumber.add("пара №8");
     }
 
     public Schedule() {
@@ -77,20 +80,86 @@ public class Schedule {
         list.add(item);
     }
 
-    public TeacherSubject getSubjectInDraft(Group group, long dayOfWeek, long lessonNumber) {
+    public void add(List<ScheduleItem> item) {
+        list.addAll(item);
+    }
+
+    /**
+     * Get subject-teacher relationship for a given item in the schedule
+     *
+     * @param group
+     * @param day
+     * @param lessonNumber
+     * @return
+     */
+    public TeacherSubject getSubjectInDraft(Group group, String day, long lessonNumber) {
         logger.debug(BEFORE);
         TeacherSubject result = null;
-        if (group != null) {
-            for (ScheduleItem item : list) {
-                if (item.getDayOfWeek() == dayOfWeek && item.getLessonNumber() == lessonNumber && item.getGroupItem() == group) {
-                    result = item.getSubjectWithTeacher();
-                }
-            }
+        ScheduleItem ourItem = selectItem(group, day, lessonNumber);
+        if (ourItem != null) {
+            result = ourItem.getSubjectWithTeacher();
         } else {
-            logger.warn("group is null argument");
+            logger.warn("No such item in list.");
         }
         logger.info("Success? " + (result == null ? "Result is null" : result.toString()));
         logger.debug(AFTER);
+        return result;
+    }
+
+    /**
+     * Find schedule item for required group, day of week and number of lesson
+     *
+     * @param group
+     * @param day
+     * @param lessonNumber
+     * @return
+     */
+    private ScheduleItem selectItem(Group group, String day, long lessonNumber) {
+        logger.debug(BEFORE);
+        long dayOfWeek = findIndex(day);
+        ScheduleItem result = null;
+        if (dayOfWeek >= 0 && group != null) {
+            for (ScheduleItem item : list) {
+                System.out.println(item);
+                boolean b1 = item.getDayOfWeek() == dayOfWeek;
+                boolean b2 = item.getLessonNumber() == lessonNumber;
+                boolean b3 = item.getGroupItem().equals(group);
+
+                if (b1 && b2 && b3) {
+                    result = item;
+                    break;
+                }
+            }
+        } else {
+            logger.warn("error in day of week or group is null argument");
+        }
+        logger.info("Success? " + (result == null ? "Result is null" : result.toString()));
+        logger.debug(AFTER);
+        return result;
+    }
+
+    public int getRoomInDraft(Group group, String day, long lessonNumber) {
+        logger.debug(BEFORE);
+        int result = 0;
+        ScheduleItem ourItem = selectItem(group, day, lessonNumber);
+        if (ourItem != null) {
+            result = (int) ourItem.getRoom();
+        } else {
+            logger.warn("No such item in list.");
+        }
+        logger.info("Success? " + (result > 0 ? "Yes, room = " + result : "No"));
+        logger.debug(AFTER);
+        return result;
+    }
+
+    private long findIndex(String day) {
+        long result = -1;
+        for (int i = 0; i < weekDay.size(); i++) {
+            if (weekDay.get(i).equals(day)) {
+                result = (long) i;
+                break;
+            }
+        }
         return result;
     }
 }
