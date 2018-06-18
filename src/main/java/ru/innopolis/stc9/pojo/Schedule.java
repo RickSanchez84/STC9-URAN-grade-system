@@ -9,6 +9,7 @@ public class Schedule {
     private static final Logger logger = Logger.getLogger(Schedule.class);
     private static final String BEFORE = "First line.";
     private static final String AFTER = "Before exit.";
+    private static final String SUCCESS = "Success? ";
     /**
      * Day of week for view form
      */
@@ -22,35 +23,26 @@ public class Schedule {
      */
     private List<ScheduleItem> list = new ArrayList<>();
 
-    {
-        weekDay.add("Воскресенье");
-        weekDay.add("Понедельник");
-        weekDay.add("Вторник");
-        weekDay.add("Среда");
-        weekDay.add("Четверг");
-        weekDay.add("Пятница");
-        weekDay.add("Суббота");
 
-        lessonNumber.add("пара №1");
-        lessonNumber.add("пара №2");
-        lessonNumber.add("пара №3");
-        lessonNumber.add("пара №4");
-        lessonNumber.add("пара №5");
-        lessonNumber.add("пара №6");
-        lessonNumber.add("пара №7");
-        lessonNumber.add("пара №8");
-    }
 
     public Schedule() {
-    }
+        weekDay.add("Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ");
+        weekDay.add("РџРѕРЅРµРґРµР»СЊРЅРёРє");
+        weekDay.add("Р’С‚РѕСЂРЅРёРє");
+        weekDay.add("РЎСЂРµРґР°");
+        weekDay.add("Р§РµС‚РІРµСЂРі");
+        weekDay.add("РџСЏС‚РЅРёС†Р°");
+        weekDay.add("РЎСѓР±Р±РѕС‚Р°");
 
-//    public void initStatState() {
-//        list.add("p11");
-//        list.add("p12");
-//        list.add("p13");
-//        list.add("p14");
-//        list.add("p15");
-//    }
+        lessonNumber.add("РџР°СЂР° в„–1");
+        lessonNumber.add("РџР°СЂР° в„–2");
+        lessonNumber.add("РџР°СЂР° в„–3");
+        lessonNumber.add("РџР°СЂР° в„–4");
+        lessonNumber.add("РџР°СЂР° в„–5");
+        lessonNumber.add("РџР°СЂР° в„–6");
+        lessonNumber.add("РџР°СЂР° в„–7");
+        lessonNumber.add("РџР°СЂР° в„–8");
+    }
 
     public List<String> getWeekDay() {
         return weekDay;
@@ -101,7 +93,7 @@ public class Schedule {
         } else {
             logger.warn("No such item in list.");
         }
-        logger.info("Success? " + (result == null ? "Result is null" : result.toString()));
+        logger.info(SUCCESS + (result == null ? "Result is null" : result.toString()));
         logger.debug(AFTER);
         return result;
     }
@@ -120,7 +112,6 @@ public class Schedule {
         ScheduleItem result = null;
         if (dayOfWeek >= 0 && group != null) {
             for (ScheduleItem item : list) {
-                System.out.println(item);
                 boolean b1 = item.getDayOfWeek() == dayOfWeek;
                 boolean b2 = item.getLessonNumber() == lessonNumber;
                 boolean b3 = item.getGroupItem().equals(group);
@@ -133,7 +124,7 @@ public class Schedule {
         } else {
             logger.warn("error in day of week or group is null argument");
         }
-        logger.info("Success? " + (result == null ? "Result is null" : result.toString()));
+        logger.info(SUCCESS + (result == null ? "Result is null" : result.toString()));
         logger.debug(AFTER);
         return result;
     }
@@ -147,7 +138,7 @@ public class Schedule {
         } else {
             logger.warn("No such item in list.");
         }
-        logger.info("Success? " + (result > 0 ? "Yes, room = " + result : "No"));
+        logger.info(SUCCESS + (result > 0 ? "Yes, room = " + result : "No"));
         logger.debug(AFTER);
         return result;
     }

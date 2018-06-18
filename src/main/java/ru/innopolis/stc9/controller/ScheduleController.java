@@ -16,7 +16,6 @@ import java.util.List;
 @Controller
 public class ScheduleController {
     private static final Logger logger = Logger.getLogger(ScheduleController.class);
-    private Status status;
     @Autowired
     private IScheduleService scheduleService;
 
@@ -39,8 +38,6 @@ public class ScheduleController {
         List<Group> groups = scheduleService.getGroupsByStatus(status);
         model.addAttribute("groups", groups);
         model.addAttribute("desktop", scheduleService.getMainSchedule(groups));
-        int u = 0;
-
         return "/seeStatus";
     }
 }
