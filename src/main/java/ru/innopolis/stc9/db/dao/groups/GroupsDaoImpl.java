@@ -1,8 +1,10 @@
 package ru.innopolis.stc9.db.dao.groups;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
+import ru.innopolis.stc9.db.dao.programs.ProgramsDao;
 import ru.innopolis.stc9.pojo.Group;
 
 import java.sql.Connection;
@@ -18,6 +20,9 @@ public class GroupsDaoImpl implements GroupsDao {
     private static final String BEFORE = "First  line of method.";
     private static final String AFTER = "Before exit.";
     public  final String ClassName= this.getClass().getName();
+
+    @Autowired
+    private ProgramsDao programsDao;
     
     @Override
     public Group getById(long id) throws SQLException {
@@ -97,7 +102,7 @@ public class GroupsDaoImpl implements GroupsDao {
         return new Group(
                 resultSet.getLong("id")
                 , resultSet.getLong("cur_semester_education")
-                , resultSet.getLong("program"));
+                , programsDao.getById(resultSet.getLong("program")));
     }
 
     @Override
@@ -114,7 +119,7 @@ public class GroupsDaoImpl implements GroupsDao {
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, group.getCurSemesterEducation());
-                statement.setLong(2, group.getProgram());
+                statement.setLong(2, group.getProgram().getId());
 
                 statement.executeUpdate();
             }

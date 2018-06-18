@@ -4,15 +4,15 @@ public class Group {
 
   private long id;
   private long curSemesterEducation;
-  private long program;
+    private Program program;
 
-  public Group(long id, long curSemesterEducation, long program) {
+    public Group(long id, long curSemesterEducation, Program program) {
     this.id = id;
     this.curSemesterEducation = curSemesterEducation;
     this.program = program;
   }
 
-  public Group(long curSemesterEducation, long program) {
+    public Group(long curSemesterEducation, Program program) {
     this.curSemesterEducation = curSemesterEducation;
     this.program = program;
   }
@@ -35,11 +35,11 @@ public class Group {
   }
 
 
-  public long getProgram() {
+    public Program getProgram() {
     return program;
   }
 
-  public void setProgram(long program) {
+    public void setProgram(Program program) {
     this.program = program;
   }
 

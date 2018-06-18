@@ -32,10 +32,10 @@
         <li>
             <label for="subjectItem">Предмет:</label>
             <select id="subjectItem" name="subject_item">
-                <c:forEach var="subject" items="${subjectList}">
-                    <c:set var="subject_item" value="${subject.id}"></c:set>
+                <c:forEach var="subjectWithTeacher" items="${subjectList}">
+                    <c:set var="subject_item" value="${subjectWithTeacher.id}"></c:set>
                     <option value="${subject_item}"
-                            <c:if test="${teacherSubject.subjectItem eq subject_item}">selected</c:if>>${subject.name}</option>
+                            <c:if test="${teacherSubject.subjectItem eq subject_item}">selected</c:if>>${subjectWithTeacher.name}</option>
                 </c:forEach>
             </select>
         </li>

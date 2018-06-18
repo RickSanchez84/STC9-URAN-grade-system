@@ -145,14 +145,23 @@ public class ScheduleService implements IScheduleService {
     }
 
     /**
-     * Get general schedule for institute.
+     * Get general schedule for several groups.
      *
      * @return
      */
     @Override
     public Schedule getMainSchedule(List<Group> groups) {
+        logger.debug(BEFORE);
         Schedule desktop = new Schedule();
-        desktop.initStatState();
+        for (Group g : groups) {
+            try {
+                ScheduleItem item = scheduleDao.getByGroupId(g.getId());
+                desktop.add(item);
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        logger.debug(AFTER);
         return desktop;
     }
 }

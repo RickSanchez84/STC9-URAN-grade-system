@@ -39,6 +39,7 @@ public class ScheduleController {
         List<Group> groups = scheduleService.getGroupsByStatus(status);
         model.addAttribute("groups", groups);
         model.addAttribute("desktop", scheduleService.getMainSchedule(groups));
+        int u = 0;
 
         return "/seeStatus";
     }

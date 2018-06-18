@@ -20,7 +20,7 @@
             <tr>
                 <td><a href="/program/program?id=${program.id}">${program.specialty.name.toString()}</a></td>
                 <td><a href="/program/program?id=${program.id}">${program.semester}</a></td>
-                <td><a href="/program/program?id=${program.id}">${program.subject.name.toString()}</a></td>
+                <td><a href="/program/program?id=${program.id}">${program.subjectWithTeacher.name.toString()}</a></td>
                 <td><a href="/program/program?id=${program.id}">${program.hours}</a></td>
 
                 <td><a href="/program/updateProgram?id=${program.id}">редактировать</a></td>

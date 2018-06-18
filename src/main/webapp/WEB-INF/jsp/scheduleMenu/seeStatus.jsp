@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
+<%--**********************************************************************--%>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -15,7 +16,7 @@
         </tr>
         </tbody>
     </table>
-</div>
+    <%--</div>--%>
 
 
 <c:forEach var="i" items="${deskop.list}">
@@ -28,7 +29,7 @@
 <c:set var="columns" value="${fn:length(groups)+1}"/>
 
 
-<div class="table-responsive">
+    <%--<div class="table-responsive">--%>
     <table class="table table-striped">
         <tr>
             <th>№ пары \ Группа</th>
@@ -43,16 +44,22 @@
                 <td colspan="${columns}"><label><c:out value="${day}"/></label></td>
             </tr>
 
-            <c:forEach var="subject" items="${desktop.lessonNumber}" varStatus="num">
+            <c:forEach var="lesson" items="${desktop.lessonNumber}" varStatus="num">
                 <tr>
-                    <td rowspan="2"><c:out value="урок № ${num.count}"/></td>
+                    <td rowspan="3"><c:out value="урок № ${num.count}"/></td>
                     <c:forEach var="gr2" items="${groups}">
-                        <td><c:out value="${subject} у группы №${gr2.id}"/></td>
+                        <%--<c:set var="subj"--%>
+                        <td><c:out value="${lesson} у группы №${gr2.id}"/></td>
                     </c:forEach>
                 </tr>
                 <tr>
                     <c:forEach var="gr2" items="${groups}">
-                        <td><c:out value="ауд. №"/></td>
+                        <td><c:out value="ауд. № 321"/></td>
+                    </c:forEach>
+                </tr>
+                <tr>
+                    <c:forEach var="gr2" items="${groups}">
+                        <td><c:out value="ФИО преподавателя"/></td>
                     </c:forEach>
                 </tr>
             </c:forEach>

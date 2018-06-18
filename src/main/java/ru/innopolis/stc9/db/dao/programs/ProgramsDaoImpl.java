@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
 import ru.innopolis.stc9.db.dao.speciality.SpecialityDao;
-import ru.innopolis.stc9.db.dao.speciality.SpecialityDaoImpl;
 import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
 import ru.innopolis.stc9.pojo.Program;
-import ru.innopolis.stc9.pojo.Speciality;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,8 +29,6 @@ public class ProgramsDaoImpl implements ProgramsDao {
     public Program getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         Program program = null;
-
-
 
         int iid = (int)id;
 

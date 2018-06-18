@@ -1,8 +1,11 @@
 package ru.innopolis.stc9.db.dao.schedule;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
+import ru.innopolis.stc9.db.dao.groups.GroupsDao;
+import ru.innopolis.stc9.db.dao.teacherSubject.TeacherSubjectDao;
 import ru.innopolis.stc9.pojo.Group;
 import ru.innopolis.stc9.pojo.Schedule;
 import ru.innopolis.stc9.pojo.ScheduleItem;
@@ -17,6 +20,10 @@ import java.util.List;
 @Component
 public class ScheduleDaoImpl implements ScheduleDao {
     private static final Logger logger = Logger.getLogger(ScheduleDaoImpl.class);
+    @Autowired
+    private GroupsDao groupsDao;
+    @Autowired
+    private TeacherSubjectDao teachSubjectDao;
 
     @Override
     public ScheduleItem getById(long id) throws SQLException {
@@ -37,13 +44,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
 
         if (resultSet.next()) {
-            scheduleItem = new ScheduleItem(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            scheduleItem = parseOneScheduleItem(resultSet);
         }
         logger.info("Class PerformanceDaoImpl method getById finished, id = " + id);
         return scheduleItem;
@@ -66,44 +67,36 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
 
         while (resultSet.next()) {
-            ScheduleItem scheduleItem = new ScheduleItem(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            ScheduleItem scheduleItem = parseOneScheduleItem(resultSet);
             result = scheduleItem;
         }
         return result;
     }
 
+    private ScheduleItem parseOneScheduleItem(ResultSet resultSet) throws SQLException {
+        return new ScheduleItem(
+                resultSet.getLong("id")
+                , resultSet.getLong("day_of_week")
+                , resultSet.getLong("lesson_nummber")
+                , groupsDao.getById(resultSet.getLong("group_item"))
+                , teachSubjectDao.getById(resultSet.getLong("subject"))
+                , resultSet.getLong("room"));
+    }
+
     @Override
     public ScheduleItem getByGroupId(long id) throws SQLException {
         ScheduleItem result = null;
-        ResultSet resultSet =null;
-
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM schedules WHERE group_item= ?")) {
                 preparedStatement.setLong(1, id);
-                resultSet = preparedStatement.executeQuery();
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        ScheduleItem scheduleItem = parseOneScheduleItem(resultSet);
+                        result = scheduleItem;
+                    }
+                }
             }
-        }
-        finally {if(resultSet!=null)
-            resultSet.close();
-        }
-
-        while (resultSet.next()) {
-            ScheduleItem scheduleItem = new ScheduleItem(
-                      resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
-
-            result = scheduleItem;
         }
         return result;
     }
@@ -127,13 +120,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
 
         while (resultSet.next()) {
-            ScheduleItem scheduleItem = new ScheduleItem(
-                    resultSet.getLong("id")
-                    , resultSet.getLong("day_of_week")
-                    , resultSet.getLong("lesson_nummber")
-                    , resultSet.getLong("group_item")
-                    , resultSet.getLong( "subject")
-                    , resultSet.getLong( "room") );
+            ScheduleItem scheduleItem = parseOneScheduleItem(resultSet);
             result.add(scheduleItem);
         }
         return result;
@@ -174,8 +161,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, scheduleItem.getDayOfWeek());
                 statement.setLong(2, scheduleItem.getLessonNumber());
-                statement.setLong(3, scheduleItem.getGroupItem());
-                statement.setLong(4, scheduleItem.getSubject());
+                statement.setLong(3, scheduleItem.getGroupItem().getId());
+                statement.setLong(4, scheduleItem.getSubjectWithTeacher().getId());
                 statement.setLong(5, scheduleItem.getRoom());
                 statement.executeUpdate();
             }

@@ -52,10 +52,11 @@
                 </li>
 
                 <li>
-                    <label for="subject">предмет:</label>
-                    <select id="subject" name="subject">
+                    <label for="subjectWithTeacher">предмет:</label>
+                    <select id="subjectWithTeacher" name="subjectWithTeacher">
                         <c:forEach var="subj" items="${subjList}">
-                                  <option value="${subj.id}" <c:if test="${program.subject.id eq subj.id}">selected</c:if>>${subj.name}</option>
+                            <option value="${subj.id}"
+                                    <c:if test="${program.subjectWithTeacher.id eq subj.id}">selected</c:if>>${subj.name}</option>
                         </c:forEach>
                     </select>
                 </li>

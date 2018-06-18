@@ -3,7 +3,7 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 <h1>Список предметов</h1>
-<p><b><a href="/subject/addOrUpdateSubject">Добавить новый предмет</a></b></p>
+<p><b><a href="/subjectWithTeacher/addOrUpdateSubject">Добавить новый предмет</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -13,12 +13,14 @@
             <th></th>
             <th></th>
         </tr>
-        <c:forEach var="subject" items="${subjectList}">
+        <c:forEach var="subjectWithTeacher" items="${subjectList}">
         <tr>
-            <td>${subject.id}</td>
-            <td><a href="/subject/subject?id=${subject.id}">${subject.name}</a></td>
-            <td><a href="/subject/updateSubject?id=${subject.id}">редактировать</a></td>
-            <td><a href="/subject/deleteSubject?id=${subject.id}">удалить</a></td>
+            <td>${subjectWithTeacher.id}</td>
+            <td>
+                <a href="/subjectWithTeacher/subjectWithTeacher?id=${subjectWithTeacher.id}">${subjectWithTeacher.name}</a>
+            </td>
+            <td><a href="/subjectWithTeacher/updateSubject?id=${subjectWithTeacher.id}">редактировать</a></td>
+            <td><a href="/subjectWithTeacher/deleteSubject?id=${subjectWithTeacher.id}">удалить</a></td>
         </tr>
         </c:forEach>
     </table>

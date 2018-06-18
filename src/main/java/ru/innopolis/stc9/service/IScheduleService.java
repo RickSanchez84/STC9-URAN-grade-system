@@ -37,7 +37,7 @@ public interface IScheduleService {
     List<Group> getGroupsByStatus(Status status);
 
     /**
-     * Get general schedule for institute.
+     * Get general schedule for several groups.
      *
      * @return
      */
