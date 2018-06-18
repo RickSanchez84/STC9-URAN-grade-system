@@ -13,7 +13,6 @@
     <table class="table table-striped">
         <tbody>
         <tr>
-            <%--@elvariable id="links" type="java.util.List"--%>
             <c:forEach var="link" items="${links}">
                 <td><a href="${pageContext.request.contextPath}${link.key}">${link.value}</a></td>
             </c:forEach>

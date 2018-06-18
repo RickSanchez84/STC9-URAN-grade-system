@@ -22,6 +22,10 @@ public class ScheduleService implements IScheduleService {
     private static final Logger logger = Logger.getLogger(ScheduleService.class);
     private static final String BEFORE = "First  line of method.";
     private static final String AFTER = "Before exit.";
+    private static final String LINK_SEE = "посмотреть расписание";
+    private static final String LINK_EDIT = "редактировать расписание";
+    private static final String LINK_CREATE = "создать расписание";
+
 
     @Autowired
     private ScheduleDao scheduleDao;
@@ -128,16 +132,16 @@ public class ScheduleService implements IScheduleService {
     public Map<String, String> collectLinksOnPage(Status status) {
         Map<String, String> links = new LinkedHashMap<>();
         if (status.equals(Status.IN_PLAN)) {
-            links.put("/see", "посмотреть расписание");
-            links.put("/edit", "редактировать расписание");
-            links.put("/create", "создать расписание");
+            links.put("/see", LINK_SEE);
+            links.put("/edit", LINK_EDIT);
+            links.put("/create", LINK_CREATE);
         } else {
             if (status.equals(Status.IN_PROGRESS)) {
-                links.put("/see", "посмотреть расписание");
-                links.put("/edit", "редактировать расписание");
+                links.put("/see", LINK_SEE);
+                links.put("/edit", LINK_EDIT);
             } else {
                 if (status.equals(Status.ARCHIVE)) {
-                    links.put("/see", "посмотреть расписание");
+                    links.put("/see", LINK_SEE);
                 }
             }
         }
