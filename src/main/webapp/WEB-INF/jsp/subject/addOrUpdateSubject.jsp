@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-<form class="editForm" action="/subjectWithTeacher/addOrUpdateSubject" method="post" name="editForm">
+<form class="editForm" action="/subject/addOrUpdateSubject" method="post" name="editForm">
             <c:if test="${action=='update'}">
-                <input type="hidden" name="id" value="${subjectWithTeacher.id}">
+                <input type="hidden" name="id" value="${subject.id}">
             </c:if>
             <c:if test="${action=='add'}">
                 <input type="hidden" name="id" value="0">

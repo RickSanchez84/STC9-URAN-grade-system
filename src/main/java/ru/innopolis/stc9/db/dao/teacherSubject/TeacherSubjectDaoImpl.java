@@ -31,7 +31,7 @@ public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "select tl.id, tl.teacher_item, p.name as teacher, tl.subject_item, s2.name as subject from teacher_lesson tl   inner join persons p on tl.teacher_item = p.id inner join subjects s2 on tl.subject_item = s2.id where tl.id = ?;")) {
+                    "select tl.id, tl.teacher_item, p.name as teacher, tl.subject_item, s2.name as subject from teacher_subject tl   inner join persons p on tl.teacher_item = p.id inner join subjects s2 on tl.subject_item = s2.id where tl.id = ?;")) {
                 preparedStatement.setLong(1, id);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
