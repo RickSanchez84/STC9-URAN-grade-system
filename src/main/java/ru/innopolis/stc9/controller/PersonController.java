@@ -20,17 +20,18 @@ import java.util.List;
 
 
 @Controller
-public class PersonController extends HttpServlet {
+public class PersonController {
     private static final Logger logger = Logger.getLogger(PersonController.class);
+    private final IPersonService service;
+    private final IRoleService roleService;
 
     @Autowired
-    private IPersonService service;
-
-    @Autowired
-    private IRoleService roleService;
+    public PersonController(IPersonService personService, IRoleService roleService) {
+        this.service = personService;
+        this.roleService = roleService;
+    }
 
     @RequestMapping(value = "/addOrUpdate", method = RequestMethod.GET)
-
     public String addOrUpdate(HttpServletRequest request, Model model) {
         if (model.containsAttribute("person")) {
             model.addAttribute("action", "update");
@@ -78,7 +79,7 @@ public class PersonController extends HttpServlet {
             model.addAttribute("personList", personList);
             return "/personList";
         } else {
-            return "index";
+            return "Нет персон";
         }
     }
 
