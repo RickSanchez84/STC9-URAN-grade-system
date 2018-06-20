@@ -11,6 +11,7 @@
         <li><a href="/role/roleAll">Список типов пользователей</a></li>
         <li><a href="/program/programAll">Список учебных программ</a></li>
         <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
+        <li><a href="/scheduleItem/seeScheduleGroupsInProgress">Расписание</a></li>
     </ul>
     <div><a href="/static/j_spring_security_logout">Выйти</a></div>
 

@@ -16,7 +16,9 @@
         <c:forEach var="subject" items="${subjectList}">
         <tr>
             <td>${subject.id}</td>
-            <td><a href="/subject/subject?id=${subject.id}">${subject.name}</a></td>
+            <td>
+                <a href="/subject/subject?id=${subject.id}">${subject.name}</a>
+            </td>
             <td><a href="/subject/updateSubject?id=${subject.id}">редактировать</a></td>
             <td><a href="/subject/deleteSubject?id=${subject.id}">удалить</a></td>
         </tr>

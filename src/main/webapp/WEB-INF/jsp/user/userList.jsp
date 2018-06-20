@@ -15,9 +15,9 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="person" items="${personList}">
+        <c:forEach var="person" items="${personList}" varStatus="сounter">
             <tr>
-                <td>${person.id}</td>
+                <td>${сounter.id}</td>
                 <td><a href="/person/person?id=${person.id}">${person.name}</a></td>
                 <td><a href="/person/updatePerson?id=${person.id}">редактировать</a></td>
                 <td><a href="/person/deletePerson?id=${person.id}">удалить</a></td>

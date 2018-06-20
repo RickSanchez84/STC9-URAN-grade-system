@@ -43,4 +43,32 @@ public class GroupStructure {
     this.groupItem = groupItem;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    GroupStructure that = (GroupStructure) o;
+
+    if (id != that.id) return false;
+    if (studentItem != that.studentItem) return false;
+    return groupItem == that.groupItem;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (int) (id ^ (id >>> 32));
+    result = 31 * result + (int) (studentItem ^ (studentItem >>> 32));
+    result = 31 * result + (int) (groupItem ^ (groupItem >>> 32));
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "GroupStructure{" +
+            "id=" + id +
+            ", studentItem=" + studentItem +
+            ", groupItem=" + groupItem +
+            '}';
+  }
 }

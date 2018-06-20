@@ -55,7 +55,8 @@
                     <label for="subject">предмет:</label>
                     <select id="subject" name="subject">
                         <c:forEach var="subj" items="${subjList}">
-                                  <option value="${subj.id}" <c:if test="${program.subject.id eq subj.id}">selected</c:if>>${subj.name}</option>
+                            <option value="${subj.id}"
+                                    <c:if test="${program.subject.id eq subj.id}">selected</c:if>>${subj.name}</option>
                         </c:forEach>
                     </select>
                 </li>

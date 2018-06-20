@@ -14,6 +14,14 @@ public class TeacherSubject {
     this.teacherItem = teacherItem;
   }
 
+    public TeacherSubject(long id, long teacherItem, String teacherName, long subjectItem, String subjectName) {
+        this.id = id;
+        this.teacherItem = teacherItem;
+        this.teacherName = teacherName;
+        this.subjectItem = subjectItem;
+        this.subjectName = subjectName;
+    }
+
   public TeacherSubject(long teacherItem, long subjectItem) {
     this.teacherItem = teacherItem;
     this.subjectItem = subjectItem;
@@ -64,4 +72,39 @@ public class TeacherSubject {
   public void setSubjectName(String subjectName) {
     this.subjectName = subjectName;
   }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TeacherSubject that = (TeacherSubject) o;
+
+        if (id != that.id) return false;
+        if (teacherItem != that.teacherItem) return false;
+        if (subjectItem != that.subjectItem) return false;
+        if (teacherName != null ? !teacherName.equals(that.teacherName) : that.teacherName != null) return false;
+        return subjectName != null ? subjectName.equals(that.subjectName) : that.subjectName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (teacherItem ^ (teacherItem >>> 32));
+        result = 31 * result + (int) (subjectItem ^ (subjectItem >>> 32));
+        result = 31 * result + (teacherName != null ? teacherName.hashCode() : 0);
+        result = 31 * result + (subjectName != null ? subjectName.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TeacherSubject{" +
+                "id=" + id +
+                ", teacherItem=" + teacherItem +
+                ", subjectItem=" + subjectItem +
+                ", teacherName='" + teacherName + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                '}';
+    }
 }

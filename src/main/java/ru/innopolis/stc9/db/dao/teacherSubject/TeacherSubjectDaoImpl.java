@@ -1,9 +1,13 @@
 package ru.innopolis.stc9.db.dao.teacherSubject;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
+import ru.innopolis.stc9.db.dao.person.PersonDao;
+import ru.innopolis.stc9.db.dao.subjects.SubjectDao;
 import ru.innopolis.stc9.pojo.TeacherSubject;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,24 +19,29 @@ import java.util.List;
 public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
     private static final Logger logger = Logger.getLogger(TeacherSubjectDaoImpl.class);
     public  final String ClassName= this.getClass().getName();
+    @Autowired
+    private PersonDao personDao;
+    @Autowired
+    private SubjectDao subjectDao;
 
     @Override
     public TeacherSubject getById(long id) throws SQLException {
         logger.info("Class "+ClassName+" method getById started, id = " + id);
         TeacherSubject teacherSubject = null;
 
-        int iid = (int)id;
-
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM teacher_subject WHERE id= ?")) {
-                preparedStatement.setInt(1, iid);
+                    "select tl.id, tl.teacher_item, p.name as teacher, tl.subject_item, s2.name as subject from teacher_subject tl   inner join persons p on tl.teacher_item = p.id inner join subjects s2 on tl.subject_item = s2.id where tl.id = ?;")) {
+                preparedStatement.setLong(1, id);
                 try (ResultSet  resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         teacherSubject = new TeacherSubject(
                                 resultSet.getLong("id")
                                 , resultSet.getLong("teacher_item")
-                                , resultSet.getLong("subject_item"));
+                                , resultSet.getString("teacher")
+                                , resultSet.getLong("subject_item")
+                                , resultSet.getString("subject")
+                        );
                     }
                 }
             }

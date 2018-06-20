@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
-        <form class="editForm" action="/subject/addOrUpdateSubject" method="post" name="editForm">
+<form class="editForm" action="/subject/addOrUpdateSubject" method="post" name="editForm">
             <c:if test="${action=='update'}">
                 <input type="hidden" name="id" value="${subject.id}">
             </c:if>
@@ -21,7 +21,7 @@
                 <li>
                     <label for="name">Название:</label>
                     <input type="text" placeholder="Предмет" required
-                           value="<c:if test="${action=='update'}">${subject.name}</c:if>" name="name"/>
+                           value="<c:if test="${action=='update'}">${subjectWithTeacher.name}</c:if>" name="name"/>
                 </li>
               
                     <button class="submit" type="submit">OK</button>

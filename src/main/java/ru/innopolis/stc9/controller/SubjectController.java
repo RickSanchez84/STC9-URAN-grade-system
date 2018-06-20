@@ -58,7 +58,7 @@ public class SubjectController extends HttpServlet{
     }
 
     @RequestMapping(value = "/subjectAll", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request, Model model) {
+    public String getAll(Model model) {
         List<Subject> subjectList = service.getAll();
         if (subjectList != null) {
             model.addAttribute("subjectList", subjectList);

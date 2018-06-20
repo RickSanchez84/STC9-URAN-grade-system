@@ -109,8 +109,8 @@ public class SubjectDaoImpl implements SubjectDao {
 
         try (Connection connection = new ConnectionManagerImpl().getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, subject.getId());
-                statement.setString(2, subject.getName());
+                statement.setLong(2, subject.getId());
+                statement.setString(1, subject.getName());
                 statement.executeUpdate();
             }
         }

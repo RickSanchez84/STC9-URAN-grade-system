@@ -14,4 +14,5 @@ public interface IGroupService {
     void add(Group group);
 
     List<Group> getAll();
+
 }
