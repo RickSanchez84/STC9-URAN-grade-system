@@ -12,7 +12,6 @@ import ru.innopolis.stc9.pojo.Role;
 import ru.innopolis.stc9.service.IPersonService;
 import ru.innopolis.stc9.service.IRoleService;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -52,12 +51,13 @@ public class PersonController extends HttpServlet {
                                     @RequestAttribute String email,
                                     @RequestAttribute String role, Model model) {
 
+        Role r = roleService.getById(Long.parseLong(role));
         if (action.equals("add")) {
-            Person person = new Person(name, Date.valueOf(birthday), email, Integer.parseInt(role));
+            Person person = new Person(name, Date.valueOf(birthday), email, r);
             service.add(person);
         } else {
             if (action.equals("update")) {
-                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), email, Integer.parseInt(role));
+                Person person = new Person(Long.parseLong(id), name, Date.valueOf(birthday), email, r);
                 service.updateById(person);
             }
         }
@@ -96,7 +96,7 @@ public class PersonController extends HttpServlet {
     public String getPerson(HttpServletRequest request,
                             @RequestAttribute String id, Model model) {
         Person person = service.getById(Long.parseLong(id));
-        String roleName = roleService.getById(person.getRole()).getName();
+        Role roleName = roleService.getById(person.getRole().getId());
         model.addAttribute("person", person);
         model.addAttribute("role", roleName);
         return "/getPerson";

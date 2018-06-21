@@ -1,5 +1,6 @@
 package ru.innopolis.stc9.service;
 
+import ru.innopolis.stc9.pojo.Person;
 import ru.innopolis.stc9.pojo.User;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface IUserService {
 
     List<User> getAll();
 
-    void addUsers(String login, String pass, String role);
+    void addUsers(String login, String pass, String role, Person person);
+
+    String getUserSecurityRole(String name);
 }

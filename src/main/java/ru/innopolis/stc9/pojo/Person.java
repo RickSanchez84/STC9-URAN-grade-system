@@ -7,9 +7,9 @@ public class Person {
     private String name;
     private Date birthday;
     private String email;
-    private int role;
+    private Role role;
 
-    public Person(long id, String name, Date birthday, String email, int role) {
+    public Person(long id, String name, Date birthday, String email, Role role) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -17,7 +17,7 @@ public class Person {
         this.role = role;
     }
 
-    public Person(String name, Date birthday, String email, int role) {
+    public Person(String name, Date birthday, String email, Role role) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
@@ -56,11 +56,11 @@ public class Person {
         this.email = email;
     }
 
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -72,10 +72,10 @@ public class Person {
         Person person = (Person) o;
 
         if (id != person.id) return false;
-        if (role != person.role) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (birthday != null ? !birthday.equals(person.birthday) : person.birthday != null) return false;
-        return email != null ? email.equals(person.email) : person.email == null;
+        if (email != null ? !email.equals(person.email) : person.email != null) return false;
+        return role != null ? role.equals(person.role) : person.role == null;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Person {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + role;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 

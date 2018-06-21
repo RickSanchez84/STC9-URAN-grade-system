@@ -13,21 +13,36 @@
 </nav>
 
 <h2>Регистрация</h2>
+
+<h5>
+    <c:if test="${err!=null}">
+        <c:out value="${err}"/>
+    </c:if>
+</h5>
+
 <div id="navbar" class="navbar-collapse collapse">
     <form action="${pageContext.request.contextPath}/registration" method="post">
+
+        <div class="form-group">
+            <input type='text' name='personName' placeholder="имя" class="form-control" required autofocus><br>
+        </div>
+        <div class="form-group">
+            <input type='email' name='email' placeholder="email" class="form-control" required autofocus><br>
+        </div>
 
         <div class="form-group">
             <input type='text' name='login' placeholder="login" class="form-control" required autofocus><br>
         </div>
 
         <div class="form-group">
-            <input type='text' name='password' placeholder="password" class="form-control" required><br>
+            <input type='password' name='password' placeholder="password" class="form-control" required><br>
         </div>
 
-        <div class="form-group">
-            <input type='text' name='role' placeholder="role" class="form-control" required><br>
-        </div>
-        <button type="submit">Сохранить</button>
+        <%--<div class="form-group">--%>
+        <%--<input type='password' name='passwordConfirm' placeholder="password" class="form-control" required><br>--%>
+        <%--</div>--%>
+
+        <button type="submit">Зарегистрироваться</button>
 
     </form>
 </div>

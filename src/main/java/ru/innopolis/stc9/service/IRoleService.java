@@ -1,5 +1,7 @@
 package ru.innopolis.stc9.service;
+
 import ru.innopolis.stc9.pojo.Role;
+
 import java.util.List;
 
 public interface IRoleService {
@@ -7,9 +9,12 @@ public interface IRoleService {
 
     Role getById(long id);
 
+    Role getByName(String roleName);
+
     void deleteById(long id);
 
     void add(Role role);
 
     List<Role> getAll();
+
 }

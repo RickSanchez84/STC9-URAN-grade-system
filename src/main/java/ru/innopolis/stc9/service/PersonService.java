@@ -43,6 +43,23 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    public Person getByName(String name) {
+        logger.debug("Search person by name for argument " + name);
+        Person result = null;
+        if (name != null) {
+            try {
+                result = personDao.getByName(name);
+            } catch (SQLException e) {
+                logger.error(e.getMessage() + " argument = " + name);
+            }
+        } else {
+            logger.warn("Input argument is null");
+        }
+        logger.debug("Result of search:" + (result == null ? "failed" : "success"));
+        return result;
+    }
+
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {

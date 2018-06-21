@@ -44,6 +44,19 @@ public class RoleService implements IRoleService {
     }
 
     @Override
+    public Role getByName(String roleName) {
+        logger.debug("Search for the requested role has begun" + roleName);
+        Role result = null;
+        try {
+            result = roleDao.getByName(roleName);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        logger.debug("Search " + (result == null ? "failed" : "succeeded"));
+        return result;
+    }
+
+    @Override
     public void deleteById(long id) {
         logger.info(this.getClass().getName() + " method deleteById started, id = " + id);
         try {

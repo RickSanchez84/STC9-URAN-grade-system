@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.innopolis.stc9.pojo.Person;
 import ru.innopolis.stc9.pojo.User;
+import ru.innopolis.stc9.service.IPersonService;
+import ru.innopolis.stc9.service.IRoleService;
 import ru.innopolis.stc9.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +20,13 @@ import java.util.List;
 @Controller
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
-
+    //    @Autowired
     private IUserService service;
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    private IPersonService personService;
+
 
     @Autowired
     public UserController(IUserService service) {
@@ -59,7 +67,7 @@ public class UserController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String deleteUser(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
+                             @RequestAttribute String id, Model model) {
         service.deleteById(Integer.parseInt(id));
         return ("redirect:userAll");
     }
@@ -77,7 +85,7 @@ public class UserController {
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
     public String updateUser(HttpServletRequest request,
-                               @RequestAttribute String id, Model model) {
+                             @RequestAttribute String id, Model model) {
         model.addAttribute("user", service.getById(Integer.parseInt(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
@@ -85,7 +93,7 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String getUser(HttpServletRequest request,
-                            @RequestAttribute String id, Model model) {
+                          @RequestAttribute String id, Model model) {
         User user = service.getById(Integer.parseInt(id));
         model.addAttribute("user", user);
         return "/getUser";
@@ -93,17 +101,30 @@ public class UserController {
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String setRegistrationUser(Model model) {
+    public String setRegistrationUser(@RequestAttribute String err, Model model) {
+        if (!model.containsAttribute("err")) {
+            model.addAttribute("err", err);
+        }
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String setRegistrationUser(@RequestParam String login,
+    public String setRegistrationUser(@RequestParam String personName,
+                                      @RequestParam String email,
+                                      @RequestParam String login,
                                       @RequestParam String password,
-                                      @RequestParam String role,
                                       Model model) {
-        service.addUsers(login, password, role);
-        //  model.addAttribute("registration", "registed");
+        String userRole = service.getUserSecurityRole(personName);
+        if (userRole != null) {
+            Person person = personService.getByName(personName);
+            person.setEmail(email);
+            personService.updateById(person);
+            service.addUsers(login, password, userRole, person);
+            model.addAttribute("err", null);
+        } else {
+            model.addAttribute("err", "Не удалось зарегистрировать. Указанные данные не найдены в системе");
+            return "registration";
+        }
         return "login";
     }
 }

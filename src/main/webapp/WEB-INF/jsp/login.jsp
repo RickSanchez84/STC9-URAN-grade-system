@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name="j_password" placeholder="password" class="form-control"><br>
+                    <input type="password" name="j_password" placeholder="password" class="form-control"><br>
                 </div>
 
                 <input type="submit" value="Войти">

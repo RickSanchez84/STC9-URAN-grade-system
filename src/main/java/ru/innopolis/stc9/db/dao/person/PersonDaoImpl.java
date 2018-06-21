@@ -1,8 +1,10 @@
 package ru.innopolis.stc9.db.dao.person;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.db.connection.ConnectionManagerImpl;
+import ru.innopolis.stc9.db.dao.roles.RoleDao;
 import ru.innopolis.stc9.pojo.Person;
 
 import java.sql.Connection;
@@ -15,6 +17,8 @@ import java.util.List;
 @Component
 public class PersonDaoImpl implements PersonDao {
     private static final Logger logger = Logger.getLogger(PersonDaoImpl.class);
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public Person getById(long id) throws SQLException {
@@ -35,7 +39,7 @@ public class PersonDaoImpl implements PersonDao {
                                 , resultSet.getString("name")
                                 , resultSet.getDate("birthday")
                                 , resultSet.getString("email")
-                                , resultSet.getInt("role"));
+                                , roleDao.getById(resultSet.getLong("role")));
                     }
                 }
             }
@@ -59,7 +63,7 @@ public class PersonDaoImpl implements PersonDao {
                                 , resultSet.getString("name")
                                 , resultSet.getDate("birthday")
                                 , resultSet.getString("email")
-                                , resultSet.getInt("role"));
+                                , roleDao.getById(resultSet.getLong("role")));
                         result = person;
                     }
                 }
@@ -83,7 +87,7 @@ public class PersonDaoImpl implements PersonDao {
                                 , resultSet.getString("name")
                                 , resultSet.getDate("birthday")
                                 , resultSet.getString("email")
-                                , resultSet.getInt("role"));
+                                , roleDao.getById(resultSet.getLong("role")));
                         result.add(person);
                     }
                 }
@@ -103,7 +107,7 @@ public class PersonDaoImpl implements PersonDao {
                 statement.setString(1, person.getName());
                 statement.setDate(2, person.getBirthday());
                 statement.setString(3, person.getEmail());
-                statement.setInt(4, person.getRole());
+                statement.setLong(4, person.getRole().getId());
                 statement.executeUpdate();
             }
         }
@@ -120,7 +124,7 @@ public class PersonDaoImpl implements PersonDao {
                 statement.setString(1, person.getName());
                 statement.setDate(2, person.getBirthday());
                 statement.setString(3, person.getEmail());
-                statement.setInt(4, person.getRole());
+                statement.setLong(4, person.getRole().getId());
                 statement.setLong(5, person.getId());
                 statement.executeUpdate();
             }
@@ -155,12 +159,11 @@ public class PersonDaoImpl implements PersonDao {
                                 , resultSet.getString("name")
                                 , resultSet.getDate("birthday")
                                 , resultSet.getString("email")
-                                , resultSet.getInt("role"));
+                                , roleDao.getById(resultSet.getLong("role")));
                         result.add(person);
                     }
                 }
             }
-
         }
         return result;
     }
