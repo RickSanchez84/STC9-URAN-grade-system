@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.innopolis.stc9.pojo.Person;
 import ru.innopolis.stc9.pojo.User;
-import ru.innopolis.stc9.service.IPersonService;
-import ru.innopolis.stc9.service.IRoleService;
 import ru.innopolis.stc9.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +17,9 @@ import java.util.List;
 @Controller
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
-    //    @Autowired
+    private static final String BEFORE = "First line of method";
+    private static final String AFTER = "Before exit";
     private IUserService service;
-    @Autowired
-    private IRoleService roleService;
-    @Autowired
-    private IPersonService personService;
-
 
     @Autowired
     public UserController(IUserService service) {
@@ -35,65 +28,51 @@ public class UserController {
 
     @RequestMapping(value = "/addOrUpdateUser", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {
+        logger.debug(BEFORE);
         if (model.containsAttribute("user")) {
             model.addAttribute("action", "update");
             model.addAttribute("id", request.getParameter("id"));
         } else {
             model.addAttribute("action", "add");
         }
+        logger.debug(AFTER);
         return "/addOrUpdateUser";
     }
 
-//    @RequestMapping(value = "/addOrUpdateUser", method = RequestMethod.POST)
-//    public String addOrUpdateUser(HttpServletRequest request,
-//                                  @RequestAttribute String id,
-//                                  @RequestAttribute String action,
-//                                  @RequestAttribute String login,
-//                                  @RequestAttribute String password,
-//                                  @RequestAttribute String role,
-//                                  Model model) {
-//
-//        if (action.equals("add")) {
-//            User user = new User(login, password, role);
-//            service.add(user);
-//        } else {
-//            if (action.equals("update")) {
-//                User user = new User(Long.parseLong(id), login, password, role);
-//                service.update(user);
-//            }
-//        }
-//        return "redirect:userAll";
-//    }
-
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
-    public String deleteUser(HttpServletRequest request,
-                             @RequestAttribute String id, Model model) {
+    public String deleteUser(@RequestAttribute String id, Model model) {
+        logger.debug(BEFORE);
         service.deleteById(Integer.parseInt(id));
+        logger.debug(AFTER);
         return ("redirect:userAll");
     }
 
     @RequestMapping(value = "/userAll", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request, Model model) {
+    public String getAll(Model model) {
+        logger.debug(BEFORE);
+        String result;
         List<User> userList = service.getAll();
         if (userList != null) {
             model.addAttribute("userList", userList);
-            return "/userList";
+            result = "/userList";
         } else {
-            return "index";
+            result = "index";
         }
+        logger.debug(AFTER);
+        return result;
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.GET)
-    public String updateUser(HttpServletRequest request,
-                             @RequestAttribute String id, Model model) {
+    public String updateUser(@RequestAttribute String id, Model model) {
+        logger.debug(BEFORE);
         model.addAttribute("user", service.getById(Integer.parseInt(id)));
         model.addAttribute("action", "update");
         return ("/addOrUpdate");
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String getUser(HttpServletRequest request,
-                          @RequestAttribute String id, Model model) {
+    public String getUser(@RequestAttribute String id, Model model) {
+        logger.debug(BEFORE);
         User user = service.getById(Integer.parseInt(id));
         model.addAttribute("user", user);
         return "/getUser";
@@ -102,6 +81,7 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String setRegistrationUser(@RequestAttribute String err, Model model) {
+        logger.debug(BEFORE);
         if (!model.containsAttribute("err")) {
             model.addAttribute("err", err);
         }
@@ -113,18 +93,15 @@ public class UserController {
                                       @RequestParam String email,
                                       @RequestParam String login,
                                       @RequestParam String password,
+                                      @RequestParam String passwordConfirm,
                                       Model model) {
-        String userRole = service.getUserSecurityRole(personName);
-        if (userRole != null) {
-            Person person = personService.getByName(personName);
-            person.setEmail(email);
-            personService.updateById(person);
-            service.addUsers(login, password, userRole, person);
-            model.addAttribute("err", null);
-        } else {
+        logger.debug(BEFORE);
+        String result = "login";
+        boolean b = service.addUserOnRegistration(personName, email, login, password, passwordConfirm);
+        if (!b) {
             model.addAttribute("err", "Не удалось зарегистрировать. Указанные данные не найдены в системе");
-            return "registration";
+            result = "registration";
         }
-        return "login";
+        return result;
     }
 }

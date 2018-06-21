@@ -20,6 +20,7 @@ public class UserService implements IUserService {
     private static final Logger logger = Logger.getLogger(UserService.class);
     private static final Logger loggerError = Logger.getLogger(UserService.class);
     private static final String ROLE_FROM_ROLES_FOR_SECURITY_USERS_ROLE = "Студент";
+    private static final String[] securityRoles = new String[]{"ROLE_USER", "ROLE_ADMIN"};
 
 
     private UsersDao userDao;
@@ -96,36 +97,85 @@ public class UserService implements IUserService {
         return userList;
     }
 
-    @Override
-    public void addUsers(String login, String pass, String role, Person person) {
+    private boolean addUsers(String personName, String login, String pass, String role, int enabled) {
         logger.debug("Save a new user " + login);
-        String cryptPassword = bcryptEncoder.encode(pass);
-        int enabled = (role.equals("ROLE_USER") || role.equals("ROLE_ADMIN")) ? 1 : 0;
-        userDao.addUsers(login, cryptPassword, role, enabled, person.getId());
+        long result = -1;
+        try {
+            Person person = personDao.getByName(personName);
+            if (person != null) {
+                String cryptPassword = bcryptEncoder.encode(pass);
+                result = userDao.addUsers(login, cryptPassword, role, enabled, person.getId());
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
         logger.info("add user");
+        return result > 0;
     }
 
-    @Override
-    public String getUserSecurityRole(String name) {
+    private String getUserSecurityRole(String name) {
         logger.debug("Person " + name + " wants to register.");
         String result = null;
-        if (name != null && !name.isEmpty()) {
-            try {
-                Person person = personDao.getByName(name);
-                if (person != null) {
-                    Role properRole = person.getRole();
-                    List<Role> roles = roleDao.getAll();
-                    if (properRole != null && roles.contains(properRole)) {
-                        result = properRole.equals(roleDao.getByName(ROLE_FROM_ROLES_FOR_SECURITY_USERS_ROLE)) ? "ROLE_USER" : "ROLE_ADMIN";
-                    }
+        try {
+            Person person = personDao.getByName(name);
+            if (person != null) {
+                Role properRole = person.getRole();
+                List<Role> roles = roleDao.getAll();
+                if (properRole != null && roles.contains(properRole)) {
+                    result = properRole.equals(roleDao.getByName(ROLE_FROM_ROLES_FOR_SECURITY_USERS_ROLE)) ? "ROLE_USER" : "ROLE_ADMIN";
                 }
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
             }
-        } else {
-            logger.warn("Input argument is empty.");
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         logger.info(result != null ? "The user with " + name + " is " + result : "The system does not assume the user with the specified data.");
+        return result;
+    }
+
+    private int getUserBan(String securityRole) {
+        int result = 0;
+        for (String s : securityRoles) {
+            if (securityRole.equals(s)) {
+                result = 1;
+                break;
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public boolean addUserOnRegistration(String personName, String email, String login, String password, String passwordConfirm) {
+        logger.debug("Start of the new user registration procedure");
+        boolean result = false;
+        boolean validation = validateArguments(personName, email, login, password, passwordConfirm) && checkPasswords(password, passwordConfirm);
+        if (validation) {
+            String securityRole = getUserSecurityRole(personName);
+            int enable = getUserBan(securityRole);
+            result = addUsers(personName, login, password, securityRole, enable);
+        }
+        logger.info("Registration is " + (result ? "Success" : "Failed"));
+        return result;
+    }
+
+    private boolean checkPasswords(String password, String passwordConfirm) {
+        logger.debug("compare two passwords");
+        boolean result = false;
+        result = password.equals(passwordConfirm);
+        logger.info("Result = " + result);
+        return result;
+    }
+
+    private boolean validateArguments(String... strings) {
+        logger.debug("Start of inputs strings validations");
+        boolean result = true;
+        for (String s : strings) {
+            if (s == null || s.isEmpty()) {
+                result = false;
+                break;
+            }
+        }
+        logger.info("Result of validation = " + result);
         return result;
     }
 }

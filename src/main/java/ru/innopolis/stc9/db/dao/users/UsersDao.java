@@ -17,5 +17,5 @@ public interface UsersDao {
 
     void deleteById(long id) throws SQLException;
 
-    void addUsers(String login, String password, String role, int enabled, long personId);
+    long addUsers(String login, String password, String role, int enabled, long personId);
 }

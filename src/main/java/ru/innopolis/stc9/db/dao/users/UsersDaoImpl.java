@@ -134,20 +134,26 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
-    public void addUsers(String login, String password, String role, int enabled, long personId) {
+    public long addUsers(String login, String password, String role, int enabled, long personId) {
         logger.info("add users start ");
+        long result = -1;
         try (Connection connection = new ConnectionManagerImpl().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "INSERT INTO users(login, password, role, enabled, personid) VALUES (?,?,?,?,?)")) {
+                     "INSERT INTO users(login, password, role, enabled, personid) VALUES (?,?,?,?,?) returning id")) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, role);
             preparedStatement.setInt(4, enabled);
             preparedStatement.setLong(5, personId);
-            preparedStatement.executeUpdate();
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    result = rs.getLong("id");
+                }
+            }
         } catch (SQLException e) {
             logger.error("Error: " + e.getMessage());
         }
-        logger.info("add users finish");
+        logger.info("result of operation = " + (result > 0));
+        return result;
     }
 }

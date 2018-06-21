@@ -35,12 +35,13 @@
         </div>
 
         <div class="form-group">
-            <input type='password' name='password' placeholder="password" class="form-control" required><br>
+            <input type='password' name='password' placeholder="password" class="form-control" required autofocus><br>
         </div>
 
-        <%--<div class="form-group">--%>
-        <%--<input type='password' name='passwordConfirm' placeholder="password" class="form-control" required><br>--%>
-        <%--</div>--%>
+        <div class="form-group">
+            <input type='password' name='passwordConfirm' placeholder="password" class="form-control" required
+                   autofocus><br>
+        </div>
 
         <button type="submit">Зарегистрироваться</button>
 
