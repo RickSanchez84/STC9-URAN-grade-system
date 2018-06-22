@@ -32,7 +32,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 public class PersonControllerTest {
     MockMvc mockMvc;
     private List<Person> personList;
-
+    private Person person1;
     @Autowired
     IPersonService personServiceMock;
 
@@ -43,7 +43,7 @@ public class PersonControllerTest {
     public void setUp() {
         personList = new ArrayList<>();
         mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personServiceMock, roleServiceMock)).build();
-        Person person1 = new Person(10, "Роман", new java.sql.Date(1976 - 03 - 30), "info@info.ru", 1);
+        person1 = new Person(10, "Роман", new java.sql.Date(1976 - 03 - 30), "info@info.ru", 1);
         Person person2 = new Person(20, "Василий", new java.sql.Date(1983 - 04 - 20), "info@stc.ru", 2);
         personList.add(person1);
         personList.add(person2);
@@ -80,16 +80,12 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void updatePerson() throws Exception {
-        mockMvc.perform(post("/updatePerson")
+    public void getById() throws Exception {
+        mockMvc.perform(get("/person")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .requestAttr("id", "11"))
+                .requestAttr("id", "10"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/addOrUpdate"))
-                .andExpect(model().attribute("name", "test"))
-                .andExpect(model().attribute("birthday", "1976-03-30"))
-                .andExpect(model().attribute("email", "info@stc.ru"))
-                .andExpect(model().attribute("role","1"));
+                .andExpect(view().name("/getPerson"))
+                .andExpect(model().attribute("person", person1));
     }
-
 }
