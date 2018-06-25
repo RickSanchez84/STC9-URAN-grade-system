@@ -17,9 +17,12 @@ import java.util.List;
 @Controller
 public class SubjectController extends HttpServlet{
     private static final Logger logger = Logger.getLogger(SubjectController.class);
+    private final ISubjectService service;
 
     @Autowired
-    private ISubjectService service;
+    public SubjectController(ISubjectService subjectService) {
+        this.service = subjectService;
+    }
 
     @RequestMapping(value = "/addOrUpdateSubject", method = RequestMethod.GET)
     public String addOrUpdate(HttpServletRequest request, Model model) {

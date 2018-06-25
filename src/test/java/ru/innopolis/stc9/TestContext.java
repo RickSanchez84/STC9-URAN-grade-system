@@ -7,10 +7,7 @@ import ru.innopolis.stc9.db.dao.person.PersonDao;
 import ru.innopolis.stc9.db.dao.person.PersonDaoImpl;
 import ru.innopolis.stc9.db.dao.roles.RoleDao;
 import ru.innopolis.stc9.db.dao.roles.RoleDaoImpl;
-import ru.innopolis.stc9.service.IPersonService;
-import ru.innopolis.stc9.service.IRoleService;
-import ru.innopolis.stc9.service.PersonService;
-import ru.innopolis.stc9.service.RoleService;
+import ru.innopolis.stc9.service.*;
 
 @Configuration
 public class TestContext {
@@ -33,4 +30,7 @@ public class TestContext {
     public RoleDao roleDao() {
         return Mockito.mock(RoleDaoImpl.class);
     }
+
+    @Bean
+    public ISubjectService subjectService() {return Mockito.mock(SubjectService.class); }
 }

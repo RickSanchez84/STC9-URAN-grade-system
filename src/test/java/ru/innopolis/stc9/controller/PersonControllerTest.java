@@ -29,10 +29,12 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContext.class})
 @WebAppConfiguration
+
 public class PersonControllerTest {
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     private List<Person> personList;
     private Person person1;
+
     @Autowired
     IPersonService personServiceMock;
 
