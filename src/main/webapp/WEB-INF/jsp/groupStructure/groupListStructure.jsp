@@ -3,13 +3,14 @@
 <%@ include file="../../../header.jsp" %>
 <%@ include file="../../../aside.jsp" %>
 <h1>Добавление группы</h1>
-<p><b><a href="/groupStructure/addGroupStructure">Добавить новую группу</a></b></p>
+<p><b><a href="/groupStructure/addOrUpdateGroupStructure">Добавить новую группу</a></b></p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
         <tr>
             <th>№ ID</th>
             <th>Группа</th>
+            <th>Name student</th>
             <th></th>
             <th></th>
         </tr>
@@ -18,6 +19,8 @@
         <c:forEach var="groupStructure" items="${groupStructureList}">
             <tr>
                 <td>${groupStructure.id}</td>
+                <td>${groupStructure.nameGroup}</td>
+                <td>${groupStructure.studentItem.name.toString()}</td>
                 <td><a href="/groupStructure/updateGroupStructure?id=${groupStructure.id}">редактировать</a></td>
                 <td><a href="/groupStructure/deleteGroupStructure?id=${groupStructure.id}">удалить</a></td>
             </tr>

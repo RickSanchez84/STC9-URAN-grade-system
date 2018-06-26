@@ -14,7 +14,8 @@
                     <c:if test="${action=='update'}">
                         <h2>Редактирование</h2>
                     </c:if>
-                    <c:if test="${action=='add'}">
+
+            <c:if test="${action=='add'}">
                         <h2>Добавление нового персонажа</h2>
                     </c:if>
             <ul>

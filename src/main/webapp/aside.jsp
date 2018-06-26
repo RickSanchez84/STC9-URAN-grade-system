@@ -22,6 +22,7 @@
         <ul class="nav nav-sidebar">
             <li><a href="/program/programAll">Список учебных программ</a></li>
             <li><a href="/teacherSubject/tlAll">Предмет-преподаватель</a></li>
+            <li><a href="/groupStructure/groupStructureAll">Groups</a></li>
         </ul>
         <div><a href="/static/j_spring_security_logout"> Выйти </a></div>
     </div>

@@ -82,8 +82,21 @@
         <servlet-name>program</servlet-name>
         <url-pattern>/program/*</url-pattern>
     </servlet-mapping>
-        
-   <display-name>teacherSubject</display-name>
+
+    <display-name>groupStructure</display-name>
+
+    <servlet>
+        <servlet-name>groupStructure</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>groupStructure</servlet-name>
+        <url-pattern>/groupStructure/*</url-pattern>
+    </servlet-mapping>
+
+
+    <display-name>teacherSubject</display-name>
 
     <servlet>
         <servlet-name>teacherSubject</servlet-name>

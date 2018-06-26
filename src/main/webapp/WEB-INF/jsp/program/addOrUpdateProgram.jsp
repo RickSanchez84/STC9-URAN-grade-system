@@ -6,7 +6,7 @@
 
 <form class="editForm" action="/program/addOrUpdateProgram" method="post" name="editForm">
 
-            <c:if test="${action=='update'}">
+    <c:if test="${action =='update'}">
                 <input type="hidden" name="id" value="${program.id}">
             </c:if>
 
