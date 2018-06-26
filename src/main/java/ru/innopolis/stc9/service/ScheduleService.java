@@ -3,12 +3,12 @@ package ru.innopolis.stc9.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.groups.GroupsDao;
-import ru.innopolis.stc9.db.dao.schedule.ScheduleDao;
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
-import ru.innopolis.stc9.pojo.Status;
+import ru.innopolis.stc9.db.daoEntity.groups.GroupsDao;
+import ru.innopolis.stc9.db.daoEntity.schedule.ScheduleDao;
+import ru.innopolis.stc9.entity.Group;
+import ru.innopolis.stc9.entity.Schedule;
+import ru.innopolis.stc9.entity.ScheduleItem;
+import ru.innopolis.stc9.entity.Status;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ public class ScheduleService implements IScheduleService {
     private static final Logger logger = Logger.getLogger(ScheduleService.class);
     private static final String BEFORE = "First  line of method.";
     private static final String AFTER = "Before exit.";
-    private static final String LINK_SEE = "посмотреть расписание";
-    private static final String LINK_EDIT = "редактировать расписание";
-    private static final String LINK_CREATE = "создать расписание";
+    private static final String LINK_SEE = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    private static final String LINK_EDIT = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    private static final String LINK_CREATE = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
 
     @Autowired

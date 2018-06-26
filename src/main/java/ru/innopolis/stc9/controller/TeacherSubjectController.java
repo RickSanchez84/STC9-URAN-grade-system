@@ -7,12 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.TeacherSubject;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.pojo.Subject;
-import ru.innopolis.stc9.service.ITeacherSubjectService;
+import ru.innopolis.stc9.entity.Person;
+import ru.innopolis.stc9.entity.Subject;
+import ru.innopolis.stc9.entity.TeacherSubject;
 import ru.innopolis.stc9.service.IPersonService;
 import ru.innopolis.stc9.service.ISubjectService;
+import ru.innopolis.stc9.service.ITeacherSubjectService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

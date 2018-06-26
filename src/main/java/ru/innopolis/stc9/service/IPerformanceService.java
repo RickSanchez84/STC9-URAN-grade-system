@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Performance;
+import ru.innopolis.stc9.entity.Performance;
 
 import java.util.List;
 

@@ -7,11 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Person;
-import ru.innopolis.stc9.pojo.Role;
+import ru.innopolis.stc9.entity.Person;
+import ru.innopolis.stc9.entity.Role;
 import ru.innopolis.stc9.service.IPersonService;
 import ru.innopolis.stc9.service.IRoleService;
-
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

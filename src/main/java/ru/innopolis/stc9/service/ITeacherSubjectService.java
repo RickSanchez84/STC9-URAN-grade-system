@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.TeacherSubject;
+import ru.innopolis.stc9.entity.TeacherSubject;
 
 import java.util.List;
 

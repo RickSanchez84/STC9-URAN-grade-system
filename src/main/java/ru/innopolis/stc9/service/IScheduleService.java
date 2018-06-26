@@ -1,9 +1,9 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Schedule;
-import ru.innopolis.stc9.pojo.ScheduleItem;
-import ru.innopolis.stc9.pojo.Status;
+import ru.innopolis.stc9.entity.Group;
+import ru.innopolis.stc9.entity.Schedule;
+import ru.innopolis.stc9.entity.ScheduleItem;
+import ru.innopolis.stc9.entity.Status;
 
 import java.util.List;
 import java.util.Map;

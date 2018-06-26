@@ -1,6 +1,6 @@
 package ru.innopolis.stc9.service;
 
-import ru.innopolis.stc9.pojo.Program;
+import ru.innopolis.stc9.entity.Program;
 
 import java.util.List;
 

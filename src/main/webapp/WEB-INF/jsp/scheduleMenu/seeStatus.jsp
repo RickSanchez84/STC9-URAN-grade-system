@@ -1,6 +1,6 @@
-<%@ page import="ru.innopolis.stc9.pojo.Group" %>
-<%@ page import="ru.innopolis.stc9.pojo.Schedule" %>
-<%@ page import="ru.innopolis.stc9.pojo.TeacherSubject" %>
+<%@ page import="ru.innopolis.stc9.entity.Group" %>
+<%@ page import="ru.innopolis.stc9.entity.Schedule" %>
+<%@ page import="ru.innopolis.stc9.entity.TeacherSubject" %>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>

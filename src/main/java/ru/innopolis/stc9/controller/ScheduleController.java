@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.innopolis.stc9.pojo.Group;
-import ru.innopolis.stc9.pojo.Status;
+import ru.innopolis.stc9.entity.Group;
+import ru.innopolis.stc9.entity.Status;
 import ru.innopolis.stc9.service.IScheduleService;
 
 import java.util.List;

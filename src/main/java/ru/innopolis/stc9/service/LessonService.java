@@ -3,8 +3,8 @@ package ru.innopolis.stc9.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.innopolis.stc9.db.dao.lesson.LessonDao;
-import ru.innopolis.stc9.pojo.Lesson;
+import ru.innopolis.stc9.db.daoEntity.lesson.LessonDao;
+import ru.innopolis.stc9.entity.Lesson;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

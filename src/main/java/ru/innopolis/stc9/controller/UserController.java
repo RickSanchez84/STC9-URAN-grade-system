@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.innopolis.stc9.pojo.User;
+import ru.innopolis.stc9.entity.User;
 import ru.innopolis.stc9.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
